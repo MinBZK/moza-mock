@@ -1,0 +1,75 @@
+# Deploy naar ZAD (Operations Manager) via RijksICTGilde/zad-actions.
+#
+# Elke push/merge naar main bouwt de image (WireMock + stubs) en deployt die
+# naar de persistente 'stable'-deployment.
+#
+# Vereiste repo-secrets:
+#   ZAD_API_KEY — ZAD Operations Manager API key
+#
+# WireMock heeft geen app-config (geen DB, geen env-vars); de deployment hoeft in
+# Operations Manager alleen te bestaan (component 'mock').
+
+name: ZAD Deploy
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: zad-deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  REGISTRY: ghcr.io
+  # GHCR vereist lowercase; github.repository is MinBZK/... (hoofdletters) → hardcode lowercase.
+  IMAGE_NAME: minbzk/moza-mock
+  ZAD_PROJECT_ID: nd-j7s
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # image pushen naar GHCR
+    outputs:
+      digest: ${{ steps.build.outputs.digest }} # immutable digest voor verse pull
+    steps:
+      - uses: actions/checkout@v6
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build + push image
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main-${{ github.sha }}
+
+  deploy-stable:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write # GitHub environment/deployment aanmaken
+    environment:
+      name: stable
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - name: Deploy to ZAD (stable)
+        id: deploy
+        uses: RijksICTGilde/zad-actions/deploy@v4
+        with:
+          api-key: ${{ secrets.ZAD_API_KEY }}
+          project-id: ${{ env.ZAD_PROJECT_ID }}
+          deployment-name: stable
+          component: mock
+          # Deploy op digest (niet de mutable tag) zodat ZAD altijd de net gebouwde
+          # image pullt i.p.v. een gecachete oude versie van dezelfde tag.
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ needs.build.outputs.digest }}
+          wait-for-ready: 'true'
+          health-endpoint: /__admin/health

@@ -1,0 +1,15 @@
+meta {
+  name: Partij server error (500)
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/profielservice/v1/BSN/999991401
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 500
+}

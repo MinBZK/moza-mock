@@ -1,0 +1,15 @@
+meta {
+  name: Voorkeuren ophalen
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/actualiteitenservice/v1/voorkeuren
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

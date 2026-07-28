@@ -1,0 +1,15 @@
+meta {
+  name: DOP subsidies
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/v1/subsidies
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

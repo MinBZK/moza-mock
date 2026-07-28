@@ -1,0 +1,49 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/request"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "text/plain"
+        },
+        "bodyFileName": "verificatieservice-request-response.txt"
+      }
+    },
+    {
+      "priority": 1,
+      "request": {
+        "method": "POST",
+        "urlPath": "/verify",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.code == '000000')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "verificatieservice-verify-incorrect-code-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/verify"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "verificatieservice-verify-success-response.json"
+      }
+    }
+  ]
+}

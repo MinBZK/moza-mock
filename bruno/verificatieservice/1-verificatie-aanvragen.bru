@@ -1,0 +1,21 @@
+meta {
+  name: Verificatie aanvragen
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/request
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "donald@testbv.nl"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

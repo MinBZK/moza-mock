@@ -1,0 +1,22 @@
+meta {
+  name: Dienstverlener toevoegen
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{baseUrl}}/api/profielservice/v1/dienstverlener
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "naam": "RVO",
+    "beschrijving": "Rijksdienst voor Ondernemend Nederland"
+  }
+}
+
+assert {
+  res.status: eq 201
+}

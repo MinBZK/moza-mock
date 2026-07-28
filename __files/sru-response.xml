@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sru:searchRetrieveResponse xmlns:overheidwetgeving="http://standaarden.overheid.nl/wetgeving/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:cd="http://standaarden.overheid.nl/cup/data" xmlns:sru="http://docs.oasis-open.org/ns/search-ws/sruResponse" xmlns:gzd="http://standaarden.overheid.nl/sru" xmlns:diag="http://docs.oasis-open.org/ns/search-ws/diagnostic" xmlns:facet="http://docs.oasis-open.org/ns/search-ws/facetedResults" xmlns:c="http://standaarden.overheid.nl/collectie/">
+    <sru:version>2.0</sru:version>
+    <sru:numberOfRecords>12337</sru:numberOfRecords>
+    <sru:records>
+        <sru:record>
+            <sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema>
+            <sru:recordPacking>xml</sru:recordPacking>
+            <sru:recordData>
+                <gzd:gzd>
+                    <gzd:originalData>
+                        <overheidwetgeving:meta xmlns:search="http://marklogic.com/appservices/search">
+                            <overheidwetgeving:owmskern>
+                                <dcterms:identifier>34a086b98c616ea47af763d61773a118</dcterms:identifier>
+                                <dcterms:title>Besluit Splitsingsvergunning Oudezijds Voorburgwal 99B</dcterms:title>
+                                <dcterms:language>nl-NL</dcterms:language>
+                                <dcterms:type scheme="overheid:Informatietype">bekendmaking</dcterms:type>
+                                <dcterms:creator scheme="overheid:Gemeente">Amsterdam</dcterms:creator>
+                                <dcterms:modified>2021-01-18</dcterms:modified>
+                                <dcterms:spatial scheme="overheid:Gemeente">Amsterdam</dcterms:spatial>
+                            </overheidwetgeving:owmskern>
+                            <overheidwetgeving:owmsmantel>
+                                <dcterms:description>Z/20/1842587 (Centrum) Buiten behandeling Splitsingsvergunning Oudezijds Voorburgwal 99B
+Op adres Oudezijds Voorburgwal 99B, 1012EM te Amsterdam is op 18-01-2021 een aanvraag voor het splitsen van het gebouw in 0 appartementsrechten buiten behandeling gesteld.</dcterms:description>
+                                <dcterms:hasVersion>1</dcterms:hasVersion>
+                                <dcterms:subject scheme="overheidbm:BekendmakingtypeGemeente">Splitsingsvergunning</dcterms:subject>
+                            </overheidwetgeving:owmsmantel>
+                            <overheidwetgeving:tpmeta>
+                                <c:product-area>lokalebekendmakingen</c:product-area>
+                                <c:content-area>lokalebekendmakingen</c:content-area>
+                                <overheidwetgeving:bronIdentifier>https://bekendmakingen.amsterdam.nl/bekendmakingen/overige/decos/BD1BA8B23F5D4DECBFA314679339459D</overheidwetgeving:bronIdentifier>
+                                <overheidwetgeving:organisatietype>gemeente</overheidwetgeving:organisatietype>
+                                <overheidwetgeving:spatialtype>Gemeente</overheidwetgeving:spatialtype>
+                                <overheidwetgeving:locatiepunt>52.3733918805121 4.89815123550386</overheidwetgeving:locatiepunt>
+                                <overheidwetgeving:postcodeHuisnummer>1012EM 99</overheidwetgeving:postcodeHuisnummer>
+                                <overheidwetgeving:woonplaats>Amsterdam</overheidwetgeving:woonplaats>
+                                <overheidwetgeving:straatnaam>Oudezijds Voorburgwal</overheidwetgeving:straatnaam>
+                                <cd:afgeleideGemeente>Amsterdam</cd:afgeleideGemeente>
+                                <overheidwetgeving:geometrie>POINT (121695.820477543 487391.767812588)</overheidwetgeving:geometrie>
+                                <overheidwetgeving:geldigheidsperiode_startdatum>2021-01-18</overheidwetgeving:geldigheidsperiode_startdatum>
+                                <cd:datumTijdstipWijzigingWork>2021-01-19T08:43:06.783+01:00</cd:datumTijdstipWijzigingWork>
+                                <cd:datumTijdstipWijzigingExpression>2021-01-19T08:43:06.783+01:00</cd:datumTijdstipWijzigingExpression>
+                            </overheidwetgeving:tpmeta>
+                        </overheidwetgeving:meta>
+                    </gzd:originalData>
+                    <gzd:enrichedData>
+                        <gzd:url>https://repository.overheid.nl/frbr/lokalebekendmakingen/34a086b98c616ea47af763d61773a118/1/metadata/metadata.xml</gzd:url>
+                        <gzd:itemUrl manifestation="metadata">https://repository.overheid.nl/frbr/lokalebekendmakingen/34a086b98c616ea47af763d61773a118/1/metadata/metadata.xml</gzd:itemUrl>
+                        <gzd:timestamp>2021-01-19T08:43:11.722159+01:00</gzd:timestamp>
+                    </gzd:enrichedData>
+                </gzd:gzd>
+            </sru:recordData>
+            <sru:recordPosition>1</sru:recordPosition>
+        </sru:record>
+        <sru:record>
+            <sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema>
+            <sru:recordPacking>xml</sru:recordPacking>
+            <sru:recordData>
+                <gzd:gzd>
+                    <gzd:originalData>
+                        <overheidwetgeving:meta xmlns:search="http://marklogic.com/appservices/search">
+                            <overheidwetgeving:owmskern>
+                                <dcterms:identifier>gmb-2020-101992</dcterms:identifier>
+                                <dcterms:title>Hondenuitrengebieden en hondenverbods gebieden Amsterdam-Zuidoost</dcterms:title>
+                                <dcterms:language>nl</dcterms:language>
+                                <dcterms:type scheme="OVERHEIDgvop.Informatietype">Overige besluiten van algemene strekking</dcterms:type>
+                                <dcterms:type scheme="OVERHEIDop.Rubriek">ander besluit van algemene strekking</dcterms:type>
+                                <dcterms:creator scheme="OVERHEID.Gemeente">Amsterdam</dcterms:creator>
+                                <dcterms:modified>2020-04-21</dcterms:modified>
+                                <overheid:authority scheme="OVERHEID.Gemeente" xmlns:overheid="http://standaarden.overheid.nl/owms/terms/">Amsterdam</overheid:authority>
+                                <dcterms:spatial scheme="OVERHEID.Gemeente">Amsterdam</dcterms:spatial>
+                            </overheidwetgeving:owmskern>
+                            <overheidwetgeving:owmsmantel>
+                                <dcterms:available>2020-04-21</dcterms:available>
+                                <dcterms:date>2020-04-21</dcterms:date>
+                                <dcterms:hasVersion resourceIdentifier="https://zoek.officielebekendmakingen.nl/gmb-2020-101992.html">1</dcterms:hasVersion>
+                                <dcterms:source>Onbekend</dcterms:source>
+                                <dcterms:subject scheme="OVERHEID.TaxonomieBeleidsagenda">Ruimte en infrastructuur | Organisatie en beleid</dcterms:subject>
+                                <dcterms:subject scheme="OVERHEID.TaxonomieBeleidsagenda">Openbare orde en veiligheid | Organisatie en beleid</dcterms:subject>
+                                <dcterms:publisher scheme="OVERHEID.Gemeente">Amsterdam</dcterms:publisher>
+                            </overheidwetgeving:owmsmantel>
+                            <overheidwetgeving:tpmeta>
+                                <c:product-area>officielepublicaties</c:product-area>
+                                <c:content-area>officielepublicaties/gmb/2020</c:content-area>
+                                <overheidwetgeving:jaargang>2020</overheidwetgeving:jaargang>
+                                <overheidwetgeving:organisatietype scheme="OVERHEID.Organisatietype">gemeente</overheidwetgeving:organisatietype>
+                                <overheidwetgeving:publicatienummer>101992</overheidwetgeving:publicatienummer>
+                                <overheidwetgeving:publicatienaam>Gemeenteblad</overheidwetgeving:publicatienaam>
+                                <overheidwetgeving:spatialtype>Gemeente</overheidwetgeving:spatialtype>
+                                <overheidwetgeving:gebiedsmarkering scheme="OVERHEIDop.locatietype" type="dcspatial">
+                                    <overheidwetgeving:Gemeente>
+                                        <overheidwetgeving:gemeentenaam scheme="OVERHEID.Gemeente">Amsterdam</overheidwetgeving:gemeentenaam>
+                                        <overheidwetgeving:ligtInProvincie scheme="OVERHEID.Provincie">Noord-Holland</overheidwetgeving:ligtInProvincie>
+                                    </overheidwetgeving:Gemeente>
+                                </overheidwetgeving:gebiedsmarkering>
+                                <cd:datumTijdstipWijzigingWork>2021-05-15T16:05:17.349506+02:00</cd:datumTijdstipWijzigingWork>
+                                <cd:datumTijdstipWijzigingExpression>2021-05-15T16:05:17.349506+02:00</cd:datumTijdstipWijzigingExpression>
+                            </overheidwetgeving:tpmeta>
+                        </overheidwetgeving:meta>
+                    </gzd:originalData>
+                    <gzd:enrichedData>
+                        <gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-101992/1/xml/gmb-2020-101992.xml</gzd:url>
+                        <gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/gmb-2020-101992.html</gzd:preferredUrl>
+                        <gzd:itemUrl manifestation="html">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-101992/1/html/gmb-2020-101992.html</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadata">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-101992/1/metadata/metadata.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadataowms">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-101992/1/metadataowms/metadata_owms.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="odt">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-101992/1/odt/gmb-2020-101992.odt</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="pdf">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-101992/1/pdf/gmb-2020-101992.pdf</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="xml">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-101992/1/xml/gmb-2020-101992.xml</gzd:itemUrl>
+                        <gzd:timestamp>2021-05-15T16:05:18.022607+02:00</gzd:timestamp>
+                    </gzd:enrichedData>
+                </gzd:gzd>
+            </sru:recordData>
+            <sru:recordPosition>2</sru:recordPosition>
+        </sru:record>
+        <sru:record>
+            <sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema>
+            <sru:recordPacking>xml</sru:recordPacking>
+            <sru:recordData>
+                <gzd:gzd>
+                    <gzd:originalData>
+                        <overheidwetgeving:meta xmlns:search="http://marklogic.com/appservices/search">
+                            <overheidwetgeving:owmskern>
+                                <dcterms:identifier>gmb-2017-134897</dcterms:identifier>
+                                <dcterms:title>Aanwijzingsbesluit toezichthouders op grond van de Verordening staan- en ligplaatsen buiten de markt en venten en de Marktverordening</dcterms:title>
+                                <dcterms:language>nl</dcterms:language>
+                                <dcterms:type scheme="OVERHEIDgvop.Informatietype">Overige besluiten van algemene strekking</dcterms:type>
+                                <dcterms:type scheme="OVERHEIDop.Rubriek">ander besluit van algemene strekking</dcterms:type>
+                                <dcterms:creator scheme="OVERHEID.Gemeente">Amsterdam</dcterms:creator>
+                                <dcterms:modified>2017-08-02</dcterms:modified>
+                                <overheid:authority scheme="OVERHEID.Gemeente" xmlns:overheid="http://standaarden.overheid.nl/owms/terms/">Amsterdam</overheid:authority>
+                                <dcterms:spatial scheme="OVERHEID.Gemeente">Amsterdam</dcterms:spatial>
+                            </overheidwetgeving:owmskern>
+                            <overheidwetgeving:owmsmantel>
+                                <dcterms:available>2017-08-02</dcterms:available>
+                                <dcterms:date>2017-08-02</dcterms:date>
+                                <dcterms:hasVersion resourceIdentifier="https://zoek.officielebekendmakingen.nl/gmb-2017-134897.html">1</dcterms:hasVersion>
+                                <dcterms:source>Onbekend;</dcterms:source>
+                                <dcterms:subject scheme="OVERHEID.TaxonomieBeleidsagenda">Economie | Organisatie en beleid</dcterms:subject>
+                                <dcterms:publisher scheme="OVERHEID.Gemeente">Amsterdam</dcterms:publisher>
+                            </overheidwetgeving:owmsmantel>
+                            <overheidwetgeving:tpmeta>
+                                <c:product-area>officielepublicaties</c:product-area>
+                                <c:content-area>officielepublicaties/gmb/2017</c:content-area>
+                                <overheidwetgeving:jaargang>2017</overheidwetgeving:jaargang>
+                                <overheidwetgeving:organisatietype scheme="OVERHEID.Organisatietype">gemeente</overheidwetgeving:organisatietype>
+                                <overheidwetgeving:publicatienummer>134897</overheidwetgeving:publicatienummer>
+                                <overheidwetgeving:publicatienaam>Gemeenteblad</overheidwetgeving:publicatienaam>
+                                <overheidwetgeving:spatialtype>Gemeente</overheidwetgeving:spatialtype>
+                                <overheidwetgeving:gebiedsmarkering scheme="OVERHEIDop.locatietype" type="dcspatial">
+                                    <overheidwetgeving:Gemeente>
+                                        <overheidwetgeving:gemeentenaam scheme="OVERHEID.Gemeente">Amsterdam</overheidwetgeving:gemeentenaam>
+                                        <overheidwetgeving:ligtInProvincie scheme="OVERHEID.Provincie">Noord-Holland</overheidwetgeving:ligtInProvincie>
+                                    </overheidwetgeving:Gemeente>
+                                </overheidwetgeving:gebiedsmarkering>
+                                <cd:datumTijdstipWijzigingWork>2021-05-08T11:37:50.132971+02:00</cd:datumTijdstipWijzigingWork>
+                                <cd:datumTijdstipWijzigingExpression>2021-05-08T11:37:50.132971+02:00</cd:datumTijdstipWijzigingExpression>
+                            </overheidwetgeving:tpmeta>
+                        </overheidwetgeving:meta>
+                    </gzd:originalData>
+                    <gzd:enrichedData>
+                        <gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-134897/1/xml/gmb-2017-134897.xml</gzd:url>
+                        <gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/gmb-2017-134897.html</gzd:preferredUrl>
+                        <gzd:itemUrl manifestation="html">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-134897/1/html/gmb-2017-134897.html</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadata">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-134897/1/metadata/metadata.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadataowms">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-134897/1/metadataowms/metadata_owms.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="odt">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-134897/1/odt/gmb-2017-134897.odt</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="pdf">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-134897/1/pdf/gmb-2017-134897.pdf</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="xml">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-134897/1/xml/gmb-2017-134897.xml</gzd:itemUrl>
+                        <gzd:timestamp>2021-05-08T11:37:50.779023+02:00</gzd:timestamp>
+                    </gzd:enrichedData>
+                </gzd:gzd>
+            </sru:recordData>
+            <sru:recordPosition>3</sru:recordPosition>
+        </sru:record>
+        <sru:record>
+            <sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema>
+            <sru:recordPacking>xml</sru:recordPacking>
+            <sru:recordData>
+                <gzd:gzd>
+                    <gzd:originalData>
+                        <overheidwetgeving:meta xmlns:search="http://marklogic.com/appservices/search">
+                            <overheidwetgeving:owmskern>
+                                <dcterms:identifier>stcrt-2018-32800</dcterms:identifier>
+                                <dcterms:title>Verkeersbesluit Westerdok 606 aanleg elektrische oplaadplaats</dcterms:title>
+                                <dcterms:language>nl</dcterms:language>
+                                <dcterms:type scheme="OVERHEIDop.Staatscourant">Verkeersbesluiten</dcterms:type>
+                                <dcterms:type scheme="OVERHEIDop.Rubriek">verkeersbesluit of -mededeling</dcterms:type>
+                                <dcterms:creator scheme="OVERHEID.Gemeente">Amsterdam</dcterms:creator>
+                                <dcterms:modified>2018-06-11</dcterms:modified>
+                                <overheid:authority scheme="OVERHEID.Gemeente" xmlns:overheid="http://standaarden.overheid.nl/owms/terms/">Amsterdam</overheid:authority>
+                                <dcterms:spatial scheme="OVERHEID.Gemeente">Amsterdam</dcterms:spatial>
+                                <dcterms:spatial scheme="OVERHEID.EPSG28992">121262 488744</dcterms:spatial>
+                            </overheidwetgeving:owmskern>
+                            <overheidwetgeving:owmsmantel>
+                                <dcterms:alternative>Gemeente Amsterdam - aanleg elektrische oplaadplaats - Westerdok 606</dcterms:alternative>
+                                <dcterms:available>2018-06-11</dcterms:available>
+                                <dcterms:date>2018-06-11</dcterms:date>
+                                <dcterms:hasVersion resourceIdentifier="https://zoek.officielebekendmakingen.nl/stcrt-2018-32800.html">1</dcterms:hasVersion>
+                                <dcterms:subject scheme="OVERHEID.TaxonomieBeleidsagenda">Verkeer | Organisatie en beleid</dcterms:subject>
+                                <dcterms:abstract>aanleg elektrische oplaadplaats</dcterms:abstract>
+                                <dcterms:publisher scheme="OVERHEID.Ministerie">Ministerie van Binnenlandse Zaken</dcterms:publisher>
+                            </overheidwetgeving:owmsmantel>
+                            <overheidwetgeving:tpmeta>
+                                <c:product-area>officielepublicaties</c:product-area>
+                                <c:content-area>officielepublicaties/stcrt/2018</c:content-area>
+                                <overheidwetgeving:jaargang>2018</overheidwetgeving:jaargang>
+                                <overheidwetgeving:organisatietype scheme="OVERHEID.Organisatietype">gemeente</overheidwetgeving:organisatietype>
+                                <overheidwetgeving:postcodeHuisnummer>1013BV 606</overheidwetgeving:postcodeHuisnummer>
+                                <overheidwetgeving:publicatienummer>32800</overheidwetgeving:publicatienummer>
+                                <overheidwetgeving:publicatienaam>Staatscourant</overheidwetgeving:publicatienaam>
+                                <overheidwetgeving:straatnaam>Westerdok</overheidwetgeving:straatnaam>
+                                <overheidwetgeving:typeVerkeersbesluit scheme="OVERHEIDvb.TypeVerkeersbesluit">plaatsing of verwijdering van verkeerstekens</overheidwetgeving:typeVerkeersbesluit>
+                                <overheidwetgeving:vereisteVanBesluit scheme="OVERHEIDvb.VereisteVanBesluit">Wegenverkeerswet 1994, art. 15, lid 1</overheidwetgeving:vereisteVanBesluit>
+                                <overheidwetgeving:verkeersbordcode>E4</overheidwetgeving:verkeersbordcode>
+                                <overheidwetgeving:wegcategorie scheme="OVERHEIDvb.Wegcategorie">Erftoegangsweg binnen de bebouwde kom</overheidwetgeving:wegcategorie>
+                                <overheidwetgeving:weggebruiker scheme="OVERHEIDvb.Weggebruiker">bestuurders van een motorrijwiel, scooter, personenauto of bestelauto</overheidwetgeving:weggebruiker>
+                                <overheidwetgeving:woonplaats>Amsterdam</overheidwetgeving:woonplaats>
+                                <overheidwetgeving:spatialtype>Gemeente</overheidwetgeving:spatialtype>
+                                <overheidwetgeving:spatialtype>EPSG28992</overheidwetgeving:spatialtype>
+                                <overheidwetgeving:gebiedsmarkering scheme="OVERHEIDop.locatietype" type="dcspatial">
+                                    <overheidwetgeving:Punt>
+                                        <overheidwetgeving:geometrie>POINT(121262 488744)</overheidwetgeving:geometrie>
+                                        <overheidwetgeving:locatiepunt>52.3855182863005 4.89164523140121</overheidwetgeving:locatiepunt>
+                                        <overheidwetgeving:locatiegebied>52.385518,4.8916452</overheidwetgeving:locatiegebied>
+                                        <overheidwetgeving:geometrielabel>Verkeersbesluit Westerdok 606 aanleg elektrische oplaadplaats</overheidwetgeving:geometrielabel>
+                                    </overheidwetgeving:Punt>
+                                </overheidwetgeving:gebiedsmarkering>
+                                <overheidwetgeving:gebiedsmarkering scheme="OVERHEIDop.locatietype" type="dcspatial">
+                                    <overheidwetgeving:Gemeente>
+                                        <overheidwetgeving:gemeentenaam scheme="OVERHEID.Gemeente">Amsterdam</overheidwetgeving:gemeentenaam>
+                                        <overheidwetgeving:ligtInProvincie scheme="OVERHEID.Provincie">Noord-Holland</overheidwetgeving:ligtInProvincie>
+                                    </overheidwetgeving:Gemeente>
+                                </overheidwetgeving:gebiedsmarkering>
+                                <cd:datumTijdstipWijzigingWork>2023-01-14T10:30:15.632219+01:00</cd:datumTijdstipWijzigingWork>
+                                <cd:datumTijdstipWijzigingExpression>2023-01-14T10:30:15.632219+01:00</cd:datumTijdstipWijzigingExpression>
+                            </overheidwetgeving:tpmeta>
+                        </overheidwetgeving:meta>
+                    </gzd:originalData>
+                    <gzd:enrichedData>
+                        <gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-32800/1/xml/stcrt-2018-32800.xml</gzd:url>
+                        <gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/stcrt-2018-32800.html</gzd:preferredUrl>
+                        <gzd:itemUrl manifestation="html">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-32800/1/html/stcrt-2018-32800.html</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadata">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-32800/1/metadata/metadata.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadataowms">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-32800/1/metadataowms/metadata_owms.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="odt">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-32800/1/odt/stcrt-2018-32800.odt</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="pdf">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-32800/1/pdf/stcrt-2018-32800.pdf</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="xml">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-32800/1/xml/stcrt-2018-32800.xml</gzd:itemUrl>
+                        <gzd:timestamp>2023-01-14T10:30:16.643093+01:00</gzd:timestamp>
+                    </gzd:enrichedData>
+                </gzd:gzd>
+            </sru:recordData>
+            <sru:recordPosition>4</sru:recordPosition>
+        </sru:record>
+        <sru:record>
+            <sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema>
+            <sru:recordPacking>xml</sru:recordPacking>
+            <sru:recordData>
+                <gzd:gzd>
+                    <gzd:originalData>
+                        <overheidwetgeving:meta xmlns:search="http://marklogic.com/appservices/search">
+                            <overheidwetgeving:owmskern>
+                                <dcterms:identifier>stcrt-2019-38575</dcterms:identifier>
+                                <dcterms:title>Ontwerpuitwerkingsplan Centrumeiland blok 12, gemeente Amsterdam</dcterms:title>
+                                <dcterms:language>nl</dcterms:language>
+                                <dcterms:type scheme="OVERHEIDop.Staatscourant">Ruimtelijke plannen</dcterms:type>
+                                <dcterms:type scheme="OVERHEIDop.Rubriek">ruimtelijk plan of omgevingsdocument</dcterms:type>
+                                <dcterms:creator scheme="OVERHEID.Gemeente">Amsterdam</dcterms:creator>
+                                <dcterms:modified>2019-07-10</dcterms:modified>
+                                <dcterms:spatial scheme="OVERHEID.Gemeente">Amsterdam</dcterms:spatial>
+                            </overheidwetgeving:owmskern>
+                            <overheidwetgeving:owmsmantel>
+                                <dcterms:available>2019-07-10</dcterms:available>
+                                <dcterms:date>2019-07-10</dcterms:date>
+                                <dcterms:hasVersion resourceIdentifier="https://zoek.officielebekendmakingen.nl/stcrt-2019-38575.html">1</dcterms:hasVersion>
+                                <dcterms:subject scheme="OVERHEID.TaxonomieBeleidsagenda">Ruimte en infrastructuur | Organisatie en beleid</dcterms:subject>
+                                <dcterms:publisher scheme="OVERHEID.Ministerie">Ministerie van Binnenlandse Zaken en Koninkrijksrelaties</dcterms:publisher>
+                            </overheidwetgeving:owmsmantel>
+                            <overheidwetgeving:tpmeta>
+                                <c:product-area>officielepublicaties</c:product-area>
+                                <c:content-area>officielepublicaties/stcrt/2019</c:content-area>
+                                <overheidwetgeving:bekendmakingBetreffendePlan>NL.IMRO.0363.M1903BPGST-OW01</overheidwetgeving:bekendmakingBetreffendePlan>
+                                <overheidwetgeving:jaargang>2019</overheidwetgeving:jaargang>
+                                <overheidwetgeving:organisatietype scheme="OVERHEID.Organisatietype">gemeente</overheidwetgeving:organisatietype>
+                                <overheidwetgeving:publicatienummer>38575</overheidwetgeving:publicatienummer>
+                                <overheidwetgeving:publicatienaam>Staatscourant</overheidwetgeving:publicatienaam>
+                                <overheidwetgeving:plansoort scheme="OVERHEIDop.Plansoort">bestemmings- of omgevingsplan</overheidwetgeving:plansoort>
+                                <overheidwetgeving:spatialtype>Gemeente</overheidwetgeving:spatialtype>
+                                <overheidwetgeving:gebiedsmarkering scheme="OVERHEIDop.locatietype" type="dcspatial">
+                                    <overheidwetgeving:Gemeente>
+                                        <overheidwetgeving:gemeentenaam scheme="OVERHEID.Gemeente">Amsterdam</overheidwetgeving:gemeentenaam>
+                                        <overheidwetgeving:ligtInProvincie scheme="OVERHEID.Provincie">Noord-Holland</overheidwetgeving:ligtInProvincie>
+                                    </overheidwetgeving:Gemeente>
+                                </overheidwetgeving:gebiedsmarkering>
+                                <cd:datumTijdstipWijzigingWork>2021-10-18T03:47:20.150778+02:00</cd:datumTijdstipWijzigingWork>
+                                <cd:datumTijdstipWijzigingExpression>2021-10-18T03:47:20.150778+02:00</cd:datumTijdstipWijzigingExpression>
+                            </overheidwetgeving:tpmeta>
+                        </overheidwetgeving:meta>
+                    </gzd:originalData>
+                    <gzd:enrichedData>
+                        <gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2019/stcrt-2019-38575/1/xml/stcrt-2019-38575.xml</gzd:url>
+                        <gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/stcrt-2019-38575.html</gzd:preferredUrl>
+                        <gzd:itemUrl manifestation="html">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2019/stcrt-2019-38575/1/html/stcrt-2019-38575.html</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadata">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2019/stcrt-2019-38575/1/metadata/metadata.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadataowms">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2019/stcrt-2019-38575/1/metadataowms/metadata_owms.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="odt">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2019/stcrt-2019-38575/1/odt/stcrt-2019-38575.odt</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="pdf">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2019/stcrt-2019-38575/1/pdf/stcrt-2019-38575.pdf</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="xml">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2019/stcrt-2019-38575/1/xml/stcrt-2019-38575.xml</gzd:itemUrl>
+                        <gzd:timestamp>2021-10-18T03:47:20.734456+02:00</gzd:timestamp>
+                    </gzd:enrichedData>
+                </gzd:gzd>
+            </sru:recordData>
+            <sru:recordPosition>5</sru:recordPosition>
+        </sru:record>
+        <sru:record>
+            <sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema>
+            <sru:recordPacking>xml</sru:recordPacking>
+            <sru:recordData>
+                <gzd:gzd>
+                    <gzd:originalData>
+                        <overheidwetgeving:meta xmlns:search="http://marklogic.com/appservices/search">
+                            <overheidwetgeving:owmskern>
+                                <dcterms:identifier>stcrt-2016-70154</dcterms:identifier>
+                                <dcterms:title>Verkeersbesluit Gulden Winckelstraat 40 wijzigen kenteken gehandicaptenparkeerplaats</dcterms:title>
+                                <dcterms:language>nl</dcterms:language>
+                                <dcterms:type scheme="OVERHEIDop.Staatscourant">Verkeersbesluiten</dcterms:type>
+                                <dcterms:type scheme="OVERHEIDop.Rubriek">verkeersbesluit of -mededeling</dcterms:type>
+                                <dcterms:creator scheme="OVERHEID.Gemeente">Amsterdam</dcterms:creator>
+                                <dcterms:modified>2016-12-16</dcterms:modified>
+                                <overheid:authority scheme="OVERHEID.Gemeente" xmlns:overheid="http://standaarden.overheid.nl/owms/terms/">Amsterdam</overheid:authority>
+                                <dcterms:spatial scheme="OVERHEID.Gemeente">Amsterdam</dcterms:spatial>
+                            </overheidwetgeving:owmskern>
+                            <overheidwetgeving:owmsmantel>
+                                <dcterms:alternative>Gemeente Amsterdam - wijzigen kenteken gehandicaptenparkeerplaats - Gulden Winckelstraat 40</dcterms:alternative>
+                                <dcterms:available>2016-12-16</dcterms:available>
+                                <dcterms:date>2016-12-16</dcterms:date>
+                                <dcterms:hasVersion resourceIdentifier="https://zoek.officielebekendmakingen.nl/stcrt-2016-70154.html">1</dcterms:hasVersion>
+                                <dcterms:subject scheme="OVERHEID.TaxonomieBeleidsagenda">Verkeer | Organisatie en beleid</dcterms:subject>
+                                <dcterms:abstract>wijzigen kenteken gehandicaptenparkeerplaats</dcterms:abstract>
+                                <dcterms:publisher scheme="OVERHEID.Ministerie">Ministerie van Binnenlandse Zaken</dcterms:publisher>
+                            </overheidwetgeving:owmsmantel>
+                            <overheidwetgeving:tpmeta>
+                                <c:product-area>officielepublicaties</c:product-area>
+                                <c:content-area>officielepublicaties/stcrt/2016</c:content-area>
+                                <overheidwetgeving:jaargang>2016</overheidwetgeving:jaargang>
+                                <overheidwetgeving:organisatietype scheme="OVERHEID.Organisatietype">gemeente</overheidwetgeving:organisatietype>
+                                <overheidwetgeving:publicatienummer>70154</overheidwetgeving:publicatienummer>
+                                <overheidwetgeving:publicatienaam>Staatscourant</overheidwetgeving:publicatienaam>
+                                <overheidwetgeving:typeVerkeersbesluit scheme="OVERHEIDvb.TypeVerkeersbesluit">plaatsing of verwijdering van verkeerstekens</overheidwetgeving:typeVerkeersbesluit>
+                                <overheidwetgeving:vereisteVanBesluit scheme="OVERHEIDvb.VereisteVanBesluit">Wegenverkeerswet 1994, art. 15, lid 1</overheidwetgeving:vereisteVanBesluit>
+                                <overheidwetgeving:verkeersbordcode>E6</overheidwetgeving:verkeersbordcode>
+                                <overheidwetgeving:wegcategorie scheme="OVERHEIDvb.Wegcategorie">Erftoegangsweg binnen de bebouwde kom</overheidwetgeving:wegcategorie>
+                                <overheidwetgeving:weggebruiker scheme="OVERHEIDvb.Weggebruiker">bestuurders van een motorrijwiel, scooter, personenauto of bestelauto</overheidwetgeving:weggebruiker>
+                                <overheidwetgeving:spatialtype>Gemeente</overheidwetgeving:spatialtype>
+                                <overheidwetgeving:gebiedsmarkering scheme="OVERHEIDop.locatietype" type="dcspatial">
+                                    <overheidwetgeving:Gemeente>
+                                        <overheidwetgeving:gemeentenaam scheme="OVERHEID.Gemeente">Amsterdam</overheidwetgeving:gemeentenaam>
+                                        <overheidwetgeving:ligtInProvincie scheme="OVERHEID.Provincie">Noord-Holland</overheidwetgeving:ligtInProvincie>
+                                    </overheidwetgeving:Gemeente>
+                                </overheidwetgeving:gebiedsmarkering>
+                                <cd:datumTijdstipWijzigingWork>2022-09-26T22:00:24.194826+02:00</cd:datumTijdstipWijzigingWork>
+                                <cd:datumTijdstipWijzigingExpression>2022-09-26T22:00:24.194826+02:00</cd:datumTijdstipWijzigingExpression>
+                            </overheidwetgeving:tpmeta>
+                        </overheidwetgeving:meta>
+                    </gzd:originalData>
+                    <gzd:enrichedData>
+                        <gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2016/stcrt-2016-70154/1/xml/stcrt-2016-70154.xml</gzd:url>
+                        <gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/stcrt-2016-70154.html</gzd:preferredUrl>
+                        <gzd:itemUrl manifestation="html">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2016/stcrt-2016-70154/1/html/stcrt-2016-70154.html</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadata">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2016/stcrt-2016-70154/1/metadata/metadata.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadataowms">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2016/stcrt-2016-70154/1/metadataowms/metadata_owms.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="odt">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2016/stcrt-2016-70154/1/odt/stcrt-2016-70154.odt</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="pdf">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2016/stcrt-2016-70154/1/pdf/stcrt-2016-70154.pdf</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="xml">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2016/stcrt-2016-70154/1/xml/stcrt-2016-70154.xml</gzd:itemUrl>
+                        <gzd:timestamp>2022-09-26T22:00:25.148549+02:00</gzd:timestamp>
+                    </gzd:enrichedData>
+                </gzd:gzd>
+            </sru:recordData>
+            <sru:recordPosition>6</sru:recordPosition>
+        </sru:record>
+        <sru:record>
+            <sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema>
+            <sru:recordPacking>xml</sru:recordPacking>
+            <sru:recordData>
+                <gzd:gzd>
+                    <gzd:originalData>
+                        <overheidwetgeving:meta xmlns:search="http://marklogic.com/appservices/search">
+                            <overheidwetgeving:owmskern>
+                                <dcterms:identifier>stcrt-2018-66520</dcterms:identifier>
+                                <dcterms:title>Verkeersbesluit wijzigen kenteken gehandicaptenparkeerplaats Sint Willibrordusstraat te Amsterdam-Zuid.</dcterms:title>
+                                <dcterms:language>nl</dcterms:language>
+                                <dcterms:type scheme="OVERHEIDop.Staatscourant">Verkeersbesluiten</dcterms:type>
+                                <dcterms:type scheme="OVERHEIDop.Rubriek">verkeersbesluit of -mededeling</dcterms:type>
+                                <dcterms:creator scheme="OVERHEID.Gemeente">Amsterdam</dcterms:creator>
+                                <dcterms:modified>2018-11-22</dcterms:modified>
+                                <overheid:authority scheme="OVERHEID.Gemeente" xmlns:overheid="http://standaarden.overheid.nl/owms/terms/">Amsterdam</overheid:authority>
+                                <dcterms:spatial scheme="OVERHEID.Gemeente">Amsterdam</dcterms:spatial>
+                                <dcterms:spatial scheme="OVERHEID.EPSG28992">122108 485342</dcterms:spatial>
+                            </overheidwetgeving:owmskern>
+                            <overheidwetgeving:owmsmantel>
+                                <dcterms:alternative>Gemeente Amsterdam - Kentekenwijziging E6 - Sint Willibrordusstraat 13</dcterms:alternative>
+                                <dcterms:available>2018-11-22</dcterms:available>
+                                <dcterms:date>2018-11-22</dcterms:date>
+                                <dcterms:hasVersion resourceIdentifier="https://zoek.officielebekendmakingen.nl/stcrt-2018-66520.html">1</dcterms:hasVersion>
+                                <dcterms:subject scheme="OVERHEID.TaxonomieBeleidsagenda">Verkeer | Organisatie en beleid</dcterms:subject>
+                                <dcterms:publisher scheme="OVERHEID.Ministerie">Ministerie van Binnenlandse Zaken</dcterms:publisher>
+                            </overheidwetgeving:owmsmantel>
+                            <overheidwetgeving:tpmeta>
+                                <c:product-area>officielepublicaties</c:product-area>
+                                <c:content-area>officielepublicaties/stcrt/2018</c:content-area>
+                                <overheidwetgeving:externeBijlage>Sint Willibrordusstraat 13 E6|exb-2018-67539</overheidwetgeving:externeBijlage>
+                                <overheidwetgeving:jaargang>2018</overheidwetgeving:jaargang>
+                                <overheidwetgeving:organisatietype scheme="OVERHEID.Organisatietype">gemeente</overheidwetgeving:organisatietype>
+                                <overheidwetgeving:postcodeHuisnummer>1074XH 17b</overheidwetgeving:postcodeHuisnummer>
+                                <overheidwetgeving:publicatienummer>66520</overheidwetgeving:publicatienummer>
+                                <overheidwetgeving:publicatienaam>Staatscourant</overheidwetgeving:publicatienaam>
+                                <overheidwetgeving:straatnaam>Sint Willibrordusstraat</overheidwetgeving:straatnaam>
+                                <overheidwetgeving:typeVerkeersbesluit scheme="OVERHEIDvb.TypeVerkeersbesluit">plaatsing of verwijdering van verkeerstekens</overheidwetgeving:typeVerkeersbesluit>
+                                <overheidwetgeving:vereisteVanBesluit scheme="OVERHEIDvb.VereisteVanBesluit">Het bepaalde in artikel 12 van het BABW</overheidwetgeving:vereisteVanBesluit>
+                                <overheidwetgeving:verkeersbordcode>E6</overheidwetgeving:verkeersbordcode>
+                                <overheidwetgeving:wegcategorie scheme="OVERHEIDvb.Wegcategorie">Erftoegangsweg binnen de bebouwde kom</overheidwetgeving:wegcategorie>
+                                <overheidwetgeving:weggebruiker scheme="OVERHEIDvb.Weggebruiker">bestuurders van een motorrijwiel, scooter, personenauto of bestelauto</overheidwetgeving:weggebruiker>
+                                <overheidwetgeving:woonplaats>Amsterdam</overheidwetgeving:woonplaats>
+                                <overheidwetgeving:spatialtype>Gemeente</overheidwetgeving:spatialtype>
+                                <overheidwetgeving:spatialtype>EPSG28992</overheidwetgeving:spatialtype>
+                                <overheidwetgeving:gebiedsmarkering scheme="OVERHEIDop.locatietype" type="dcspatial">
+                                    <overheidwetgeving:Punt>
+                                        <overheidwetgeving:geometrie>POINT(122108 485342)</overheidwetgeving:geometrie>
+                                        <overheidwetgeving:locatiepunt>52.3549948097134 4.90440418660791</overheidwetgeving:locatiepunt>
+                                        <overheidwetgeving:locatiegebied>52.354995,4.9044042</overheidwetgeving:locatiegebied>
+                                        <overheidwetgeving:geometrielabel>Verkeersbesluit wijzigen kenteken gehandicaptenparkeerplaats Sint Willibrordusstraat te Amsterdam-Zuid.</overheidwetgeving:geometrielabel>
+                                    </overheidwetgeving:Punt>
+                                </overheidwetgeving:gebiedsmarkering>
+                                <overheidwetgeving:gebiedsmarkering scheme="OVERHEIDop.locatietype" type="dcspatial">
+                                    <overheidwetgeving:Gemeente>
+                                        <overheidwetgeving:gemeentenaam scheme="OVERHEID.Gemeente">Amsterdam</overheidwetgeving:gemeentenaam>
+                                        <overheidwetgeving:ligtInProvincie scheme="OVERHEID.Provincie">Noord-Holland</overheidwetgeving:ligtInProvincie>
+                                    </overheidwetgeving:Gemeente>
+                                </overheidwetgeving:gebiedsmarkering>
+                                <cd:datumTijdstipWijzigingWork>2023-05-02T09:30:19.0614+02:00</cd:datumTijdstipWijzigingWork>
+                                <cd:datumTijdstipWijzigingExpression>2023-05-02T09:30:19.0614+02:00</cd:datumTijdstipWijzigingExpression>
+                            </overheidwetgeving:tpmeta>
+                        </overheidwetgeving:meta>
+                    </gzd:originalData>
+                    <gzd:enrichedData>
+                        <gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-66520/1/xml/stcrt-2018-66520.xml</gzd:url>
+                        <gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/stcrt-2018-66520.html</gzd:preferredUrl>
+                        <gzd:itemUrl manifestation="html">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-66520/1/html/stcrt-2018-66520.html</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadata">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-66520/1/metadata/metadata.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadataowms">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-66520/1/metadataowms/metadata_owms.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="odt">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-66520/1/odt/stcrt-2018-66520.odt</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="pdf">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-66520/1/pdf/stcrt-2018-66520.pdf</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="xml">https://repository.overheid.nl/frbr/officielepublicaties/stcrt/2018/stcrt-2018-66520/1/xml/stcrt-2018-66520.xml</gzd:itemUrl>
+                        <gzd:timestamp>2023-05-02T09:30:19.794808+02:00</gzd:timestamp>
+                    </gzd:enrichedData>
+                </gzd:gzd>
+            </sru:recordData>
+            <sru:recordPosition>7</sru:recordPosition>
+        </sru:record>
+        <sru:record>
+            <sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema>
+            <sru:recordPacking>xml</sru:recordPacking>
+            <sru:recordData>
+                <gzd:gzd>
+                    <gzd:originalData>
+                        <overheidwetgeving:meta xmlns:search="http://marklogic.com/appservices/search">
+                            <overheidwetgeving:owmskern>
+                                <dcterms:identifier>gmb-2020-131435</dcterms:identifier>
+                                <dcterms:title>Besluit van het college van burgemeester en wethouders van de gemeente Amsterdam houdende regels over: Wijzigen naam Noorderbegraafplaats in De Nieuwe Noorder</dcterms:title>
+                                <dcterms:language>nl</dcterms:language>
+                                <dcterms:type scheme="OVERHEIDgvop.Informatietype">Overige besluiten van algemene strekking</dcterms:type>
+                                <dcterms:type scheme="OVERHEIDop.Rubriek">ander besluit van algemene strekking</dcterms:type>
+                                <dcterms:creator scheme="OVERHEID.Gemeente">Amsterdam</dcterms:creator>
+                                <dcterms:modified>2020-05-27</dcterms:modified>
+                                <overheid:authority scheme="OVERHEID.Gemeente" xmlns:overheid="http://standaarden.overheid.nl/owms/terms/">Amsterdam</overheid:authority>
+                                <dcterms:spatial scheme="OVERHEID.Gemeente">Amsterdam</dcterms:spatial>
+                            </overheidwetgeving:owmskern>
+                            <overheidwetgeving:owmsmantel>
+                                <dcterms:available>2020-05-27</dcterms:available>
+                                <dcterms:date>2020-05-27</dcterms:date>
+                                <dcterms:hasVersion resourceIdentifier="https://zoek.officielebekendmakingen.nl/gmb-2020-131435.html">1</dcterms:hasVersion>
+                                <dcterms:source>artikel 108 van de Gemeentewet]|[1.0:c:BWBR0005416&amp;artikel=108&amp;g=2020-01-01</dcterms:source>
+                                <dcterms:source>artikel 6 van de Wet basisregistraties adressen en gebouwen]|[1.0:c:BWBR0023466&amp;artikel=6&amp;g=2018-07-28</dcterms:source>
+                                <dcterms:source>https://decentrale.regelgeving.overheid.nl/cvdr/xhtmloutput/Historie/Amsterdam/613520/CVDR613520_1.html</dcterms:source>
+                                <dcterms:subject scheme="OVERHEID.TaxonomieBeleidsagenda">Ruimte en infrastructuur | Organisatie en beleid</dcterms:subject>
+                                <dcterms:publisher scheme="OVERHEID.Gemeente">Amsterdam</dcterms:publisher>
+                            </overheidwetgeving:owmsmantel>
+                            <overheidwetgeving:tpmeta>
+                                <c:product-area>officielepublicaties</c:product-area>
+                                <c:content-area>officielepublicaties/gmb/2020</c:content-area>
+                                <overheidwetgeving:jaargang>2020</overheidwetgeving:jaargang>
+                                <overheidwetgeving:organisatietype scheme="OVERHEID.Organisatietype">gemeente</overheidwetgeving:organisatietype>
+                                <overheidwetgeving:publicatienummer>131435</overheidwetgeving:publicatienummer>
+                                <overheidwetgeving:publicatienaam>Gemeenteblad</overheidwetgeving:publicatienaam>
+                                <overheidwetgeving:spatialtype>Gemeente</overheidwetgeving:spatialtype>
+                                <overheidwetgeving:gebiedsmarkering scheme="OVERHEIDop.locatietype" type="dcspatial">
+                                    <overheidwetgeving:Gemeente>
+                                        <overheidwetgeving:gemeentenaam scheme="OVERHEID.Gemeente">Amsterdam</overheidwetgeving:gemeentenaam>
+                                        <overheidwetgeving:ligtInProvincie scheme="OVERHEID.Provincie">Noord-Holland</overheidwetgeving:ligtInProvincie>
+                                    </overheidwetgeving:Gemeente>
+                                </overheidwetgeving:gebiedsmarkering>
+                                <cd:datumTijdstipWijzigingWork>2021-05-15T19:22:57.421736+02:00</cd:datumTijdstipWijzigingWork>
+                                <cd:datumTijdstipWijzigingExpression>2021-05-15T19:22:57.421736+02:00</cd:datumTijdstipWijzigingExpression>
+                            </overheidwetgeving:tpmeta>
+                        </overheidwetgeving:meta>
+                    </gzd:originalData>
+                    <gzd:enrichedData>
+                        <gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-131435/1/xml/gmb-2020-131435.xml</gzd:url>
+                        <gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/gmb-2020-131435.html</gzd:preferredUrl>
+                        <gzd:itemUrl manifestation="html">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-131435/1/html/gmb-2020-131435.html</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadata">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-131435/1/metadata/metadata.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadataowms">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-131435/1/metadataowms/metadata_owms.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="odt">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-131435/1/odt/gmb-2020-131435.odt</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="pdf">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-131435/1/pdf/gmb-2020-131435.pdf</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="xml">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2020/gmb-2020-131435/1/xml/gmb-2020-131435.xml</gzd:itemUrl>
+                        <gzd:timestamp>2021-05-15T19:22:58.171504+02:00</gzd:timestamp>
+                    </gzd:enrichedData>
+                </gzd:gzd>
+            </sru:recordData>
+            <sru:recordPosition>8</sru:recordPosition>
+        </sru:record>
+        <sru:record>
+            <sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema>
+            <sru:recordPacking>xml</sru:recordPacking>
+            <sru:recordData>
+                <gzd:gzd>
+                    <gzd:originalData>
+                        <overheidwetgeving:meta xmlns:search="http://marklogic.com/appservices/search">
+                            <overheidwetgeving:owmskern>
+                                <dcterms:identifier>gmb-2018-52160</dcterms:identifier>
+                                <dcterms:title>Wijzigen nadere parkeerregelgeving 2018 vanwege uitvoering drietal moties</dcterms:title>
+                                <dcterms:language>nl</dcterms:language>
+                                <dcterms:type scheme="OVERHEIDgvop.Informatietype">Overige besluiten van algemene strekking</dcterms:type>
+                                <dcterms:type scheme="OVERHEIDop.Rubriek">ander besluit van algemene strekking</dcterms:type>
+                                <dcterms:creator scheme="OVERHEID.Gemeente">Amsterdam</dcterms:creator>
+                                <dcterms:modified>2018-03-15</dcterms:modified>
+                                <overheid:authority scheme="OVERHEID.Gemeente" xmlns:overheid="http://standaarden.overheid.nl/owms/terms/">Amsterdam</overheid:authority>
+                                <dcterms:spatial scheme="OVERHEID.Gemeente">Amsterdam</dcterms:spatial>
+                            </overheidwetgeving:owmskern>
+                            <overheidwetgeving:owmsmantel>
+                                <dcterms:alternative>Uitvoerings- en aanwijzingsbesluit 2018 met bijbehorende Stratentabel 2018</dcterms:alternative>
+                                <dcterms:available>2018-03-15</dcterms:available>
+                                <dcterms:date>2018-03-15</dcterms:date>
+                                <dcterms:hasVersion resourceIdentifier="https://zoek.officielebekendmakingen.nl/gmb-2018-52160.html">1</dcterms:hasVersion>
+                                <dcterms:source>Onbekend;</dcterms:source>
+                                <dcterms:subject scheme="OVERHEID.TaxonomieBeleidsagenda">Financiën | Organisatie en beleid</dcterms:subject>
+                                <dcterms:subject scheme="OVERHEID.TaxonomieBeleidsagenda">Ruimte en infrastructuur | Organisatie en beleid</dcterms:subject>
+                                <dcterms:publisher scheme="OVERHEID.Gemeente">Amsterdam</dcterms:publisher>
+                            </overheidwetgeving:owmsmantel>
+                            <overheidwetgeving:tpmeta>
+                                <c:product-area>officielepublicaties</c:product-area>
+                                <c:content-area>officielepublicaties/gmb/2018</c:content-area>
+                                <overheidwetgeving:betreftRegeling>CVDR608068_2</overheidwetgeving:betreftRegeling>
+                                <overheidwetgeving:jaargang>2018</overheidwetgeving:jaargang>
+                                <overheidwetgeving:organisatietype scheme="OVERHEID.Organisatietype">gemeente</overheidwetgeving:organisatietype>
+                                <overheidwetgeving:publicatienummer>52160</overheidwetgeving:publicatienummer>
+                                <overheidwetgeving:publicatienaam>Gemeenteblad</overheidwetgeving:publicatienaam>
+                                <overheidwetgeving:startdatum>2018-04-01</overheidwetgeving:startdatum>
+                                <overheidwetgeving:spatialtype>Gemeente</overheidwetgeving:spatialtype>
+                                <overheidwetgeving:gebiedsmarkering scheme="OVERHEIDop.locatietype" type="dcspatial">
+                                    <overheidwetgeving:Gemeente>
+                                        <overheidwetgeving:gemeentenaam scheme="OVERHEID.Gemeente">Amsterdam</overheidwetgeving:gemeentenaam>
+                                        <overheidwetgeving:ligtInProvincie scheme="OVERHEID.Provincie">Noord-Holland</overheidwetgeving:ligtInProvincie>
+                                    </overheidwetgeving:Gemeente>
+                                </overheidwetgeving:gebiedsmarkering>
+                                <cd:datumTijdstipWijzigingWork>2021-05-09T16:07:02.301092+02:00</cd:datumTijdstipWijzigingWork>
+                                <cd:datumTijdstipWijzigingExpression>2021-05-09T16:07:02.301092+02:00</cd:datumTijdstipWijzigingExpression>
+                            </overheidwetgeving:tpmeta>
+                        </overheidwetgeving:meta>
+                    </gzd:originalData>
+                    <gzd:enrichedData>
+                        <gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/gmb/2018/gmb-2018-52160/1/xml/gmb-2018-52160.xml</gzd:url>
+                        <gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/gmb-2018-52160.html</gzd:preferredUrl>
+                        <gzd:itemUrl manifestation="html">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2018/gmb-2018-52160/1/html/gmb-2018-52160.html</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadata">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2018/gmb-2018-52160/1/metadata/metadata.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadataowms">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2018/gmb-2018-52160/1/metadataowms/metadata_owms.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="odt">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2018/gmb-2018-52160/1/odt/gmb-2018-52160.odt</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="pdf">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2018/gmb-2018-52160/1/pdf/gmb-2018-52160.pdf</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="xml">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2018/gmb-2018-52160/1/xml/gmb-2018-52160.xml</gzd:itemUrl>
+                        <gzd:timestamp>2021-05-09T16:07:03.436114+02:00</gzd:timestamp>
+                    </gzd:enrichedData>
+                </gzd:gzd>
+            </sru:recordData>
+            <sru:recordPosition>9</sru:recordPosition>
+        </sru:record>
+        <sru:record>
+            <sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema>
+            <sru:recordPacking>xml</sru:recordPacking>
+            <sru:recordData>
+                <gzd:gzd>
+                    <gzd:originalData>
+                        <overheidwetgeving:meta xmlns:search="http://marklogic.com/appservices/search">
+                            <overheidwetgeving:owmskern>
+                                <dcterms:identifier>gmb-2017-145179</dcterms:identifier>
+                                <dcterms:title>Vaststellen van de verordening tot wijziging van de Verordening op het Lokaal Onderwijs Beleid in de gemeente Amsterdam 2014. (2017, nr. 170/666)</dcterms:title>
+                                <dcterms:language>nl</dcterms:language>
+                                <dcterms:type scheme="OVERHEIDgvop.Informatietype">Verordeningen</dcterms:type>
+                                <dcterms:type scheme="OVERHEIDop.Rubriek">algemeen verbindend voorschrift (verordening)</dcterms:type>
+                                <dcterms:creator scheme="OVERHEID.Gemeente">Amsterdam</dcterms:creator>
+                                <dcterms:modified>2017-08-21</dcterms:modified>
+                                <overheid:authority scheme="OVERHEID.Gemeente" xmlns:overheid="http://standaarden.overheid.nl/owms/terms/">Amsterdam</overheid:authority>
+                                <dcterms:spatial scheme="OVERHEID.Gemeente">Amsterdam</dcterms:spatial>
+                            </overheidwetgeving:owmskern>
+                            <overheidwetgeving:owmsmantel>
+                                <dcterms:available>2017-08-18</dcterms:available>
+                                <dcterms:date>2017-08-18</dcterms:date>
+                                <dcterms:hasVersion resourceIdentifier="https://zoek.officielebekendmakingen.nl/gmb-2017-145179.html">1</dcterms:hasVersion>
+                                <dcterms:source>artikel 149 van de Gemeentewet;1.0:c:BWBR0005416&amp;artikel=149&amp;g=2017-07-01</dcterms:source>
+                                <dcterms:subject scheme="OVERHEID.TaxonomieBeleidsagenda">Onderwijs en wetenschap | Organisatie en beleid</dcterms:subject>
+                                <dcterms:publisher scheme="OVERHEID.Gemeente">Amsterdam</dcterms:publisher>
+                            </overheidwetgeving:owmsmantel>
+                            <overheidwetgeving:tpmeta>
+                                <c:product-area>officielepublicaties</c:product-area>
+                                <c:content-area>officielepublicaties/gmb/2017</c:content-area>
+                                <overheidwetgeving:jaargang>2017</overheidwetgeving:jaargang>
+                                <overheidwetgeving:organisatietype scheme="OVERHEID.Organisatietype">gemeente</overheidwetgeving:organisatietype>
+                                <overheidwetgeving:publicatienummer>145179</overheidwetgeving:publicatienummer>
+                                <overheidwetgeving:publicatienaam>Gemeenteblad</overheidwetgeving:publicatienaam>
+                                <overheidwetgeving:spatialtype>Gemeente</overheidwetgeving:spatialtype>
+                                <overheidwetgeving:gebiedsmarkering scheme="OVERHEIDop.locatietype" type="dcspatial">
+                                    <overheidwetgeving:Gemeente>
+                                        <overheidwetgeving:gemeentenaam scheme="OVERHEID.Gemeente">Amsterdam</overheidwetgeving:gemeentenaam>
+                                        <overheidwetgeving:ligtInProvincie scheme="OVERHEID.Provincie">Noord-Holland</overheidwetgeving:ligtInProvincie>
+                                    </overheidwetgeving:Gemeente>
+                                </overheidwetgeving:gebiedsmarkering>
+                                <cd:datumTijdstipWijzigingWork>2021-05-08T12:42:50.978449+02:00</cd:datumTijdstipWijzigingWork>
+                                <cd:datumTijdstipWijzigingExpression>2021-05-08T12:42:50.978449+02:00</cd:datumTijdstipWijzigingExpression>
+                            </overheidwetgeving:tpmeta>
+                        </overheidwetgeving:meta>
+                    </gzd:originalData>
+                    <gzd:enrichedData>
+                        <gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-145179/1/xml/gmb-2017-145179.xml</gzd:url>
+                        <gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/gmb-2017-145179.html</gzd:preferredUrl>
+                        <gzd:itemUrl manifestation="html">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-145179/1/html/gmb-2017-145179.html</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadata">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-145179/1/metadata/metadata.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="metadataowms">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-145179/1/metadataowms/metadata_owms.xml</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="odt">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-145179/1/odt/gmb-2017-145179.odt</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="pdf">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-145179/1/pdf/gmb-2017-145179.pdf</gzd:itemUrl>
+                        <gzd:itemUrl manifestation="xml">https://repository.overheid.nl/frbr/officielepublicaties/gmb/2017/gmb-2017-145179/1/xml/gmb-2017-145179.xml</gzd:itemUrl>
+                        <gzd:timestamp>2021-05-08T12:42:51.835383+02:00</gzd:timestamp>
+                    </gzd:enrichedData>
+                </gzd:gzd>
+            </sru:recordData>
+            <sru:recordPosition>10</sru:recordPosition>
+        </sru:record>
+    </sru:records>
+    <sru:nextRecordPosition>11</sru:nextRecordPosition>
+    <sru:echoedSearchRetrieveRequest>
+        <sru:query>dt.spatial within /postcode "1012"</sru:query>
+        <sru:startRecord>1</sru:startRecord>
+        <sru:maximumRecords>10</sru:maximumRecords>
+        <sru:recordXMLEscaping>xml</sru:recordXMLEscaping>
+        <sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema>
+    </sru:echoedSearchRetrieveRequest>
+    <sru:resultCountPrecision>info:srw/vocabulary/resultCountPrecision/1/estimate</sru:resultCountPrecision>
+</sru:searchRetrieveResponse>

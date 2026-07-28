@@ -1,0 +1,21 @@
+{
+  "subsidies": [
+    {
+      "identifier": "ff844d89-7be1-4e00-9816-c4dc300fa683",
+      "title": "Subsidies Gemeenschappelijk landbouwbeleid (GLB)",
+      "url": "https://ondernemersplein.overheid.nl/subsidies-en-regelingen/subsidies-gemeenschappelijk-landbouwbeleid-glb/",
+      "dateModified": "2026-01-08T10:12:00",
+      "subjects": ["Landbouw"],
+      "regions": ["Landelijk"]
+    },
+    {
+      "identifier": "fb026c8d-db41-45bb-a00d-1086f12342d8",
+      "title": "Tozo-regeling: terugbetalen",
+      "url": "https://ondernemersplein.overheid.nl/subsidies-en-regelingen/tozo-regeling-terugbetalen/",
+      "dateModified": "2025-11-20T09:00:00",
+      "subjects": ["Financiën"],
+      "regions": ["Landelijk"]
+    }
+  ],
+  "total": 2
+}

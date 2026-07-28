@@ -1,0 +1,15 @@
+meta {
+  name: Partij via BSN - actieve voorkeur
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/profielservice/v1/BSN/999993653
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

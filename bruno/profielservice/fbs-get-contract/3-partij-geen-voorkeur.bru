@@ -1,0 +1,15 @@
+meta {
+  name: Partij zonder voorkeur
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/profielservice/v1/BSN/111222333
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

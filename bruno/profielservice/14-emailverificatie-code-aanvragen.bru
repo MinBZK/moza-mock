@@ -1,0 +1,23 @@
+meta {
+  name: Verificatiecode aanvragen
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/api/profielservice/v1/emailverificatie/code
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "donald@testbv.nl",
+    "identificatieNummer": "68750110",
+    "identificatieType": "KVK"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

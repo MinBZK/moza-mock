@@ -1,0 +1,32 @@
+[
+  {
+    "id": "gmb-2026-123456",
+    "title": "Verleende omgevingsvergunning, kappen van een boom, Spui 70 te Den Haag",
+    "type": "omgevingsvergunning",
+    "creator": "'s-Gravenhage",
+    "modified": "2026-07-21",
+    "abstract": "Verleende omgevingsvergunning voor het kappen van een boom aan het Spui 70 te Den Haag.",
+    "preferredUrl": "https://zoek.officielebekendmakingen.nl/gmb-2026-123456.html",
+    "bronUrl": "https://repository.overheid.nl/frbr/officielepublicaties/gmb/2026/gmb-2026-123456",
+    "postcodes": ["2511CV"],
+    "productArea": "omgevingsvergunning",
+    "audience": "bedrijf",
+    "subject": "natuur en milieu",
+    "publicatienaam": "Gemeenteblad"
+  },
+  {
+    "id": "gmb-2026-234567",
+    "title": "Verkeersbesluit, instellen laad- en losplaats, Kalvermarkt te Den Haag",
+    "type": "verkeersbesluit",
+    "creator": "'s-Gravenhage",
+    "modified": "2026-07-18",
+    "abstract": "Verkeersbesluit voor het instellen van een laad- en losplaats aan de Kalvermarkt te Den Haag.",
+    "preferredUrl": "https://zoek.officielebekendmakingen.nl/gmb-2026-234567.html",
+    "bronUrl": "https://repository.overheid.nl/frbr/officielepublicaties/gmb/2026/gmb-2026-234567",
+    "postcodes": ["2511CV"],
+    "productArea": "verkeersbesluit",
+    "audience": "bedrijf",
+    "subject": "verkeer",
+    "publicatienaam": "Gemeenteblad"
+  }
+]

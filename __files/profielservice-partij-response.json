@@ -1,0 +1,59 @@
+{
+  "partijId": "3f8a2b1c-9d4e-4f6a-8b2c-1d5e7f9a0b3c",
+  "identificaties": [
+    {
+      "identificatieType": "KVK",
+      "identificatieNummer": "68750110"
+    }
+  ],
+  "voorkeuren": [
+    {
+      "id": "1b3d5f7a-9c2e-4b6d-8f1a-3c5e7a9b1d4f",
+      "voorkeurType": "WebsiteTaal",
+      "waarde": "nl",
+      "createdAt": "2026-07-01T09:30:00Z",
+      "lastUpdated": "2026-07-01T09:30:00Z",
+      "scopes": []
+    },
+    {
+      "id": "4a6c8e0b-2d5f-4c7a-9b3e-6f8a0c2e4b7d",
+      "voorkeurType": "OntvangViaBerichtenbox",
+      "waarde": "true",
+      "createdAt": "2026-07-01T09:30:00Z",
+      "lastUpdated": "2026-07-14T14:05:00Z",
+      "scopes": [
+        {
+          "dienstverlenerNaam": "RVO",
+          "dienstNaam": "eLoket"
+        }
+      ]
+    }
+  ],
+  "contactgegevens": [
+    {
+      "id": "6c1f4e2a-8b3d-4a5c-9e7f-2b4d6c8a0e1f",
+      "type": "Email",
+      "waarde": "donald@testbv.nl",
+      "isGeverifieerd": true,
+      "isDefault": true,
+      "createdAt": "2026-07-01T09:30:00Z",
+      "lastUpdated": "2026-07-01T09:35:00Z",
+      "scopes": []
+    },
+    {
+      "id": "9e2d5c7b-1a4f-4e8c-b3a6-5d7f9b1c3e5a",
+      "type": "Telefoonnummer",
+      "waarde": "+31612345678",
+      "isGeverifieerd": false,
+      "isDefault": false,
+      "createdAt": "2026-07-01T09:32:00Z",
+      "lastUpdated": "2026-07-01T09:32:00Z",
+      "scopes": [
+        {
+          "dienstverlenerNaam": "RVO",
+          "dienstNaam": "eLoket"
+        }
+      ]
+    }
+  ]
+}

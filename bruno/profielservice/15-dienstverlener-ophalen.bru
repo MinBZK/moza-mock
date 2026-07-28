@@ -1,0 +1,15 @@
+meta {
+  name: Dienstverlener ophalen
+  type: http
+  seq: 15
+}
+
+get {
+  url: {{baseUrl}}/api/profielservice/v1/dienstverlener/RVO
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

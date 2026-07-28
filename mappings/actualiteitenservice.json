@@ -1,0 +1,136 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/actualiteitenservice/v1/articles"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "actualiteitenservice-articles-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/actualiteitenservice/v1/subsidies"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "actualiteitenservice-subsidies-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/actualiteitenservice/v1/berichten"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "actualiteitenservice-berichten-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/actualiteitenservice/v1/health"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "actualiteitenservice-health-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/actualiteitenservice/v1/ingestion-status"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "actualiteitenservice-ingestion-status-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/actualiteitenservice/v1/voorkeuren"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "actualiteitenservice-voorkeuren-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/actualiteitenservice/v1/voorkeuren/postcode"
+      },
+      "response": {
+        "status": 201
+      }
+    },
+    {
+      "request": {
+        "method": "DELETE",
+        "urlPathPattern": "/api/actualiteitenservice/v1/voorkeuren/postcode/[0-9]+"
+      },
+      "response": {
+        "status": 204
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/actualiteitenservice/v1/voorkeuren/onderwerp"
+      },
+      "response": {
+        "status": 201
+      }
+    },
+    {
+      "request": {
+        "method": "DELETE",
+        "urlPathPattern": "/api/actualiteitenservice/v1/voorkeuren/onderwerp/[0-9]+"
+      },
+      "response": {
+        "status": 204
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/actualiteitenservice/v1/voorkeuren/favoriet"
+      },
+      "response": {
+        "status": 201
+      }
+    },
+    {
+      "request": {
+        "method": "DELETE",
+        "urlPathPattern": "/api/actualiteitenservice/v1/voorkeuren/favoriet/[0-9]+"
+      },
+      "response": {
+        "status": 204
+      }
+    }
+  ]
+}

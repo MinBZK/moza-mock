@@ -1,0 +1,52 @@
+{
+  "mappings": [
+    {
+      "priority": 1,
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/nmc/v1/centraal/notificaties",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.identificatieNummer == '999996915')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Content-Type": "application/problem+json",
+          "API-Version": "0.1.0"
+        },
+        "bodyFileName": "nmc-partij-niet-gevonden-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/nmc/v1/centraal/notificaties"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "API-Version": "0.1.0"
+        },
+        "bodyFileName": "nmc-centraal-notificatie-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/nmc/v1/decentraal/notificaties"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "API-Version": "0.1.0"
+        },
+        "bodyFileName": "nmc-decentraal-notificatie-response.json"
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Ingestion status
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{baseUrl}}/api/actualiteitenservice/v1/ingestion-status
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Postcode-voorkeur verwijderen
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{baseUrl}}/api/actualiteitenservice/v1/voorkeuren/postcode/1
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 204
+}

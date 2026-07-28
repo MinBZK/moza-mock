@@ -1,0 +1,15 @@
+meta {
+  name: SRU zoeken
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/sru?query=cql.allRecords=1&maximumRecords=10
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

@@ -1,0 +1,22 @@
+meta {
+  name: Dienst toevoegen
+  type: http
+  seq: 17
+}
+
+post {
+  url: {{baseUrl}}/api/profielservice/v1/dienstverlener/RVO/diensten
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "naam": "eLoket",
+    "beschrijving": "Digitaal loket voor subsidieaanvragen"
+  }
+}
+
+assert {
+  res.status: eq 201
+}

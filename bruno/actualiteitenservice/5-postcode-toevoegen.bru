@@ -1,0 +1,21 @@
+meta {
+  name: Postcode-voorkeur toevoegen
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/actualiteitenservice/v1/voorkeuren/postcode
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "postcode": "2511CV"
+  }
+}
+
+assert {
+  res.status: eq 201
+}

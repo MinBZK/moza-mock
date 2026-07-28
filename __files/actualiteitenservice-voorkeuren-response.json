@@ -1,0 +1,22 @@
+{
+  "postcodes": [
+    {
+      "id": 1,
+      "postcode": "2511CV"
+    }
+  ],
+  "onderwerpen": [
+    {
+      "id": 1,
+      "onderwerp": "Belastingen"
+    }
+  ],
+  "favorieten": [
+    {
+      "id": 1,
+      "articleId": "ff9cab4a-b445-4113-938f-a5317f417e00",
+      "articleType": "artikel",
+      "addedAt": "2026-07-10T08:15:00Z"
+    }
+  ]
+}

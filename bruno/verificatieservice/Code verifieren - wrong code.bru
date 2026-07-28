@@ -1,0 +1,22 @@
+meta {
+  name: Code verifieren - wrong code
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/verify
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "referenceId": "7c6d5e4f-3a2b-4c1d-9e8f-0a1b2c3d4e5f",
+    "code": "000000"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

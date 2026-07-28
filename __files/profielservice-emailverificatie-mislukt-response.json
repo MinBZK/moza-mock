@@ -1,0 +1,6 @@
+{
+  "type": "about:blank",
+  "title": "Email verificatie mislukt",
+  "status": 400,
+  "detail": "De opgegeven verificatiecode is onjuist."
+}

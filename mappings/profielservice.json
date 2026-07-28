@@ -1,0 +1,267 @@
+{
+  "mappings": [
+    {
+      "priority": 1,
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/profielservice/v1/BSN/111222333"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "profielservice-partij-geen-voorkeur-response.json"
+      }
+    },
+    {
+      "priority": 10,
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/profielservice/v1/BSN/999996915"
+      },
+      "response": {
+        "status": 404
+      }
+    },
+    {
+      "priority": 10,
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/profielservice/v1/BSN/999991401"
+      },
+      "response": {
+        "status": 500,
+        "body": "internal server error"
+      }
+    },
+    {
+      "priority": 100,
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/api/profielservice/v1/(BSN|KVK|RSIN)/[0-9]+"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "profielservice-partij-actieve-voorkeur-response.json",
+        "transformers": ["response-template"]
+      }
+    },
+    {
+      "priority": 1,
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/partij",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.identificatieNummer == '999996915')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/problem+json"
+        },
+        "bodyFileName": "profielservice-partij-niet-gevonden-response.json"
+      }
+    },
+    {
+      "priority": 1,
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/partij",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.identificatieNummer == '999991401')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/problem+json"
+        },
+        "bodyFileName": "profielservice-server-error-response.json"
+      }
+    },
+    {
+      "priority": 1,
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/partij",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.identificatieNummer == '111222333')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "profielservice-partij-geen-voorkeur-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/partij"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "profielservice-partij-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/partijen/bulk"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "profielservice-partijen-bulk-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/contactgegeven"
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "profielservice-contactgegeven-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "PUT",
+        "urlPath": "/api/profielservice/v1/contactgegeven"
+      },
+      "response": {
+        "status": 200
+      }
+    },
+    {
+      "request": {
+        "method": "DELETE",
+        "urlPathPattern": "/api/profielservice/v1/contactgegeven/[a-fA-F0-9-]+"
+      },
+      "response": {
+        "status": 204
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/voorkeur"
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "profielservice-voorkeur-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "PUT",
+        "urlPath": "/api/profielservice/v1/voorkeur"
+      },
+      "response": {
+        "status": 200
+      }
+    },
+    {
+      "request": {
+        "method": "DELETE",
+        "urlPathPattern": "/api/profielservice/v1/voorkeur/[a-fA-F0-9-]+"
+      },
+      "response": {
+        "status": 204
+      }
+    },
+    {
+      "priority": 1,
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/emailverificatie",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.verificatieCode == '000000')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Content-Type": "application/problem+json"
+        },
+        "bodyFileName": "profielservice-emailverificatie-mislukt-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/emailverificatie"
+      },
+      "response": {
+        "status": 200
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/emailverificatie/code"
+      },
+      "response": {
+        "status": 200
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "/api/profielservice/v1/dienstverlener/[^/]+"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "profielservice-dienstverlener-response.json"
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/dienstverlener"
+      },
+      "response": {
+        "status": 201
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "/api/profielservice/v1/dienstverlener/[^/]+/diensten"
+      },
+      "response": {
+        "status": 201
+      }
+    }
+  ]
+}

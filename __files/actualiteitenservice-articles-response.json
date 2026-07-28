@@ -1,0 +1,21 @@
+{
+  "articles": [
+    {
+      "identifier": "ff9cab4a-b445-4113-938f-a5317f417e00",
+      "headLine": "Korting motorrijtuigenbelasting waterstof- en elektrische auto’s tot 2030",
+      "additionalType": "wetswijziging-nl",
+      "url": "https://ondernemersplein.overheid.nl/wetswijzigingen/langer-korting-motorrijtuigenbelasting-autos-zonder-uitstoot/",
+      "dateModified": "2026-03-16T12:44:33",
+      "subjects": ["Belastingen", "Vervoer"]
+    },
+    {
+      "identifier": "3c1a9d2e-5f4b-4a7c-8e6d-1b2c3d4e5f6a",
+      "headLine": "Productierechten en fosfaatrechten voor veehouders",
+      "additionalType": "regel-nl",
+      "url": "https://ondernemersplein.overheid.nl/wetten-en-regels/productierechten-fosfaatrechten-veehouders/",
+      "dateModified": "2025-09-25T17:48:43",
+      "subjects": ["Landbouw"]
+    }
+  ],
+  "total": 2
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Partij via KVK - actieve voorkeur
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/profielservice/v1/KVK/68750110
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

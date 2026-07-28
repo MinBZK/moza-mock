@@ -1,0 +1,30 @@
+meta {
+  name: Partijen bulk ophalen
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/profielservice/v1/partijen/bulk
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificaties": [
+      {
+        "identificatieType": "KVK",
+        "identificatieNummer": "68750110"
+      },
+      {
+        "identificatieType": "BSN",
+        "identificatieNummer": "999993653"
+      }
+    ]
+  }
+}
+
+assert {
+  res.status: eq 200
+}

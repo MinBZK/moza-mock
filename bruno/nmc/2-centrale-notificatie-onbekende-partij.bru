@@ -1,0 +1,24 @@
+meta {
+  name: Centrale notificatie - onbekende partij (400)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/nmc/v1/centraal/notificaties
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "999996915",
+    "dienstverlener": "RVO",
+    "berichtType": "Demo template"
+  }
+}
+
+assert {
+  res.status: eq 400
+}

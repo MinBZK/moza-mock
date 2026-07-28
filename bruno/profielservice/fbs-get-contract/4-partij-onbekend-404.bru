@@ -1,0 +1,15 @@
+meta {
+  name: Partij onbekend (404)
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/profielservice/v1/BSN/999996915
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 404
+}

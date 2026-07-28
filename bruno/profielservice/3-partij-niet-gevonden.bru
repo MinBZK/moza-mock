@@ -1,0 +1,22 @@
+meta {
+  name: Partij niet gevonden (404)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/profielservice/v1/partij
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "999996915"
+  }
+}
+
+assert {
+  res.status: eq 404
+}

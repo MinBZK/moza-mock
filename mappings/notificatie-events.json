@@ -1,0 +1,22 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/events",
+        "headers": {
+          "Content-Type": {
+            "contains": "application/cloudevents+json"
+          }
+        }
+      },
+      "response": {
+        "status": 202,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "notificatie-events-response.json"
+      }
+    }
+  ]
+}

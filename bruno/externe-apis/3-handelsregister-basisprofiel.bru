@@ -1,0 +1,15 @@
+meta {
+  name: Handelsregister basisprofiel
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/test/api/v1/basisprofielen/68750110
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

@@ -1,0 +1,24 @@
+meta {
+  name: Email verifieren
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/profielservice/v1/emailverificatie
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "donald@testbv.nl",
+    "identificatieNummer": "68750110",
+    "identificatieType": "KVK",
+    "verificatieCode": "123456"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

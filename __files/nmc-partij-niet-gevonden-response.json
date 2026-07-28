@@ -1,0 +1,6 @@
+{
+  "type": "about:blank",
+  "title": "Geen notificatie mogelijk",
+  "status": 400,
+  "detail": "Geen partij of e-mailadres gevonden voor de opgegeven identificatie."
+}

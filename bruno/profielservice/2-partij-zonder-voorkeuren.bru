@@ -1,0 +1,22 @@
+meta {
+  name: Partij zonder voorkeuren
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/profielservice/v1/partij
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "111222333"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

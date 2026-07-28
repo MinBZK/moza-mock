@@ -1,0 +1,24 @@
+meta {
+  name: Contactgegeven toevoegen
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/profielservice/v1/contactgegeven
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "KVK",
+    "identificatieNummer": "68750110",
+    "type": "Email",
+    "waarde": "donald@testbv.nl"
+  }
+}
+
+assert {
+  res.status: eq 201
+}

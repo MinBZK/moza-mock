@@ -1,0 +1,21 @@
+meta {
+  name: Onderwerp-voorkeur toevoegen
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/actualiteitenservice/v1/voorkeuren/onderwerp
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "onderwerp": "Belastingen"
+  }
+}
+
+assert {
+  res.status: eq 201
+}

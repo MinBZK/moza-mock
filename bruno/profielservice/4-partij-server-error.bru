@@ -1,0 +1,22 @@
+meta {
+  name: Partij server error (500)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/profielservice/v1/partij
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "999991401"
+  }
+}
+
+assert {
+  res.status: eq 500
+}

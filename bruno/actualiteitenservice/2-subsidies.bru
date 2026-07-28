@@ -1,0 +1,15 @@
+meta {
+  name: Subsidies
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/actualiteitenservice/v1/subsidies?limit=10
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}

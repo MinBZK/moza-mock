@@ -1,0 +1,22 @@
+meta {
+  name: Favoriet toevoegen
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/api/actualiteitenservice/v1/voorkeuren/favoriet
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "articleId": "ff9cab4a-b445-4113-938f-a5317f417e00",
+    "articleType": "artikel"
+  }
+}
+
+assert {
+  res.status: eq 201
+}

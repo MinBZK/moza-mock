@@ -1,0 +1,25 @@
+meta {
+  name: Decentrale notificatie versturen
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/nmc/v1/decentraal/notificaties
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "emailAdres": "donald@testbv.nl",
+    "berichtType": "Demo template",
+    "berichtgegevens": {
+      "naam": "Test BV Donald"
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+}

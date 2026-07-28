@@ -1,0 +1,22 @@
+meta {
+  name: Partij ophalen
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/profielservice/v1/partij
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "KVK",
+    "identificatieNummer": "68750110"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

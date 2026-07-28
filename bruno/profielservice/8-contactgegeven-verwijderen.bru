@@ -1,0 +1,22 @@
+meta {
+  name: Contactgegeven verwijderen
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{baseUrl}}/api/profielservice/v1/contactgegeven/6c1f4e2a-8b3d-4a5c-9e7f-2b4d6c8a0e1f
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "KVK",
+    "identificatieNummer": "68750110"
+  }
+}
+
+assert {
+  res.status: eq 204
+}

@@ -23,7 +23,7 @@ env:
   REGISTRY: ghcr.io
   # GHCR vereist lowercase; github.repository is MinBZK/... (hoofdletters) → hardcode lowercase.
   IMAGE_NAME: minbzk/moza-mock
-  ZAD_PROJECT_ID: nd-j7s
+  ZAD_PROJECT_ID: mozam-chu
 
 jobs:
   build:

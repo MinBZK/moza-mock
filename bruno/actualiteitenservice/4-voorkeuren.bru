@@ -5,11 +5,17 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/actualiteitenservice/v1/voorkeuren
+  url: {{actualiteitenUrl}}/api/actualiteitenservice/v1/voorkeuren
   body: none
   auth: none
 }
 
 assert {
   res.status: eq 200
+}
+
+vars:post-response {
+  postcodeVoorkeurId: res.body.postcodes.at(-1)?.id
+  onderwerpVoorkeurId: res.body.onderwerpen.at(-1)?.id
+  favorietId: res.body.favorieten.at(-1)?.id
 }

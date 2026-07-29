@@ -66,6 +66,17 @@ Standaard krijg je het happy path. Met deze waarden (als `identificatieNummer`, 
 
 Deze stubs hebben een expliciete `priority` zodat ze winnen van de generieke stub voor dezelfde URL (lager getal wint, default is 5).
 
+## Bruno-environments
+
+De collectie heeft per service een url-variabele, met vier environments:
+
+- `lokaal`, `sp`, `zad`: alle variabelen wijzen naar de mock (respectievelijk localhost, het SP-cluster en ZAD).
+- `Dev omgeving`: elke variabele wijst naar de echte service. Let op: POST/PUT/DELETE doen dan echte mutaties, de foutscenario-waarden bestaan daar niet, en de verificatieservice is alleen in-cluster bereikbaar. De KVK-testomgeving vereist een `apikey`-header; de publieke testkey staat in het environment.
+
+De create-requests zetten het id uit de response in een variabele (`contactgegevenId`, `voorkeurId`, `referenceId`, de voorkeur-ids uit `4-voorkeuren`); de bijbehorende update- en delete-requests gebruiken die variabele. Zo ruimt een create gevolgd door een delete zichzelf op, ook tegen de echte services. In de mock-environments staan defaults voor die id-variabelen (de fixture-ids van de mock), zodat een delete of update ook los uitgevoerd kan worden; in `Dev omgeving` staan die bewust niet.
+
+De map `e2e` is een end-to-end test over de echte services heen: contactgegeven aanmaken in de profielservice, notificatie versturen via de NMC, e-mailadres bijwerken, opnieuw versturen, en opruimen. Draai de map als geheel (rechtermuisklik, *Run*) tegen het `Dev omgeving`-environment, of met `bru run e2e --env "Dev omgeving"`. Tegen de mock-environments slaagt de flow ook: voor BSN 999993653 heeft de mock een stateful WireMock-scenario (aangemaakt, bijgewerkt, verwijderd) met de standaard donald-adressen; een nieuwe create begint de cyclus opnieuw. De scenario-state staat in het geheugen van de mock en kan gereset worden met `POST /__admin/scenarios/reset`. Let op bij `Dev omgeving`: `e2eEmail` en `e2eEmailNieuw` moeten in NotifyNL gewhitelist zijn, anders geeft de NMC een 500 op het versturen.
+
 ## Lokaal draaien
 
 ```powershell

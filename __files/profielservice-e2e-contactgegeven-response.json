@@ -1,0 +1,10 @@
+{
+  "id": "e2ec0de1-aaaa-4bbb-8ccc-000999993653",
+  "type": "Email",
+  "waarde": "donald@testbv.nl",
+  "isGeverifieerd": false,
+  "isDefault": false,
+  "createdAt": "2026-07-29T09:00:00Z",
+  "lastUpdated": "2026-07-29T09:00:00Z",
+  "scopes": []
+}

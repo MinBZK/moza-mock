@@ -1,0 +1,25 @@
+meta {
+  name: 4. Contactgegeven bijwerken
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{profielUrl}}/api/profielservice/v1/contactgegeven
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "{{e2eBsn}}",
+    "type": "Email",
+    "waarde": "{{e2eEmailNieuw}}",
+    "id": "{{e2eContactgegevenId}}"
+  }
+}
+
+assert {
+  res.status: eq 200
+}

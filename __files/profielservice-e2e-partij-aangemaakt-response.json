@@ -1,0 +1,22 @@
+{
+  "partijId": "8d1f3a5c-7b9e-4d2f-a6c8-0e2b4d6f8a1c",
+  "identificaties": [
+    {
+      "identificatieType": "BSN",
+      "identificatieNummer": "999993653"
+    }
+  ],
+  "voorkeuren": [],
+  "contactgegevens": [
+    {
+      "id": "e2ec0de1-aaaa-4bbb-8ccc-000999993653",
+      "type": "Email",
+      "waarde": "donald@testbv.nl",
+      "isGeverifieerd": false,
+      "isDefault": false,
+      "createdAt": "2026-07-29T09:00:00Z",
+      "lastUpdated": "2026-07-29T09:00:00Z",
+      "scopes": []
+    }
+  ]
+}

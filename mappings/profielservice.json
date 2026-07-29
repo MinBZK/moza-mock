@@ -47,7 +47,9 @@
           "Content-Type": "application/json"
         },
         "bodyFileName": "profielservice-partij-actieve-voorkeur-response.json",
-        "transformers": ["response-template"]
+        "transformers": [
+          "response-template"
+        ]
       }
     },
     {
@@ -261,6 +263,144 @@
       },
       "response": {
         "status": 201
+      }
+    },
+    {
+      "priority": 1,
+      "scenarioName": "e2e-contactgegeven",
+      "newScenarioState": "aangemaakt",
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/contactgegeven",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.identificatieNummer == '999993653')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "profielservice-e2e-contactgegeven-response.json"
+      }
+    },
+    {
+      "priority": 1,
+      "scenarioName": "e2e-contactgegeven",
+      "requiredScenarioState": "aangemaakt",
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/partij",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.identificatieNummer == '999993653')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "profielservice-e2e-partij-aangemaakt-response.json"
+      }
+    },
+    {
+      "priority": 1,
+      "scenarioName": "e2e-contactgegeven",
+      "requiredScenarioState": "aangemaakt",
+      "newScenarioState": "bijgewerkt",
+      "request": {
+        "method": "PUT",
+        "urlPath": "/api/profielservice/v1/contactgegeven",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.identificatieNummer == '999993653')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 200
+      }
+    },
+    {
+      "priority": 1,
+      "scenarioName": "e2e-contactgegeven",
+      "requiredScenarioState": "bijgewerkt",
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/partij",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.identificatieNummer == '999993653')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "profielservice-e2e-partij-bijgewerkt-response.json"
+      }
+    },
+    {
+      "priority": 1,
+      "scenarioName": "e2e-contactgegeven",
+      "requiredScenarioState": "aangemaakt",
+      "newScenarioState": "verwijderd",
+      "request": {
+        "method": "DELETE",
+        "urlPathPattern": "/api/profielservice/v1/contactgegeven/[a-fA-F0-9-]+",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.identificatieNummer == '999993653')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 204
+      }
+    },
+    {
+      "priority": 1,
+      "scenarioName": "e2e-contactgegeven",
+      "requiredScenarioState": "bijgewerkt",
+      "newScenarioState": "verwijderd",
+      "request": {
+        "method": "DELETE",
+        "urlPathPattern": "/api/profielservice/v1/contactgegeven/[a-fA-F0-9-]+",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.identificatieNummer == '999993653')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 204
+      }
+    },
+    {
+      "priority": 1,
+      "scenarioName": "e2e-contactgegeven",
+      "requiredScenarioState": "verwijderd",
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/partij",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.identificatieNummer == '999993653')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "profielservice-e2e-partij-verwijderd-response.json"
       }
     }
   ]

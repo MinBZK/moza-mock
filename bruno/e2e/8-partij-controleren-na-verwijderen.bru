@@ -1,0 +1,29 @@
+meta {
+  name: 8. E-mailadres is opgeruimd
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{profielUrl}}/api/profielservice/v1/partij
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "{{e2eBsn}}"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("het e-mailadres is niet meer aanwezig", function() {
+    const waarden = (res.body.contactgegevens || []).map(c => c.waarde);
+    expect(waarden).to.not.include(bru.getEnvVar("e2eEmailNieuw"));
+  });
+}

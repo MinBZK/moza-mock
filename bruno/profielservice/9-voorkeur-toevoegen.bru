@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{baseUrl}}/api/profielservice/v1/voorkeur
+  url: {{profielUrl}}/api/profielservice/v1/voorkeur
   body: json
   auth: none
 }
@@ -21,4 +21,8 @@ body:json {
 
 assert {
   res.status: eq 201
+}
+
+vars:post-response {
+  voorkeurId: res.body.id
 }

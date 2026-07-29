@@ -5,7 +5,7 @@ meta {
 }
 
 put {
-  url: {{baseUrl}}/api/profielservice/v1/contactgegeven
+  url: {{profielUrl}}/api/profielservice/v1/contactgegeven
   body: json
   auth: none
 }
@@ -16,7 +16,7 @@ body:json {
     "identificatieNummer": "68750110",
     "type": "Email",
     "waarde": "nieuw@testbv.nl",
-    "id": "6c1f4e2a-8b3d-4a5c-9e7f-2b4d6c8a0e1f",
+    "id": "{{contactgegevenId}}",
     "isDefault": true
   }
 }

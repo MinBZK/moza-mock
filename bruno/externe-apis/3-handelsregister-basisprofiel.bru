@@ -5,9 +5,13 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/test/api/v1/basisprofielen/68750110
+  url: {{kvkUrl}}/test/api/v1/basisprofielen/68750110
   body: none
   auth: none
+}
+
+headers {
+  apikey: {{kvkApiKey}}
 }
 
 assert {

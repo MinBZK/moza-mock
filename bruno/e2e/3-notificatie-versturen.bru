@@ -1,0 +1,33 @@
+meta {
+  name: 3. Notificatie versturen (NMC)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{nmcUrl}}/api/nmc/v1/centraal/notificaties
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "{{e2eBsn}}",
+    "dienstverlener": "RVO",
+    "berichtType": "Demo template",
+    "berichtgegevens": {
+      "naam": "E2E-test"
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("response bevat een notificatieId", function() {
+    expect(res.body.notificatieId).to.match(/^[0-9a-f-]{36}$/);
+  });
+}

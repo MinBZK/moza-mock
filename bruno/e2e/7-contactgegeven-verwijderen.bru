@@ -1,0 +1,22 @@
+meta {
+  name: 7. Contactgegeven verwijderen
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{profielUrl}}/api/profielservice/v1/contactgegeven/{{e2eContactgegevenId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "{{e2eBsn}}"
+  }
+}
+
+assert {
+  res.status: eq 204
+}

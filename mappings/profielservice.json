@@ -11,7 +11,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "profielservice-partij-geen-voorkeur-response.json"
+        "bodyFileName": "profielservice/partij-geen-voorkeur-response.json"
       }
     },
     {
@@ -46,7 +46,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "profielservice-partij-actieve-voorkeur-response.json",
+        "bodyFileName": "profielservice/partij-actieve-voorkeur-response.json",
         "transformers": [
           "response-template"
         ]
@@ -68,7 +68,7 @@
         "headers": {
           "Content-Type": "application/problem+json"
         },
-        "bodyFileName": "profielservice-partij-niet-gevonden-response.json"
+        "bodyFileName": "profielservice/partij-niet-gevonden-response.json"
       }
     },
     {
@@ -87,7 +87,7 @@
         "headers": {
           "Content-Type": "application/problem+json"
         },
-        "bodyFileName": "profielservice-server-error-response.json"
+        "bodyFileName": "profielservice/server-error-response.json"
       }
     },
     {
@@ -106,7 +106,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "profielservice-partij-geen-voorkeur-response.json"
+        "bodyFileName": "profielservice/partij-geen-voorkeur-response.json"
       }
     },
     {
@@ -119,7 +119,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "profielservice-partij-response.json"
+        "bodyFileName": "profielservice/partij-response.json"
       }
     },
     {
@@ -132,7 +132,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "profielservice-partijen-bulk-response.json"
+        "bodyFileName": "profielservice/partijen-bulk-response.json"
       }
     },
     {
@@ -145,7 +145,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "profielservice-contactgegeven-response.json"
+        "bodyFileName": "profielservice/contactgegeven-response.json"
       }
     },
     {
@@ -176,7 +176,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "profielservice-voorkeur-response.json"
+        "bodyFileName": "profielservice/voorkeur-response.json"
       }
     },
     {
@@ -213,7 +213,7 @@
         "headers": {
           "Content-Type": "application/problem+json"
         },
-        "bodyFileName": "profielservice-emailverificatie-mislukt-response.json"
+        "bodyFileName": "profielservice/emailverificatie-mislukt-response.json"
       }
     },
     {
@@ -244,7 +244,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "profielservice-dienstverlener-response.json"
+        "bodyFileName": "profielservice/dienstverlener-response.json"
       }
     },
     {
@@ -283,7 +283,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "profielservice-e2e-contactgegeven-response.json"
+        "bodyFileName": "profielservice/e2e-contactgegeven-response.json"
       }
     },
     {
@@ -304,7 +304,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "profielservice-e2e-partij-aangemaakt-response.json"
+        "bodyFileName": "profielservice/e2e-partij-aangemaakt-response.json"
       }
     },
     {
@@ -343,7 +343,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "profielservice-e2e-partij-bijgewerkt-response.json"
+        "bodyFileName": "profielservice/e2e-partij-bijgewerkt-response.json"
       }
     },
     {
@@ -400,7 +400,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "profielservice-e2e-partij-verwijderd-response.json"
+        "bodyFileName": "profielservice/e2e-partij-verwijderd-response.json"
       }
     }
   ]

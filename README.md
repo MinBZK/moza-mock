@@ -5,12 +5,12 @@ Mocks voor externe API's en MOZa-services, als standalone WireMock.
 ## Structuur
 
 - `mappings/` - de stubs: request-matching en responsemetadata (status, headers). Eén stub per bestand, of meerdere stubs per service in een `"mappings": [...]` array.
-- `__files/` - de responsebodies waar de mappings naar verwijzen via `bodyFileName`.
+- `__files/` - de responsebodies waar de mappings naar verwijzen via `bodyFileName`, per service een submap.
 - `bruno/` - Bruno-collectie (`mocks`) met een request per stub. Openen via *Open Collection* en de map `bruno/` kiezen (niet importeren), daarna environment `lokaal` selecteren. Elk request assert de verwachte statuscode, dus de hele collectie draaien werkt ook als smoketest.
 
 ## Mock toevoegen of aanpassen
 
-1. Zet de responsebody in `__files/`, bijvoorbeeld `mijn-endpoint-response.json`.
+1. Zet de responsebody in de servicemap onder `__files/`, bijvoorbeeld `__files/mijnservice/endpoint-response.json`.
 2. Maak een mapping in `mappings/`:
 
 ```json
@@ -24,7 +24,7 @@ Mocks voor externe API's en MOZa-services, als standalone WireMock.
     "headers": {
       "Content-Type": "application/json"
     },
-    "bodyFileName": "mijn-endpoint-response.json"
+    "bodyFileName": "mijnservice/endpoint-response.json"
   }
 }
 ```

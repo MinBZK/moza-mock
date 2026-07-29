@@ -8,6 +8,6 @@
     "headers": {
       "Content-Type": "application/xml"
     },
-    "bodyFileName": "sru-response.xml"
+    "bodyFileName": "sru/response.xml"
   }
 }

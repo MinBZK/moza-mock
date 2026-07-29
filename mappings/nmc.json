@@ -17,7 +17,7 @@
           "Content-Type": "application/problem+json",
           "API-Version": "0.1.0"
         },
-        "bodyFileName": "nmc-partij-niet-gevonden-response.json"
+        "bodyFileName": "nmc/partij-niet-gevonden-response.json"
       }
     },
     {
@@ -31,7 +31,7 @@
           "Content-Type": "application/json",
           "API-Version": "0.1.0"
         },
-        "bodyFileName": "nmc-centraal-notificatie-response.json"
+        "bodyFileName": "nmc/centraal-notificatie-response.json"
       }
     },
     {
@@ -45,7 +45,7 @@
           "Content-Type": "application/json",
           "API-Version": "0.1.0"
         },
-        "bodyFileName": "nmc-decentraal-notificatie-response.json"
+        "bodyFileName": "nmc/decentraal-notificatie-response.json"
       }
     }
   ]

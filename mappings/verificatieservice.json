@@ -10,7 +10,7 @@
         "headers": {
           "Content-Type": "text/plain"
         },
-        "bodyFileName": "verificatieservice-request-response.txt"
+        "bodyFileName": "verificatieservice/request-response.txt"
       }
     },
     {
@@ -29,7 +29,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "verificatieservice-verify-incorrect-code-response.json"
+        "bodyFileName": "verificatieservice/verify-incorrect-code-response.json"
       }
     },
     {
@@ -42,7 +42,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "verificatieservice-verify-success-response.json"
+        "bodyFileName": "verificatieservice/verify-success-response.json"
       }
     }
   ]

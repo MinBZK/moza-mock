@@ -10,7 +10,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "actualiteitenservice-articles-response.json"
+        "bodyFileName": "actualiteitenservice/articles-response.json"
       }
     },
     {
@@ -23,7 +23,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "actualiteitenservice-subsidies-response.json"
+        "bodyFileName": "actualiteitenservice/subsidies-response.json"
       }
     },
     {
@@ -36,7 +36,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "actualiteitenservice-berichten-response.json"
+        "bodyFileName": "actualiteitenservice/berichten-response.json"
       }
     },
     {
@@ -49,7 +49,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "actualiteitenservice-health-response.json"
+        "bodyFileName": "actualiteitenservice/health-response.json"
       }
     },
     {
@@ -62,7 +62,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "actualiteitenservice-ingestion-status-response.json"
+        "bodyFileName": "actualiteitenservice/ingestion-status-response.json"
       }
     },
     {
@@ -75,7 +75,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "actualiteitenservice-voorkeuren-response.json"
+        "bodyFileName": "actualiteitenservice/voorkeuren-response.json"
       }
     },
     {

@@ -64,8 +64,8 @@ Standaard krijg je het happy path. Met deze waarden (als `identificatieNummer`, 
 | `verificatieCode: "000000"` | `POST /emailverificatie` | 400 |
 | `code: "000000"` | verificatieservice `POST /verify` | 200 met `success: false` |
 | `999992222` | profielservice partij-lookup (POST), `POST /contactgegeven`, `POST /voorkeur` | de soft-delete-partij: bevat alleen de opnieuw toegevoegde rijen |
-| `5017de1e-0001-4000-8000-000000000001` | `DELETE`/`PUT /contactgegeven` | 404, contactgegeven is al zachtverwijderd |
-| `5017de1e-0003-4000-8000-000000000003` | `DELETE`/`PUT /voorkeur` | 404, voorkeur is al zachtverwijderd |
+| `5017de1e-0001-4000-8000-000000000001` | `DELETE`/`PUT /contactgegeven` | 404, contactgegeven heeft al een soft delete |
+| `5017de1e-0003-4000-8000-000000000003` | `DELETE`/`PUT /voorkeur` | 404, voorkeur heeft al een soft delete |
 | `email: "verwijderd@testbv.nl"` | `POST /emailverificatie` | 400 |
 | `email: "verwijderd@testbv.nl"` | `POST /emailverificatie/code` | 404 |
 
@@ -79,12 +79,12 @@ en de collectie:
 
 - `DELETE /contactgegeven/{id}` en `DELETE /voorkeur/{id}` hebben **geen request body** meer en
   geven 204. Een tweede DELETE op dezelfde id geeft 404: de rij is niet meer vindbaar.
-- `PUT /contactgegeven` en `PUT /voorkeur` geven **204** in plaats van 200, en 404 op een
-  zachtverwijderde id.
+- `PUT /contactgegeven` en `PUT /voorkeur` geven **204** in plaats van 200, en 404 op een id
+  met een soft delete.
 - Dezelfde waarde opnieuw toevoegen na een verwijdering herstelt de oude rij niet, maar levert
   een **nieuwe rij met een nieuwe id** op (201). De unieke indexen zijn partieel
   (`WHERE verwijderd_op IS NULL`), dus de verwijderde rij bezet de sleutel niet meer.
-- Een zachtverwijderd e-mailadres is niet meer te verifieren en krijgt geen nieuwe
+- Een e-mailadres met een soft delete is niet meer te verifieren en krijgt geen nieuwe
   verificatiecode.
 
 De stubs hiervoor zijn stateless: ze hangen aan de vaste ids en waarden uit de tabel hierboven,

@@ -1,0 +1,42 @@
+meta {
+  name: Contactgegeven opnieuw toevoegen na verwijderen
+  type: http
+  seq: 22
+}
+
+post {
+  url: {{profielUrl}}/api/profielservice/v1/contactgegeven
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "{{softDeleteBsn}}",
+    "type": "Email",
+    "waarde": "donald@testbv.nl"
+  }
+}
+
+docs {
+  Dezelfde waarde opnieuw aanbieden na een soft delete herstelt de oude rij niet, maar
+  levert een nieuwe rij op: 201 met een nieuwe id. De unieke index op
+  (partij, type, waarde) is partieel (WHERE verwijderd_op IS NULL), dus de verwijderde
+  rij bezet de sleutel niet meer.
+}
+
+assert {
+  res.status: eq 201
+}
+
+tests {
+  test("levert een nieuwe id op, niet die van de verwijderde rij", function() {
+    expect(res.body.id).to.not.equal(bru.getEnvVar("verwijderdContactgegevenId"));
+    expect(res.body.id).to.equal(bru.getEnvVar("nieuwContactgegevenId"));
+  });
+
+  test("de nieuwe rij is nog niet geverifieerd", function() {
+    expect(res.body.isGeverifieerd).to.equal(false);
+  });
+}

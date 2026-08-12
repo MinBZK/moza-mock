@@ -1,0 +1,29 @@
+meta {
+  name: Email verifieren - verwijderd adres (400)
+  type: http
+  seq: 25
+}
+
+post {
+  url: {{profielUrl}}/api/profielservice/v1/emailverificatie
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{verwijderdEmail}}",
+    "identificatieNummer": "68750110",
+    "identificatieType": "KVK",
+    "verificatieCode": "123456"
+  }
+}
+
+docs {
+  De lookup achter de verificatie filtert op zachtverwijderde rijen, dus een verwijderd
+  e-mailadres is niet meer te verifieren.
+}
+
+assert {
+  res.status: eq 400
+}

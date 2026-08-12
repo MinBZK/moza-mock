@@ -1,0 +1,48 @@
+meta {
+  name: Partij ophalen na verwijderen
+  type: http
+  seq: 24
+}
+
+post {
+  url: {{profielUrl}}/api/profielservice/v1/partij
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "{{softDeleteBsn}}"
+  }
+}
+
+docs {
+  Zachtverwijderde rijen zijn uit alle leespaden gefilterd: ze staan niet meer in de
+  partij-response, ook niet als er later een nieuwe rij met dezelfde waarde bij is
+  gekomen.
+}
+
+assert {
+  res.status: eq 200
+}
+
+tests {
+  test("de verwijderde rijen staan niet in de response", function() {
+    const ids = [
+      ...(res.body.contactgegevens || []).map(c => c.id),
+      ...(res.body.voorkeuren || []).map(v => v.id),
+    ];
+    expect(ids).to.not.include(bru.getEnvVar("verwijderdContactgegevenId"));
+    expect(ids).to.not.include(bru.getEnvVar("verwijderdVoorkeurId"));
+  });
+
+  test("de opnieuw toegevoegde rijen staan er wel in", function() {
+    const ids = [
+      ...(res.body.contactgegevens || []).map(c => c.id),
+      ...(res.body.voorkeuren || []).map(v => v.id),
+    ];
+    expect(ids).to.include(bru.getEnvVar("nieuwContactgegevenId"));
+    expect(ids).to.include(bru.getEnvVar("nieuwVoorkeurId"));
+  });
+}

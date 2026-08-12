@@ -1,0 +1,36 @@
+meta {
+  name: Voorkeur opnieuw toevoegen na verwijderen
+  type: http
+  seq: 23
+}
+
+post {
+  url: {{profielUrl}}/api/profielservice/v1/voorkeur
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "{{softDeleteBsn}}",
+    "voorkeurType": "WebsiteTaal",
+    "waarde": "nl"
+  }
+}
+
+docs {
+  Zie 'Contactgegeven opnieuw toevoegen na verwijderen': ook een voorkeur wordt niet
+  hersteld maar opnieuw aangemaakt.
+}
+
+assert {
+  res.status: eq 201
+}
+
+tests {
+  test("levert een nieuwe id op, niet die van de verwijderde rij", function() {
+    expect(res.body.id).to.not.equal(bru.getEnvVar("verwijderdVoorkeurId"));
+    expect(res.body.id).to.equal(bru.getEnvVar("nieuwVoorkeurId"));
+  });
+}

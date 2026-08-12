@@ -1,7 +1,7 @@
 meta {
-  name: Contactgegeven bijwerken
+  name: Contactgegeven bijwerken - verwijderd
   type: http
-  seq: 7
+  seq: 19
 }
 
 put {
@@ -16,11 +16,15 @@ body:json {
     "identificatieNummer": "68750110",
     "type": "Email",
     "waarde": "nieuw@testbv.nl",
-    "id": "{{contactgegevenId}}",
-    "isDefault": true
+    "id": "{{verwijderdContactgegevenId}}"
   }
 }
 
+docs {
+  Een zachtverwijderd contactgegeven is niet meer vindbaar en kan dus ook niet meer
+  worden bijgewerkt.
+}
+
 assert {
-  res.status: eq 204
+  res.status: eq 404
 }

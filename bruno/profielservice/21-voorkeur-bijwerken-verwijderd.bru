@@ -1,7 +1,7 @@
 meta {
-  name: Voorkeur bijwerken
+  name: Voorkeur bijwerken - verwijderd
   type: http
-  seq: 10
+  seq: 21
 }
 
 put {
@@ -16,10 +16,15 @@ body:json {
     "identificatieNummer": "68750110",
     "voorkeurType": "WebsiteTaal",
     "waarde": "en",
-    "id": "{{voorkeurId}}"
+    "id": "{{verwijderdVoorkeurId}}"
   }
 }
 
+docs {
+  Een zachtverwijderde voorkeur is niet meer vindbaar en kan dus ook niet meer worden
+  bijgewerkt.
+}
+
 assert {
-  res.status: eq 204
+  res.status: eq 404
 }

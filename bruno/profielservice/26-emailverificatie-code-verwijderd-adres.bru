@@ -1,0 +1,27 @@
+meta {
+  name: Verificatiecode aanvragen - verwijderd adres (404)
+  type: http
+  seq: 26
+}
+
+post {
+  url: {{profielUrl}}/api/profielservice/v1/emailverificatie/code
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{verwijderdEmail}}",
+    "identificatieNummer": "68750110",
+    "identificatieType": "KVK"
+  }
+}
+
+docs {
+  Voor een verwijderd e-mailadres wordt geen nieuwe verificatiecode meer aangevraagd.
+}
+
+assert {
+  res.status: eq 404
+}

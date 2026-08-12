@@ -1,0 +1,21 @@
+meta {
+  name: Contactgegeven verwijderen - al verwijderd
+  type: http
+  seq: 18
+}
+
+delete {
+  url: {{profielUrl}}/api/profielservice/v1/contactgegeven/{{verwijderdContactgegevenId}}
+  body: none
+  auth: none
+}
+
+docs {
+  Soft delete is niet idempotent op statusniveau: de eerste DELETE geeft 204, elke
+  volgende geeft 404. De rij bestaat nog wel in de database, maar is niet meer
+  opvraagbaar, dus de service kan hem niet vinden om te verwijderen.
+}
+
+assert {
+  res.status: eq 404
+}

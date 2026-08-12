@@ -6,15 +6,8 @@ meta {
 
 delete {
   url: {{profielUrl}}/api/profielservice/v1/voorkeur/{{voorkeurId}}
-  body: json
+  body: none
   auth: none
-}
-
-body:json {
-  {
-    "identificatieType": "KVK",
-    "identificatieNummer": "68750110"
-  }
 }
 
 assert {

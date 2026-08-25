@@ -1,0 +1,29 @@
+meta {
+  name: Contactgegeven toevoegen - dupliceert bestaande
+  type: http
+  seq: 27
+}
+
+post {
+  url: {{profielUrl}}/api/profielservice/v1/contactgegeven
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "{{duplicaatBsn}}",
+    "type": "Email",
+    "waarde": "dubbel@testbv.nl"
+  }
+}
+
+docs {
+  Bestaat de combinatie (partij, type, waarde) al, dan is dit geen upsert meer maar een
+  409. Gebruik PUT om een bestaand contactgegeven te wijzigen.
+}
+
+assert {
+  res.status: eq 409
+}

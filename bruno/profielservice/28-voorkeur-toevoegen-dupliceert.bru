@@ -1,0 +1,29 @@
+meta {
+  name: Voorkeur toevoegen - dupliceert bestaande
+  type: http
+  seq: 28
+}
+
+post {
+  url: {{profielUrl}}/api/profielservice/v1/voorkeur
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "{{duplicaatBsn}}",
+    "voorkeurType": "WebsiteTaal",
+    "waarde": "nl"
+  }
+}
+
+docs {
+  Bestaat er al een actieve voorkeur voor dezelfde (partij, voorkeurType, scope), dan is
+  dit geen upsert meer maar een 409. Gebruik PUT om een bestaande voorkeur te wijzigen.
+}
+
+assert {
+  res.status: eq 409
+}

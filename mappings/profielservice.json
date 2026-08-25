@@ -547,11 +547,49 @@
         ]
       },
       "response": {
-        "status": 200,
+        "status": 404,
         "headers": {
-          "Content-Type": "application/json"
+          "Content-Type": "application/problem+json"
         },
-        "bodyFileName": "profielservice/e2e-partij-verwijderd-response.json"
+        "bodyFileName": "profielservice/partij-niet-gevonden-response.json"
+      }
+    },
+    {
+      "priority": 1,
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/contactgegeven",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.identificatieNummer == '999992223')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "Content-Type": "application/problem+json"
+        },
+        "bodyFileName": "profielservice/contactgegeven-bestaat-al-response.json"
+      }
+    },
+    {
+      "priority": 1,
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/profielservice/v1/voorkeur",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$[?(@.identificatieNummer == '999992223')]"
+          }
+        ]
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "Content-Type": "application/problem+json"
+        },
+        "bodyFileName": "profielservice/voorkeur-bestaat-al-response.json"
       }
     }
   ]

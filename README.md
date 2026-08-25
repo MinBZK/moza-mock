@@ -68,6 +68,7 @@ Standaard krijg je het happy path. Met deze waarden (als `identificatieNummer`, 
 | `5017de1e-0003-4000-8000-000000000003` | `DELETE`/`PUT /voorkeur` | 404, voorkeur heeft al een soft delete |
 | `email: "verwijderd@testbv.nl"` | `POST /emailverificatie` | 400 |
 | `email: "verwijderd@testbv.nl"` | `POST /emailverificatie/code` | 404 |
+| `999992223` | profielservice `POST /contactgegeven`, `POST /voorkeur` | 409, contactgegeven/voorkeur bestaat al |
 
 Deze stubs hebben een expliciete `priority` zodat ze winnen van de generieke stub voor dezelfde URL (lager getal wint, default is 5).
 
@@ -86,6 +87,13 @@ en de collectie:
   (`WHERE verwijderd_op IS NULL`), dus de verwijderde rij bezet de sleutel niet meer.
 - Een e-mailadres met een soft delete is niet meer te verifieren en krijgt geen nieuwe
   verificatiecode.
+- Was het verwijderde contactgegeven of de verwijderde voorkeur de laatste actieve rij van de
+  partij, dan wordt de partij zelf ook soft-deleted: `POST /partij` geeft daarna **404**. Het
+  `e2e-contactgegeven`-scenario laat dit zien (e2e-stap 8, na het verwijderen van het enige
+  contactgegeven van die partij).
+- Een contactgegeven of voorkeur toevoegen is geen upsert meer: bestaat de combinatie
+  (partij, type, waarde) resp. (partij, voorkeurType, scope) al actief, dan geeft
+  `POST /contactgegeven` of `POST /voorkeur` nu **409** in plaats van 200.
 
 De stubs hiervoor zijn stateless: ze hangen aan de vaste ids en waarden uit de tabel hierboven,
 niet aan een WireMock-scenario. De stateful variant (aanmaken, bijwerken, verwijderen) staat in

@@ -1,5 +1,5 @@
 meta {
-  name: 8. E-mailadres is opgeruimd
+  name: 8. Partij is opgeruimd
   type: http
   seq: 8
 }
@@ -18,12 +18,11 @@ body:json {
 }
 
 assert {
-  res.status: eq 200
+  res.status: eq 404
 }
 
 tests {
-  test("het e-mailadres is niet meer aanwezig", function() {
-    const waarden = (res.body.contactgegevens || []).map(c => c.waarde);
-    expect(waarden).to.not.include(bru.getEnvVar("e2eEmailNieuw"));
+  test("de partij zelf is niet meer opvraagbaar", function() {
+    expect(res.body.title).to.equal("Partij niet gevonden");
   });
 }

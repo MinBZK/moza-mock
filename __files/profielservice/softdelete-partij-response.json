@@ -1,0 +1,31 @@
+{
+  "partijId": "5017de1e-9999-4000-8000-000000009999",
+  "identificaties": [
+    {
+      "identificatieType": "BSN",
+      "identificatieNummer": "999992222"
+    }
+  ],
+  "voorkeuren": [
+    {
+      "id": "5017de1e-0004-4000-8000-000000000004",
+      "voorkeurType": "WebsiteTaal",
+      "waarde": "nl",
+      "createdAt": "2026-08-10T12:00:00Z",
+      "lastUpdated": "2026-08-10T12:00:00Z",
+      "scopes": []
+    }
+  ],
+  "contactgegevens": [
+    {
+      "id": "5017de1e-0002-4000-8000-000000000002",
+      "type": "Email",
+      "waarde": "donald@testbv.nl",
+      "isGeverifieerd": false,
+      "isDefault": false,
+      "createdAt": "2026-08-10T12:00:00Z",
+      "lastUpdated": "2026-08-10T12:00:00Z",
+      "scopes": []
+    }
+  ]
+}

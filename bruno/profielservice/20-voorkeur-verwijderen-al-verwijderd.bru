@@ -1,0 +1,19 @@
+meta {
+  name: Voorkeur verwijderen - al verwijderd
+  type: http
+  seq: 20
+}
+
+delete {
+  url: {{profielUrl}}/api/profielservice/v1/voorkeur/{{verwijderdVoorkeurId}}
+  body: none
+  auth: none
+}
+
+docs {
+  Zie 'Contactgegeven verwijderen - al verwijderd': tweede DELETE geeft 404.
+}
+
+assert {
+  res.status: eq 404
+}

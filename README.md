@@ -63,8 +63,41 @@ Standaard krijg je het happy path. Met deze waarden (als `identificatieNummer`, 
 | `111222333` | profielservice partij-lookup (GET en POST) | 200, partij zonder voorkeuren |
 | `verificatieCode: "000000"` | `POST /emailverificatie` | 400 |
 | `code: "000000"` | verificatieservice `POST /verify` | 200 met `success: false` |
+| `999992222` | profielservice partij-lookup (POST), `POST /contactgegeven`, `POST /voorkeur` | de soft-delete-partij: bevat alleen de opnieuw toegevoegde rijen |
+| `5017de1e-0001-4000-8000-000000000001` | `DELETE`/`PUT /contactgegeven` | 404, contactgegeven heeft al een soft delete |
+| `5017de1e-0003-4000-8000-000000000003` | `DELETE`/`PUT /voorkeur` | 404, voorkeur heeft al een soft delete |
+| `email: "verwijderd@testbv.nl"` | `POST /emailverificatie` | 400 |
+| `email: "verwijderd@testbv.nl"` | `POST /emailverificatie/code` | 404 |
+| `999992223` | profielservice `POST /contactgegeven`, `POST /voorkeur` | 409, contactgegeven/voorkeur bestaat al |
 
 Deze stubs hebben een expliciete `priority` zodat ze winnen van de generieke stub voor dezelfde URL (lager getal wint, default is 5).
+
+### Soft delete in de profielservice
+
+Verwijderen in de profielservice is een soft delete: de rij blijft bestaan met een
+`verwijderd_op`-tijdstempel, maar verdwijnt uit alle leespaden. Wat dat betekent voor de mock
+en de collectie:
+
+- `DELETE /contactgegeven/{id}` en `DELETE /voorkeur/{id}` hebben **geen request body** meer en
+  geven 204. Een tweede DELETE op dezelfde id geeft 404: de rij is niet meer vindbaar.
+- `PUT /contactgegeven` en `PUT /voorkeur` geven **204** in plaats van 200, en 404 op een id
+  met een soft delete.
+- Dezelfde waarde opnieuw toevoegen na een verwijdering herstelt de oude rij niet, maar levert
+  een **nieuwe rij met een nieuwe id** op (201). De unieke indexen zijn partieel
+  (`WHERE verwijderd_op IS NULL`), dus de verwijderde rij bezet de sleutel niet meer.
+- Een e-mailadres met een soft delete is niet meer te verifieren en krijgt geen nieuwe
+  verificatiecode.
+- Was het verwijderde contactgegeven of de verwijderde voorkeur de laatste actieve rij van de
+  partij, dan wordt de partij zelf ook soft-deleted: `POST /partij` geeft daarna **404**. Het
+  `e2e-contactgegeven`-scenario laat dit zien (e2e-stap 8, na het verwijderen van het enige
+  contactgegeven van die partij).
+- Een contactgegeven of voorkeur toevoegen is geen upsert meer: bestaat de combinatie
+  (partij, type, waarde) resp. (partij, voorkeurType, scope) al actief, dan geeft
+  `POST /contactgegeven` of `POST /voorkeur` nu **409** in plaats van 200.
+
+De stubs hiervoor zijn stateless: ze hangen aan de vaste ids en waarden uit de tabel hierboven,
+niet aan een WireMock-scenario. De stateful variant (aanmaken, bijwerken, verwijderen) staat in
+het `e2e-contactgegeven`-scenario.
 
 ## Bruno-environments
 

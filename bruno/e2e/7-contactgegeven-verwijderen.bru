@@ -6,15 +6,8 @@ meta {
 
 delete {
   url: {{profielUrl}}/api/profielservice/v1/contactgegeven/{{e2eContactgegevenId}}
-  body: json
+  body: none
   auth: none
-}
-
-body:json {
-  {
-    "identificatieType": "BSN",
-    "identificatieNummer": "{{e2eBsn}}"
-  }
 }
 
 assert {

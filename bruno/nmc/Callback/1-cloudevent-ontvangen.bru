@@ -1,5 +1,5 @@
 meta {
-  name: CloudEvent afleveren
+  name: CloudEvents-batch afleveren (webhook)
   type: http
   seq: 1
 }
@@ -11,22 +11,30 @@ post {
 }
 
 headers {
-  Content-Type: application/cloudevents+json
+  Content-Type: application/cloudevents-batch+json
+  Nmc-Cursor: MTo0MjoxMDQy
+  Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6InZvb3JiZWVsZCJ9.e30.ongeldig
 }
 
 body:json {
-  {
-    "specversion": "1.0",
-    "type": "nl.overheid.notificaties.notificatie-status",
-    "source": "urn:nld:oin:00000001003214345000:systeem:nmc",
-    "id": "0f9e8d7c-6b5a-4c3d-8e1f-2a3b4c5d6e7f",
-    "time": "2026-07-28T10:00:00Z",
-    "datacontenttype": "application/json",
-    "data": {
-      "notificatieId": "0f9e8d7c-6b5a-4c3d-8e1f-2a3b4c5d6e7f",
-      "status": "delivered"
+  [
+    {
+      "specversion": "1.0",
+      "id": "1042",
+      "type": "nl.overheid.moz.notificatie.status.bezorgd",
+      "source": "/api/nmc/v1/notificaties/0f9e8d7c-6b5a-4c3d-8e1f-2a3b4c5d6e7f",
+      "subject": "0f9e8d7c-6b5a-4c3d-8e1f-2a3b4c5d6e7f",
+      "time": "2026-10-05T10:00:00Z",
+      "datacontenttype": "application/json",
+      "sequence": "3",
+      "sequencetype": "Integer",
+      "data": {
+        "van": "verzonden",
+        "naar": "bezorgd",
+        "versie": 3
+      }
     }
-  }
+  ]
 }
 
 assert {

@@ -1,0 +1,48 @@
+meta {
+  name: 14. NotifyNL-callback permanent-failure (204, niet-bezorgbaar)
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{nmcUrl}}/api/nmc/v1/notifynl-callback
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{notifyCallbackToken}}
+}
+
+body:json {
+  {
+    "id": "{{notifyId}}",
+    "reference": "{{pogingId}}",
+    "to": "ontvanger@example.invalid",
+    "status": "permanent-failure",
+    "notification_type": "email",
+    "created_at": "{{failureTijd}}",
+    "sent_at": "{{failureTijd}}",
+    "completed_at": "{{failureTijd}}"
+  }
+}
+
+assert {
+  res.status: eq 204
+}
+
+script:pre-request {
+  for (const v of ["notifyCallbackToken", "pogingId", "notifyId"]) {
+    if (!bru.getEnvVar(v)) {
+      throw new Error(v + " ontbreekt in de environment; zie docs van request 12");
+    }
+  }
+  bru.setVar("failureTijd", new Date().toISOString());
+}
+
+docs {
+  Zet `pogingId` en `notifyId` in de environment eerst op de poging van een ANDERE notificatie
+  (bijvoorbeeld die van request 5), want een notificatie die al `bezorgd` is blijft dat: een
+  mislukking op een poging die niet meer de laatste is wordt wel geregistreerd maar geeft geen overgang.
+  Verwacht 204 en in 6 daarna `verzonden` -> `niet-bezorgbaar(onbereikbaar)`.
+}

@@ -1,9 +1,23 @@
 {
-  "version": "1",
   "name": "Mocks",
   "type": "collection",
   "ignore": [
     "node_modules",
     ".git"
-  ]
+  ],
+  "size": 0.031432151794433594,
+  "filesCount": 79,
+  "clientCertificates": {
+    "enabled": true,
+    "certs": [
+      {
+        "domain": "*.rig.prd1.gn2.quattro.rijksapps.nl",
+        "type": "cert",
+        "certFilePath": "..\\..\\..\\..\\..\\Downloads\\certificaten-fsc-testnet\\moza-poc-fbs-berichtenbox\\demo\\environment\\logius\\pki\\out\\logius\\outway\\cert.pem",
+        "keyFilePath": "..\\..\\..\\..\\..\\Downloads\\certificaten-fsc-testnet\\moza-poc-fbs-berichtenbox\\demo\\environment\\logius\\pki\\out\\logius\\outway\\key.pem",
+        "passphrase": ""
+      }
+    ]
+  },
+  "version": "1"
 }

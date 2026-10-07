@@ -1,0 +1,40 @@
+meta {
+  name: 5. Decentrale notificatie versturen
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{nmcUrl}}/api/nmc/v1/decentraal/notificaties
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "emailAdres": "tijmen.brink@rijksoverheid.nl",
+    "berichtType": "Demo template",
+    "berichtgegevens": {
+      "voornaam": "Tijmen"
+    }
+  }
+}
+
+assert {
+  res.status: eq 202
+}
+
+script:post-response {
+  if (res.status === 202 && res.body && res.body.notificatieId) {
+    bru.setVar("notificatieIdDecentraal", res.body.notificatieId);
+  }
+}
+
+tests {
+  test("response bevat een notificatieId", function() {
+    expect(res.body.notificatieId).to.match(/^[0-9a-f-]{36}$/);
+  });
+  test("Location wijst naar de aangenomen notificatie", function() {
+    expect(res.getHeader("location")).to.equal("/api/nmc/v1/notificaties/" + res.body.notificatieId);
+  });
+}

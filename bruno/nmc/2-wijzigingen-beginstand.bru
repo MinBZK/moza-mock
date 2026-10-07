@@ -1,0 +1,52 @@
+meta {
+  name: 2. Wijzigingen: beginstand (cursor vóór de intake)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{nmcUrl}}/api/nmc/v1/notificaties/wijzigingen?limiet=500
+  body: none
+  auth: none
+}
+
+params:query {
+  limiet: 500
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  // Lege pagina heeft geen cursor; dan blijft de variabele leeg en leest 6 vanaf het oudste event.
+  if (res.status === 200 && res.body) {
+    const cursor = res.body.cursor || "";
+    bru.setVar("feedCursor", cursor);
+    bru.setVar("feedCursorStart", cursor);
+    console.log("beginstand: " + (res.body.events || []).length + " bestaande events, cursor " + (cursor || "(leeg)"));
+  }
+}
+
+tests {
+  test("pagina heeft events-array", function() {
+    expect(res.body.events).to.be.an("array");
+  });
+  test("bestaande events hebben het NL GOV CloudEvents-profiel", function() {
+    for (const e of res.body.events) {
+      expect(e.specversion).to.equal("1.0");
+      expect(e.type).to.match(/^nl\.overheid\.moz\.notificatie\.status\./);
+      expect(e.source).to.equal("/api/nmc/v1/notificaties/" + e.subject);
+      expect(e.sequencetype).to.equal("Integer");
+      expect(String(e.data.versie)).to.equal(e.sequence);
+      expect(e.type).to.equal("nl.overheid.moz.notificatie.status." + e.data.naar);
+    }
+  });
+}
+
+docs {
+  Lezing vóór de intake, zodat 6 alleen de events van deze testrun laat zien. Bewaart de cursor
+  als `feedCursor` (voor 6) en als `feedCursorStart` (voor 8, de oude-cursor-bevestiging).
+  Staan er al meer dan 500 events in de omgeving, draai dit request dan nog eens tot de pagina
+  leeg is; de cursor schuift elke keer op.
+}

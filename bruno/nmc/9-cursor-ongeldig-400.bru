@@ -1,0 +1,30 @@
+meta {
+  name: 9. Wijzigingen met ongeldige cursor (400)
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{nmcUrl}}/api/nmc/v1/notificaties/wijzigingen?cursor=onzin
+  body: none
+  auth: none
+}
+
+params:query {
+  cursor: onzin
+}
+
+assert {
+  res.status: eq 400
+}
+
+tests {
+  test("problem+json met status 400", function() {
+    expect(res.getHeader("content-type")).to.include("application/problem+json");
+    expect(res.body.status).to.equal(400);
+  });
+}
+
+docs {
+  `onzin` is geldige base64url maar decodeert niet naar `epoch:xid:eventId`.
+}

@@ -1,0 +1,83 @@
+meta {
+  name: 6. Wijzigingen na de intake (na 6s wachten)
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{nmcUrl}}/api/nmc/v1/notificaties/wijzigingen?cursor={{feedCursor}}&limiet=100
+  body: none
+  auth: none
+}
+
+params:query {
+  cursor: {{feedCursor}}
+  limiet: 100
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:pre-request {
+  // De taakworker draait elke 5 seconden; even wachten zodat de overgangen van de intake er staan.
+  await new Promise(r => setTimeout(r, 6000));
+}
+
+script:post-response {
+  if (res.status === 200 && res.body) {
+    if (res.body.cursor) {
+      bru.setVar("feedCursor", res.body.cursor);
+    }
+    const perSubject = {};
+    for (const e of res.body.events || []) {
+      (perSubject[e.subject] = perSubject[e.subject] || []).push(`${e.sequence}:${e.data.naar}${e.data.reden ? "(" + e.data.reden + ")" : ""}`);
+    }
+    console.log("nieuwe events per notificatie:", JSON.stringify(perSubject, null, 2));
+  }
+}
+
+tests {
+  test("sequence stijgt per notificatie binnen de pagina", function() {
+    const laatste = {};
+    for (const e of res.body.events) {
+      const seq = Number(e.sequence);
+      if (laatste[e.subject] !== undefined) {
+        expect(seq, "volgorde binnen " + e.subject).to.be.greaterThan(laatste[e.subject]);
+      }
+      laatste[e.subject] = seq;
+    }
+  });
+  test("elke status komt uit de API-enum", function() {
+    const statussen = ["aangenomen", "in-verzending", "verzonden", "bezorgd", "definitief-bezorgd",
+      "niet-bezorgbaar", "technisch-mislukt", "bezorgstatus-onbekend", "verlopen", "geannuleerd"];
+    for (const e of res.body.events) {
+      expect(statussen).to.include(e.data.naar);
+      if (e.data.van) { expect(statussen).to.include(e.data.van); }
+    }
+  });
+  test("onbekende partij (3) eindigt in niet-bezorgbaar / geen-contactgegevens", function() {
+    const id = bru.getVar("notificatieIdOnbekendePartij");
+    if (!id) { return; }
+    const eigen = res.body.events.filter(e => e.subject === id);
+    expect(eigen, "nog geen events voor " + id + ": worker nog bezig, draai 6 opnieuw").to.have.length.greaterThan(0);
+    const laatste = eigen[eigen.length - 1];
+    if (laatste.data.naar === "niet-bezorgbaar") {
+      expect(laatste.data.reden).to.equal("geen-contactgegevens");
+    }
+  });
+  test("centrale notificatie (4) heeft events", function() {
+    const id = bru.getVar("notificatieId");
+    if (!id) { return; }
+    expect(res.body.events.filter(e => e.subject === id), "nog geen events voor " + id + ": draai 6 opnieuw").to.have.length.greaterThan(0);
+  });
+}
+
+docs {
+  Vervolglezing vanaf `feedCursor` uit 2; herhaal dit request tot de pagina leeg blijft. Verwacht
+  na de intake-requests 3 t/m 5: voor 3 (onbekende partij) `aangenomen`, `in-verzending`,
+  `niet-bezorgbaar(geen-contactgegevens)`; voor 4 en 5 `aangenomen`, `in-verzending` en daarna
+  `verzonden` als NotifyNL het bericht aannam. Blijft 4 of 5 op `in-verzending`: NotifyNL is
+  onbereikbaar (niet geteld, elke 5 minuten opnieuw). Eindigt het in `technisch-mislukt`: NotifyNL
+  gaf 4xx (geteld, na 5 pogingen).
+}

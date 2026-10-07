@@ -1,0 +1,27 @@
+meta {
+  name: Zoeken op reference
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{notifynlUrl}}/notifynl/zelf/v2/notifications?reference={{referenceId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer mock-jwt
+}
+
+assert {
+  res.status: eq 200
+  res.body.notifications.length: eq 1
+  res.body.notifications[0].reference: eq {{referenceId}}
+  res.body.notifications[0].status: eq sending
+}
+
+docs {
+  De herclaim na een verlopen lease: de NMC zoekt op zijn eigen `reference` (het poging-id) of de
+  e-mail al is aangeboden. De mock vindt altijd precies één verzending met status `sending`.
+}

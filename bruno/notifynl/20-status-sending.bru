@@ -1,0 +1,28 @@
+meta {
+  name: Status opvragen (blijft sending)
+  type: http
+  seq: 20
+}
+
+get {
+  url: {{notifynlUrl}}/v2/notifications/5e4d1400-0000-4000-8000-000000000000
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer mock-jwt
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: eq 5e4d1400-0000-4000-8000-000000000000
+  res.body.status: eq sending
+  res.body.completed_at: isNull
+}
+
+docs {
+  Navraag op een id met prefix `5e4d1400-` (uit `geen-receipt-sending`, request 19): de verzending
+  blijft `sending`, zonder `completed_at`. De url heeft geen `/notifynl/<target>`-prefix; de
+  stubs werken ook zonder.
+}

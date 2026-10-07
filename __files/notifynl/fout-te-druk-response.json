@@ -1,0 +1,9 @@
+{
+  "status_code": 429,
+  "errors": [
+    {
+      "error": "RateLimitError",
+      "message": "Exceeded rate limit for key type TEAM/TEST/LIVE of 3000 requests per 60 seconds"
+    }
+  ]
+}

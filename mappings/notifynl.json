@@ -1,0 +1,553 @@
+{
+  "mappings": [
+    {
+      "name": "NotifyNL e-mail: adres afgewezen (400 ValidationError op email_address)",
+      "priority": 3,
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": {
+              "expression": "$.email_address",
+              "contains": "afgewezen"
+            }
+          }
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "notifynl/fout-adres-afgewezen-response.json"
+      }
+    },
+    {
+      "name": "NotifyNL e-mail: ontvanger buiten de team-key (400 BadRequestError)",
+      "priority": 3,
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": {
+              "expression": "$.email_address",
+              "contains": "buiten-team"
+            }
+          }
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "notifynl/fout-buiten-team-response.json"
+      }
+    },
+    {
+      "name": "NotifyNL e-mail: te druk (429 RateLimitError)",
+      "priority": 3,
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": {
+              "expression": "$.email_address",
+              "contains": "te-druk"
+            }
+          }
+        ]
+      },
+      "response": {
+        "status": 429,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "notifynl/fout-te-druk-response.json"
+      }
+    },
+    {
+      "name": "NotifyNL e-mail: storing (500)",
+      "priority": 3,
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": {
+              "expression": "$.email_address",
+              "contains": "storing"
+            }
+          }
+        ]
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "notifynl/fout-storing-response.json"
+      }
+    },
+    {
+      "name": "NotifyNL e-mail: traag (antwoord na 35 s, voorbij de 30 s read-timeout van de NMC)",
+      "priority": 3,
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": {
+              "expression": "$.reference",
+              "matches": "[0-9a-f]{8}-[0-9a-f-]{27}"
+            }
+          },
+          {
+            "matchesJsonPath": {
+              "expression": "$.email_address",
+              "contains": "traag"
+            }
+          }
+        ]
+      },
+      "response": {
+        "status": 201,
+        "fixedDelayMilliseconds": 35000,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "transformers": [
+          "response-template"
+        ],
+        "bodyFileName": "notifynl/email-response.json"
+      }
+    },
+    {
+      "name": "NotifyNL e-mail: aangenomen, geen receipt (navraag nodig); id-prefix bepaalt de navraag-uitkomst",
+      "priority": 3,
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": {
+              "expression": "$.reference",
+              "matches": "[0-9a-f]{8}-[0-9a-f-]{27}"
+            }
+          },
+          {
+            "matchesJsonPath": {
+              "expression": "$.email_address",
+              "contains": "geen-receipt"
+            }
+          }
+        ]
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "transformers": [
+          "response-template"
+        ],
+        "bodyFileName": "notifynl/email-geen-receipt-response.json"
+      }
+    },
+    {
+      "name": "NotifyNL e-mail: aangenomen, receipt permanent-failure",
+      "priority": 4,
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": {
+              "expression": "$.reference",
+              "matches": "[0-9a-f]{8}-[0-9a-f-]{27}"
+            }
+          },
+          {
+            "matchesJsonPath": {
+              "expression": "$.email_address",
+              "contains": "permanent-failure"
+            }
+          }
+        ]
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "transformers": [
+          "response-template"
+        ],
+        "bodyFileName": "notifynl/email-response.json"
+      },
+      "serveEventListeners": [
+        {
+          "name": "webhook",
+          "parameters": {
+            "method": "POST",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "headers": {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
+            },
+            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"sending\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":null}",
+            "delay": {
+              "type": "fixed",
+              "milliseconds": 1000
+            }
+          }
+        },
+        {
+          "name": "webhook",
+          "parameters": {
+            "method": "POST",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "headers": {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
+            },
+            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"permanent-failure\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\"}",
+            "delay": {
+              "type": "fixed",
+              "milliseconds": 4000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "NotifyNL e-mail: aangenomen, receipt temporary-failure",
+      "priority": 4,
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": {
+              "expression": "$.reference",
+              "matches": "[0-9a-f]{8}-[0-9a-f-]{27}"
+            }
+          },
+          {
+            "matchesJsonPath": {
+              "expression": "$.email_address",
+              "contains": "temporary-failure"
+            }
+          }
+        ]
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "transformers": [
+          "response-template"
+        ],
+        "bodyFileName": "notifynl/email-response.json"
+      },
+      "serveEventListeners": [
+        {
+          "name": "webhook",
+          "parameters": {
+            "method": "POST",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "headers": {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
+            },
+            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"sending\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":null}",
+            "delay": {
+              "type": "fixed",
+              "milliseconds": 1000
+            }
+          }
+        },
+        {
+          "name": "webhook",
+          "parameters": {
+            "method": "POST",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "headers": {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
+            },
+            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"temporary-failure\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\"}",
+            "delay": {
+              "type": "fixed",
+              "milliseconds": 4000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "NotifyNL e-mail: aangenomen, receipt technical-failure",
+      "priority": 4,
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": {
+              "expression": "$.reference",
+              "matches": "[0-9a-f]{8}-[0-9a-f-]{27}"
+            }
+          },
+          {
+            "matchesJsonPath": {
+              "expression": "$.email_address",
+              "contains": "technical-failure"
+            }
+          }
+        ]
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "transformers": [
+          "response-template"
+        ],
+        "bodyFileName": "notifynl/email-response.json"
+      },
+      "serveEventListeners": [
+        {
+          "name": "webhook",
+          "parameters": {
+            "method": "POST",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "headers": {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
+            },
+            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"sending\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":null}",
+            "delay": {
+              "type": "fixed",
+              "milliseconds": 1000
+            }
+          }
+        },
+        {
+          "name": "webhook",
+          "parameters": {
+            "method": "POST",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "headers": {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
+            },
+            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"technical-failure\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\"}",
+            "delay": {
+              "type": "fixed",
+              "milliseconds": 4000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "NotifyNL e-mail: aangenomen, receipt delivered (standaard)",
+      "priority": 5,
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": {
+              "expression": "$.reference",
+              "matches": "[0-9a-f]{8}-[0-9a-f-]{27}"
+            }
+          }
+        ]
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "transformers": [
+          "response-template"
+        ],
+        "bodyFileName": "notifynl/email-response.json"
+      },
+      "serveEventListeners": [
+        {
+          "name": "webhook",
+          "parameters": {
+            "method": "POST",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "headers": {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
+            },
+            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"sending\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":null}",
+            "delay": {
+              "type": "fixed",
+              "milliseconds": 1000
+            }
+          }
+        },
+        {
+          "name": "webhook",
+          "parameters": {
+            "method": "POST",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "headers": {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
+            },
+            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"delivered\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\"}",
+            "delay": {
+              "type": "fixed",
+              "milliseconds": 4000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "NotifyNL e-mail: reference ontbreekt of is geen UUID (de mock gebruikt reference als notificatie-id)",
+      "priority": 9,
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "notifynl/fout-reference-ontbreekt-response.json"
+      }
+    },
+    {
+      "name": "NotifyNL status: onbekende verzending (id-prefix 40440440)",
+      "priority": 3,
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/40440440-[0-9a-f-]{27}"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "notifynl/fout-niet-gevonden-response.json"
+      }
+    },
+    {
+      "name": "NotifyNL status: permanent-failure (id-prefix ffffffff)",
+      "priority": 3,
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/ffffffff-[0-9a-f-]{27}"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "transformers": [
+          "response-template"
+        ],
+        "transformerParameters": {
+          "status": "permanent-failure",
+          "afgerond": true
+        },
+        "bodyFileName": "notifynl/status-response.json"
+      }
+    },
+    {
+      "name": "NotifyNL status: blijft sending (id-prefix 5e4d1400)",
+      "priority": 3,
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/5e4d1400-[0-9a-f-]{27}"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "transformers": [
+          "response-template"
+        ],
+        "transformerParameters": {
+          "status": "sending",
+          "afgerond": false
+        },
+        "bodyFileName": "notifynl/status-response.json"
+      }
+    },
+    {
+      "name": "NotifyNL status: delivered (standaard)",
+      "priority": 5,
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/[0-9a-f]{8}-[0-9a-f-]{27}"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "transformers": [
+          "response-template"
+        ],
+        "transformerParameters": {
+          "status": "delivered",
+          "afgerond": true
+        },
+        "bodyFileName": "notifynl/status-response.json"
+      }
+    },
+    {
+      "name": "NotifyNL zoeken op reference: één verzending gevonden, nog sending",
+      "priority": 4,
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications",
+        "queryParameters": {
+          "reference": {
+            "matches": ".+"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "transformers": [
+          "response-template"
+        ],
+        "bodyFileName": "notifynl/zoek-response.json"
+      }
+    },
+    {
+      "name": "NotifyNL zoeken zonder reference: lege lijst",
+      "priority": 5,
+      "request": {
+        "method": "GET",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "notifynl/zoek-leeg-response.json"
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+meta {
+  name: Ontvangen receipts (overige eindstatussen)
+  type: http
+  seq: 22
+}
+
+post {
+  url: {{notifynlUrl}}/__admin/requests/find
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "method": "POST",
+    "urlPath": "/api/nmc/v1/notifynl-callback"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:pre-request {
+  // the final receipts of requests 14 and 15 are sent 4 s after their POST
+  await bru.sleep(5000);
+}
+
+tests {
+  const receipts = (res.body.requests || []).map(r => JSON.parse(r.body));
+
+  ["temporary-failure", "technical-failure"].forEach(status => {
+    test("eindstatus " + status + " is ontvangen, zonder delivered", function() {
+      const eind = receipts.filter(r => r.to === "donald+" + status + "@testbv.nl" && r.status !== "sending");
+      expect(eind).to.have.lengthOf.at.least(1);
+      eind.forEach(r => expect(r.status).to.equal(status));
+    });
+  });
+
+  test("een geweigerde POST (400) geeft geen receipt", function() {
+    expect(receipts.filter(r => r.to === "donald+hoofdletters@testbv.nl")).to.have.lengthOf(0);
+    expect(receipts.filter(r => r.to === "donald+zonder-reference@testbv.nl")).to.have.lengthOf(0);
+  });
+
+  test("geen-receipt-adressen krijgen geen receipt", function() {
+    expect(receipts.filter(r => r.to.includes("geen-receipt"))).to.have.lengthOf(0);
+  });
+}
+
+docs {
+  Als request 13, voor de requests 14 tot en met 19: wacht 5 s en controleert dan dat de receipts
+  `temporary-failure` en `technical-failure` zijn ontvangen en dat de geweigerde POSTs en de
+  `geen-receipt`-varianten geen receipt opleverden.
+}

@@ -47,6 +47,19 @@
         },
         "bodyFileName": "nmc/decentraal-notificatie-response.json"
       }
+    },
+    {
+      "name": "NMC: NotifyNL-receipt ontvangen (doel voor de NotifyNL-mock met target 'zelf')",
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/nmc/v1/notifynl-callback"
+      },
+      "response": {
+        "status": 204,
+        "headers": {
+          "API-Version": "0.1.0"
+        }
+      }
     }
   ]
 }

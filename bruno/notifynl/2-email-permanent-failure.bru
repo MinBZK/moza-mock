@@ -1,0 +1,36 @@
+meta {
+  name: E-mail versturen (receipt permanent-failure)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{notifynlUrl}}/notifynl/zelf/v2/notifications/email
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer mock-jwt
+}
+
+body:json {
+  {
+    "email_address": "donald+permanent-failure@testbv.nl",
+    "template_id": "a1b2c3d4-0000-4000-8000-000000000001",
+    "personalisation": {
+      "naam": "Donald"
+    },
+    "reference": "{{referenceId}}"
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+docs {
+  Zelfde als 1, maar de tweede receipt is `permanent-failure`. Ook beschikbaar:
+  `temporary-failure` en `technical-failure` in het adres.
+}

@@ -1,0 +1,26 @@
+{{#assign 'nu'}}{{now timezone='UTC' format="yyyy-MM-dd'T'HH:mm:ssXXX"}}{{/assign}}{
+  "notifications": [
+    {
+      "id": "{{request.query.reference}}",
+      "reference": "{{request.query.reference}}",
+      "email_address": "donald@testbv.nl",
+      "phone_number": null,
+      "type": "email",
+      "status": "sending",
+      "template": {
+        "id": "00000000-0000-4000-8000-000000000000",
+        "version": 1,
+        "uri": "{{request.baseUrl}}/v2/template/00000000-0000-4000-8000-000000000000"
+      },
+      "body": "Mock van NotifyNL: er is geen e-mail verstuurd.",
+      "subject": "Mock NotifyNL",
+      "created_at": "{{nu}}",
+      "created_by_name": null,
+      "sent_at": "{{nu}}",
+      "completed_at": null
+    }
+  ],
+  "links": {
+    "current": "{{request.url}}"
+  }
+}

@@ -1,0 +1,41 @@
+meta {
+  name: E-mail versturen (geen receipt, navraag geeft delivered)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{notifynlUrl}}/notifynl/zelf/v2/notifications/email
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer mock-jwt
+}
+
+body:json {
+  {
+    "email_address": "donald+geen-receipt@testbv.nl",
+    "template_id": "a1b2c3d4-0000-4000-8000-000000000001",
+    "personalisation": {
+      "naam": "Donald"
+    },
+    "reference": "{{referenceId}}"
+  }
+}
+
+vars:post-response {
+  notifyId: res.body.id
+}
+
+assert {
+  res.status: eq 201
+  res.body.id: eq {{referenceId}}
+}
+
+docs {
+  Er volgt geen receipt, zodat de NMC de navraag (`GET /v2/notifications/{id}`) moet doen.
+  Het `id` is gelijk aan de `reference`; de navraag geeft `delivered` (request 5).
+}

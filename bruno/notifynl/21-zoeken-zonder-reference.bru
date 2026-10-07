@@ -1,0 +1,25 @@
+meta {
+  name: Zoeken zonder reference (lege lijst)
+  type: http
+  seq: 21
+}
+
+get {
+  url: {{notifynlUrl}}/v2/notifications
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer mock-jwt
+}
+
+assert {
+  res.status: eq 200
+  res.body.notifications.length: eq 0
+}
+
+docs {
+  Zonder `reference` in de query geeft de mock een lege lijst. De url heeft geen
+  `/notifynl/<target>`-prefix; de stubs werken ook zonder.
+}

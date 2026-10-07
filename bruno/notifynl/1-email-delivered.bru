@@ -1,0 +1,43 @@
+meta {
+  name: E-mail versturen (receipt delivered)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{notifynlUrl}}/notifynl/zelf/v2/notifications/email
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer mock-jwt
+}
+
+body:json {
+  {
+    "email_address": "donald@testbv.nl",
+    "template_id": "a1b2c3d4-0000-4000-8000-000000000001",
+    "personalisation": {
+      "naam": "Donald"
+    },
+    "reference": "{{referenceId}}"
+  }
+}
+
+vars:post-response {
+  notifyId: res.body.id
+}
+
+assert {
+  res.status: eq 201
+  res.body.id: eq {{referenceId}}
+  res.body.reference: eq {{referenceId}}
+}
+
+docs {
+  Standaardgeval: 201 met `id` gelijk aan de meegegeven `reference`. Na 1 s volgt een receipt
+  `sending` en na 4 s een receipt `delivered` op de callback-URL van het target in het pad
+  (`zelf` = de mock zelf, zie request 13).
+}

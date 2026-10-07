@@ -1,0 +1,9 @@
+{
+  "status_code": 400,
+  "errors": [
+    {
+      "error": "ValidationError",
+      "message": "email_address Not a valid email address"
+    }
+  ]
+}

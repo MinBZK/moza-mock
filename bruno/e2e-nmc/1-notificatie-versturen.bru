@@ -1,0 +1,47 @@
+meta {
+  name: 1. Decentrale notificatie versturen
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{nmcUrl}}/api/nmc/v1/decentraal/notificaties
+  body: json
+  auth: none
+}
+
+script:pre-request {
+  // Eigen adres per run, zodat het journal van de mock per run te onderscheiden is. Het adres mag
+  // geen scenariowoord bevatten (storing, traag, permanent-failure, ...), anders kiest de mock een
+  // foutscenario in plaats van de standaardreceipt delivered.
+  const runId = Date.now().toString().slice(-8);
+  bru.setVar("runNmcEmail", "e2e-nmc-" + runId + "@example.org");
+}
+
+body:json {
+  {
+    "emailAdres": "{{runNmcEmail}}",
+    "berichtType": "Demo template",
+    "berichtgegevens": {
+      "naam": "E2E-nachtrun"
+    },
+    "callbackUrl": "{{mockUrl}}/events"
+  }
+}
+
+vars:post-response {
+  runNotificatieId: res.body.notificatieId
+}
+
+tests {
+  // Decentraal: de aanroeper levert het e-mailadres zelf, dus deze journey raakt de Profielservice
+  // niet. Een 500 "Verzendfout" betekent dat de NMC NotifyNL niet kon bereiken of dat hij naar de
+  // echte dienst wijst, die een niet-gewhitelist adres weigert.
+  test("notificatie is aangenomen", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("response bevat een notificatieId", function() {
+    expect(res.body.notificatieId).to.match(/^[0-9a-f]{8}-[0-9a-f-]{27}$/);
+  });
+}

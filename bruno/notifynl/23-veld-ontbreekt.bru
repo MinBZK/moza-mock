@@ -1,0 +1,36 @@
+meta {
+  name: E-mail versturen (verplicht veld ontbreekt, 400)
+  type: http
+  seq: 23
+}
+
+post {
+  url: {{notifynlUrl}}/notifynl/zelf/v2/notifications/email
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer mock-jwt
+}
+
+body:json {
+  {
+    "personalisation": {
+      "naam": "Donald"
+    }
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.errors[0].error: eq ValidationError
+  res.body.errors[0].message: contains verplicht
+}
+
+docs {
+  `email_address` en `template_id` zijn de enige verplichte velden in `SendEmailRequest`. Elk verzoek
+  dat er één mist, haalt geen enkele accepterende stub en valt in het vangnet met prioriteit 9. Er
+  gaat dan geen receipt uit.
+}

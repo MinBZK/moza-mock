@@ -1,0 +1,50 @@
+meta {
+  name: E-mail versturen (zonder reference, de mock verzint een id)
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{notifynlUrl}}/notifynl/zelf/v2/notifications/email
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer mock-jwt
+}
+
+body:json {
+  {
+    "email_address": "donald+zonder-reference@testbv.nl",
+    "template_id": "a1b2c3d4-0000-4000-8000-000000000001",
+    "personalisation": {
+      "naam": "Donald"
+    }
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.reference: isNull
+}
+
+tests {
+  test("de mock levert zelf een id", function() {
+    expect(res.body.id).to.match(/^[0-9a-f]{8}-[0-9a-f-]{27}$/);
+  });
+
+  test("het id komt terug in de uri", function() {
+    expect(res.body.uri).to.contain(res.body.id);
+  });
+}
+
+docs {
+  `reference` is optioneel in het NotifyNL-contract: "You can leave out this argument if you do not
+  have a reference." De mock gebruikt het veld als notificatie-id, maar valt zonder reference terug
+  op het request-id van WireMock, zodat het antwoord, de receipt en de navraag nog steeds bij
+  elkaar horen. Het antwoord echot dan `reference: null`, net als de echte dienst.
+
+  De NMC op `main` stuurt geen reference; die correleert de receipt op het `id` uit dit antwoord.
+}

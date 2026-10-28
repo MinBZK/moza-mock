@@ -1,0 +1,103 @@
+# Nachtelijke e2e-run tegen de gedeployde services op ZAD.
+# Zie issue MinBZK/MijnOverheidZakelijk#1141 en ADR 0023 (keuze tooling voor het testen van de API's).
+#
+# Twee journeys, elk in een eigen map en met een eigen stap, zodat ze onafhankelijk rood kunnen
+# worden:
+#
+#   bruno/e2e      de Profielservice: contactgegeven aanmaken, bijwerken, verwijderen.
+#   bruno/e2e-nmc  de NMC: decentrale notificatie versturen en wachten tot de bezorgstatus als
+#                  CloudEvent terugkomt bij de mock. Raakt de Profielservice niet.
+#
+# Draait niet per pull request. De componentlaag dekt elk endpoint al koud en zonder omgeving af,
+# en deze laag mag een merge niet blokkeren (testplan, End-to-end-tests).
+#
+# De NMC-journey staat achter de repository-variabele NMC_KETEN_ROND. De NotifyNL-mock weigerde een
+# verzoek zonder `reference` met 400, terwijl de NMC op main dat veld niet stuurt; dat is in deze
+# wijziging verholpen, maar de gedeployde mock krijgt de nieuwe stubs pas bij de volgende merge naar
+# main. Zet de variabele daarna op 'true', nadat een handmatige run groen is. Handmatig draaien kan
+# altijd, met workflow_dispatch of lokaal.
+#
+# Geen retries, niet per verzoek en niet over de run: een retry maskeert precies waar deze laag
+# voor bestaat.
+#
+# Een rode run meldt zich in het Mattermost-kanaal e2e-nachtrun-notificaties, via een incoming
+# webhook in het secret MATTERMOST_WEBHOOK_URL. Dat kanaal is er omdat de standaard
+# GitHub-notificatie van een scheduled run naar één persoon gaat - degene die de workflow aanmaakte
+# of de cron als laatste wijzigde - en daarmee in niemands triage terechtkomt. Zolang het secret
+# niet is ingesteld, meldt de stap dat in het log en laat hij de run verder met rust.
+
+name: E2E nachtrun
+
+on:
+  schedule:
+    - cron: '0 1 * * *' # 03:00 Nederlandse tijd in de zomer, 02:00 in de winter
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Eén run tegelijk: twee runs door elkaar heen maken hun eigen data wel netjes uniek, maar het
+# rapport is dan niet meer te lezen.
+concurrency:
+  group: e2e-nachtrun
+  cancel-in-progress: false
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # Vastgezette CLI-versie. Een nachtrun die meebeweegt met een nieuwe major is geen test
+      # maar een verrassing.
+      - name: Draai de Profielservice-journey
+        id: profielservice
+        working-directory: bruno
+        run: >-
+          npx --yes @usebruno/cli@4.1.0 run e2e
+          --env nachtrun
+          --reporter-junit ../results/junit-profielservice.xml
+          --reporter-html ../results/report-profielservice.html
+      # always(): ook draaien als de Profielservice-journey rood is, want de twee staan los van
+      # elkaar en één rapport per nacht is weinig.
+      - name: Draai de NMC-journey
+        id: nmc
+        if: always() && vars.NMC_KETEN_ROND == 'true'
+        working-directory: bruno
+        run: >-
+          npx --yes @usebruno/cli@4.1.0 run e2e-nmc
+          --env nachtrun
+          --reporter-junit ../results/junit-nmc.xml
+          --reporter-html ../results/report-nmc.html
+      - name: Bewaar de rapporten
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-rapport
+          path: results/
+      # Alleen bij een rode run. Een melding bij elke groene nacht leert mensen het kanaal te
+      # negeren, en dan mist ook de rode.
+      #
+      # De controle op een leeg secret staat in de shell en niet in een `if`, zodat het token
+      # alleen in deze stap in de omgeving staat en niet bij de npx-stappen hierboven.
+      - name: Meld een gefaalde run in Mattermost
+        if: failure()
+        env:
+          MM_WEBHOOK: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+          PROFIELSERVICE: ${{ steps.profielservice.outcome || 'niet gedraaid' }}
+          NMC: ${{ steps.nmc.outcome || 'niet gedraaid' }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$MM_WEBHOOK" ]; then
+            echo "Secret MATTERMOST_WEBHOOK_URL is niet ingesteld; melding overgeslagen."
+            exit 0
+          fi
+          tekst=$(printf '#### E2E nachtrun rood\n\n| Journey | Uitkomst |\n| --- | --- |\n| Profielservice | %s |\n| NMC | %s |\n\n[Bekijk de run en de rapporten](%s)' \
+            "$PROFIELSERVICE" "$NMC" "$RUN_URL")
+          jq -n --arg channel 'e2e-nachtrun-notificaties' --arg text "$tekst" \
+            '{channel: $channel, text: $text}' |
+            curl --silent --show-error --fail-with-body \
+              --header 'Content-Type: application/json' \
+              --data @- "$MM_WEBHOOK"

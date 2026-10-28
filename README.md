@@ -8,6 +8,62 @@ Mocks voor externe API's en MOZa-services, als standalone WireMock.
 - `__files/` - de responsebodies waar de mappings naar verwijzen via `bodyFileName`, per service een submap.
 - `bruno/` - Bruno-collectie (`mocks`) met een request per stub. Openen via *Open Collection* en de map `bruno/` kiezen (niet importeren), daarna environment `lokaal` selecteren. Elk request assert de verwachte statuscode, dus de hele collectie draaien werkt ook als smoketest.
 
+  Twee mappen vormen de uitzondering op "een request per stub". `e2e/` en `e2e-nmc/` draaien tegen
+  **gedeployde services**, niet tegen de mocks, en gebruiken het environment `nachtrun`. Beide
+  maken per run hun eigen data en zijn daarom niet te gebruiken tegen de omgevingen die naar
+  WireMock wijzen: die stubs matchen op vaste waarden. Beide draaien 's nachts in CI; zie
+  `.github/workflows/e2e-nightly.yml`.
+
+  Een rode run meldt zich in het Mattermost-kanaal `e2e-nachtrun-notificaties`, via een incoming
+  webhook in het repository-secret `MATTERMOST_WEBHOOK_URL`. Dat kanaal is er omdat de standaard
+  GitHub-notificatie van een scheduled run naar één persoon gaat — degene die de workflow aanmaakte
+  of de cron als laatste wijzigde — en daarmee in niemands triage terechtkomt. Laat de webhook
+  aanmaken door het botaccount en niet door een teamlid: een webhook erft de identiteit en de
+  kanaaltoegang van zijn aanmaker. Zolang het secret ontbreekt, zegt de stap dat in het log en
+  blijft de run verder gewoon draaien.
+
+  - `e2e/` is de journey over de **Profielservice**: contactgegeven aanmaken, de partij
+    controleren, het e-mailadres bijwerken, opnieuw controleren, verwijderen en bewijzen dat de
+    partij is opgeruimd. Zes stappen, alleen `profielUrl`, geen afhankelijkheid van de NMC.
+
+  - `e2e-nmc/` is de journey over de **NMC**, langs de decentrale route
+    (`POST /api/nmc/v1/decentraal/notificaties`): de aanroeper levert het e-mailadres zelf, dus
+    deze journey raakt de Profielservice niet. Drie stappen:
+
+    1. versturen, met `callbackUrl` naar de CloudEvents-ontvanger van de mock;
+    2. in het journal van de mock bevestigen dat de NMC dát adres bij NotifyNL heeft aangeboden;
+    3. wachten tot de bezorgstatus als CloudEvent op `POST /events` terugkomt, en controleren dat
+       hij `delivered` is en bij deze notificatie hoort.
+
+    Stap 3 is het eigenlijke bewijs van de keten: die kan alleen groen worden als het versturen, de
+    receipt van de mock, het bearer token op de callback, de statusovergang in de NMC en de
+    uitgaande CloudEvent alle vijf werken. De mock is hier dus stub én spion, en `mockUrl` in het
+    environment wijst naar diezelfde mock.
+
+    Dat de NMC naar de NotifyNL-mock verstuurt en niet naar de echte dienst, hangt af van twee
+    instellingen op de NMC-deployment:
+    `QUARKUS_REST_CLIENT_NOTIFY_URL=https://wiremock-dev-mozam-chu.rig.prd1.gn2.quattro.rijksapps.nl/notifynl/stable`
+    (het target in het pad bepaalt naar welke `nmcapi-<target>` de receipt terugkomt) en
+    `NOTIFY_CALLBACK_BEARER_TOKEN` gelijk aan `WIREMOCK_NOTIFYNL_CALLBACK_TOKEN` van de mock.
+    Staat de URL naar de echte NotifyNL, dan gaat er elke nacht mail uit; verschilt het token, dan
+    weigert de NMC de receipt met 401 en blijft de notificatie op `SENDING` staan. Op
+    `nmcapi-stable` stond de URL op 28 oktober 2026 al naar de mock, en de mock had op die datum een
+    token ingesteld; of de twee waarden gelijk zijn, is pas te zien zodra een verzending slaagt, aan
+    het `WEBHOOK_RESPONSE`-subevent in het journal.
+
+    **De journey draait pas mee zodra deze wijziging op ZAD staat.** De NMC op `main` stuurt
+    NotifyNL geen `reference`, en de mock weigerde een verzoek zonder `reference` met een 400,
+    waarop de NMC een 500 "Verzendfout" teruggaf. Dat is in dezelfde wijziging verholpen — zie de
+    paragraaf over NotifyNL hieronder — maar de gedeployde mock krijgt die stubs pas bij de
+    volgende merge naar `main`. Tot die tijd staat de NMC-journey in de nachtrun uit achter de
+    repository-variabele `NMC_KETEN_ROND`; zet die aan nadat een handmatige run groen is.
+
+    **De NMC-kant ruimt niet op.** De NMC heeft geen delete- of annuleer-endpoint, dus de
+    notificaties die deze journey aanmaakt verdwijnen pas door de retentiejob, na de bewaartermijn
+    van zeven dagen. Dat is een bewuste afwijking van de regel uit het testplan dat elke run zijn
+    eigen data opruimt: reken op ongeveer zeven notificatierijen, en assert daarom nooit op totalen
+    of op "het laatste record".
+
 ## Mock toevoegen of aanpassen
 
 1. Zet de responsebody in de servicemap onder `__files/`, bijvoorbeeld `__files/mijnservice/endpoint-response.json`.
@@ -56,7 +112,11 @@ De testdata gebruikt overal dezelfde partij: "Test BV Donald", KVK 68750110, don
 
 `notifynl.json` speelt NotifyNL voor de NMC: `POST /v2/notifications/email`, `GET /v2/notifications/{id}` (de navraag) en `GET /v2/notifications?reference=` (de herclaim na een verlopen lease). De mock controleert de JWT niet; de NMC heeft wel een `NOTIFY_API_KEY` van minstens 74 tekens zonder spaties nodig om op te starten, de inhoud doet er verder niet toe.
 
-De mock gebruikt de `reference` uit het verzoek (bij de NMC het poging-id) als NotifyNL-id. Zo horen het antwoord op de POST, de receipt en de navraag bij elkaar zonder dat de mock iets hoeft te onthouden. Een POST zonder `reference`, of met een `reference` die geen UUID in kleine letters is, krijgt een 400.
+De mock gebruikt de `reference` uit het verzoek (bij de NMC het poging-id) als NotifyNL-id. Zo horen het antwoord op de POST, de receipt en de navraag bij elkaar zonder dat de mock iets hoeft te onthouden.
+
+`reference` is in het NotifyNL-contract optioneel ("You can leave out this argument if you do not have a reference"), en de NMC op `main` stuurt het veld niet: die correleert de receipt op het `id` uit het **antwoord** op de POST. Een POST zonder `reference` valt daarom terug op het request-id van WireMock (`{{request.id}}` in het antwoord, `{{originalRequest.id}}` in de webhook — dezelfde waarde), en het antwoord echot `reference: null`, net als de echte dienst. Alleen een `reference` die er wél is maar geen UUID in kleine letters is, krijgt een 400.
+
+`email_address` en `template_id` zijn de enige verplichte velden; een verzoek dat er één mist haalt geen enkele accepterende stub en valt in het vangnet met prioriteit 9, dat een 400 `ValidationError` geeft.
 
 **Receipts.** Na een geslaagde POST stuurt de mock de delivery receipt zelf naar de NMC, als webhook: na 1 s een `sending`, na 4 s de eindstatus. Waarheen, bepaalt het eerste padsegment van de NotifyNL-url die de NMC gebruikt:
 

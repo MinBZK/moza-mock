@@ -13,7 +13,7 @@ post {
 body:json {
   {
     "identificatieType": "BSN",
-    "identificatieNummer": "{{e2eBsn}}"
+    "identificatieNummer": "{{runBsn}}"
   }
 }
 
@@ -24,6 +24,11 @@ assert {
 tests {
   test("contactgegevens bevatten het aangemaakte e-mailadres", function() {
     const waarden = (res.body.contactgegevens || []).map(c => c.waarde);
-    expect(waarden).to.include(bru.getEnvVar("e2eEmail"));
+    expect(waarden).to.include(bru.getVar("runEmail"));
+  });
+
+  test("het profiel is dat van deze run", function() {
+    const nummers = (res.body.identificaties || []).map(i => i.identificatieNummer);
+    expect(nummers).to.include(bru.getVar("runBsn"));
   });
 }

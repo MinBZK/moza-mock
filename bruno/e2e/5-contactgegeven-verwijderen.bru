@@ -1,0 +1,26 @@
+meta {
+  name: 5. Contactgegeven verwijderen
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{profielUrl}}/api/profielservice/v1/contactgegeven/{{runContactgegevenId}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "{{runBsn}}"
+  }
+}
+
+tests {
+  // Het contract stelt een request body verplicht op deze DELETE. Zonder body antwoordt de echte
+  // Profielservice met 400 "Request body mag niet leeg zijn"; een mock valideert dat niet.
+  test("contactgegeven is verwijderd", function() {
+    expect(res.status).to.equal(204);
+  });
+}

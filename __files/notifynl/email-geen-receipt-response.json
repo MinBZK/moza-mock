@@ -1,6 +1,6 @@
-{{#assign 'email'}}{{jsonPath request.body '$.email_address'}}{{/assign}}{{#assign 'ref'}}{{jsonPath request.body '$.reference'}}{{/assign}}{{#assign 'id'}}{{#if (contains email 'geen-receipt-mislukt')}}ffffffff{{else if (contains email 'geen-receipt-onbekend')}}40440440{{else if (contains email 'geen-receipt-sending')}}5e4d1400{{else}}{{substring ref 0 8}}{{/if}}{{substring ref 8}}{{/assign}}{
+{{#assign 'email'}}{{jsonPath request.body '$.email_address'}}{{/assign}}{{#assign 'ref'}}{{jsonPath request.body '$.reference'}}{{/assign}}{{#assign 'notifyId'}}{{#if ref}}{{ref}}{{else}}{{request.id}}{{/if}}{{/assign}}{{#assign 'id'}}{{#if (contains email 'geen-receipt-mislukt')}}ffffffff{{else if (contains email 'geen-receipt-onbekend')}}40440440{{else if (contains email 'geen-receipt-sending')}}5e4d1400{{else}}{{substring notifyId 0 8}}{{/if}}{{substring notifyId 8}}{{/assign}}{
   "id": "{{id}}",
-  "reference": "{{ref}}",
+  "reference": {{#if ref}}"{{ref}}"{{else}}null{{/if}},
   "content": {
     "subject": "Mock NotifyNL",
     "body": "Mock van NotifyNL: er is geen e-mail verstuurd en er volgt geen receipt.",

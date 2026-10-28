@@ -53,9 +53,11 @@ tests {
     expect(receipts.filter(r => r.to.includes("geen-receipt"))).to.have.lengthOf(0);
   });
 
-  test("receipt-id is de reference, eindstatus heeft completed_at", function() {
+  test("receipt-id hoort bij de verzending, eindstatus heeft completed_at", function() {
     receipts.forEach(r => {
-      expect(r.id).to.equal(r.reference);
+      // Met een reference is dat het id; zonder reference verzint de mock er een (request 16).
+      expect(r.id).to.equal(r.reference === null ? r.id : r.reference);
+      expect(r.id).to.match(/^[0-9a-f]{8}-[0-9a-f-]{27}$/);
       expect(r.notification_type).to.equal("email");
       if (eindstatussen.includes(r.status)) {
         expect(r.completed_at).to.be.a("string");
@@ -79,6 +81,7 @@ docs {
 
   De overige tests controleren de receipts van de requests 1 tot en met 4: een `sending` zonder
   `completed_at`, `permanent-failure` als eindstatus voor request 2, geen receipt voor de
-  `geen-receipt`-adressen, het receipt-id gelijk aan de `reference` met een `completed_at` bij
-  een eindstatus, en een `Authorization: Bearer`-header op elke receipt.
+  `geen-receipt`-adressen, het receipt-id gelijk aan de `reference` als die is meegegeven en
+  anders een door de mock verzonnen UUID, met een `completed_at` bij een eindstatus, en een
+  `Authorization: Bearer`-header op elke receipt.
 }

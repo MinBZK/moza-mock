@@ -1,7 +1,7 @@
 meta {
-  name: 5. Partij bevat het nieuwe e-mailadres
+  name: 4. Partij bevat het nieuwe e-mailadres
   type: http
-  seq: 5
+  seq: 4
 }
 
 post {
@@ -13,7 +13,7 @@ post {
 body:json {
   {
     "identificatieType": "BSN",
-    "identificatieNummer": "{{e2eBsn}}"
+    "identificatieNummer": "{{runBsn}}"
   }
 }
 
@@ -24,11 +24,11 @@ assert {
 tests {
   test("contactgegevens bevatten het nieuwe e-mailadres", function() {
     const waarden = (res.body.contactgegevens || []).map(c => c.waarde);
-    expect(waarden).to.include(bru.getEnvVar("e2eEmailNieuw"));
+    expect(waarden).to.include(bru.getVar("runEmailNieuw"));
   });
 
   test("het oude e-mailadres is weg", function() {
     const waarden = (res.body.contactgegevens || []).map(c => c.waarde);
-    expect(waarden).to.not.include(bru.getEnvVar("e2eEmail"));
+    expect(waarden).to.not.include(bru.getVar("runEmail"));
   });
 }

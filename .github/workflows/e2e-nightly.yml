@@ -20,11 +20,16 @@
 # Geen retries, niet per verzoek en niet over de run: een retry maskeert precies waar deze laag
 # voor bestaat.
 #
-# Een rode run meldt zich in het Mattermost-kanaal e2e-nachtrun-notificaties, via een incoming
-# webhook in het secret MATTERMOST_WEBHOOK_URL. Dat kanaal is er omdat de standaard
-# GitHub-notificatie van een scheduled run naar één persoon gaat - degene die de workflow aanmaakte
-# of de cron als laatste wijzigde - en daarmee in niemands triage terechtkomt. Zolang het secret
-# niet is ingesteld, meldt de stap dat in het log en laat hij de run verder met rust.
+# Een rode run meldt zich in Mattermost, via een incoming webhook in het secret
+# MATTERMOST_WEBHOOK_URL. Dat kanaal is er omdat de standaard GitHub-notificatie van een scheduled
+# run naar één persoon gaat - degene die de workflow aanmaakte of de cron als laatste wijzigde - en
+# daarmee in niemands triage terechtkomt. Zolang het secret niet is ingesteld, meldt de stap dat in
+# het log en laat hij de run verder met rust.
+#
+# De payload zet geen `channel`: de webhook van dit kanaal staat vast op zijn eigen kanaal, en dan
+# geeft Mattermost op een channel-veld een 404 (web.incoming_webhook.general.app_error). Waar de
+# melding landt, bepaalt dus de webhook-URL en niet deze workflow. Wil je een ander kanaal, maak
+# daar een nieuwe webhook en vervang het secret.
 
 name: E2E nachtrun
 
@@ -96,8 +101,7 @@ jobs:
           fi
           tekst=$(printf '#### E2E nachtrun rood\n\n| Journey | Uitkomst |\n| --- | --- |\n| Profielservice | %s |\n| NMC | %s |\n\n[Bekijk de run en de rapporten](%s)' \
             "$PROFIELSERVICE" "$NMC" "$RUN_URL")
-          jq -n --arg channel 'e2e-nachtrun-notificaties' --arg text "$tekst" \
-            '{channel: $channel, text: $text}' |
+          jq -n --arg text "$tekst" '{text: $text}' |
             curl --silent --show-error --fail-with-body \
               --header 'Content-Type: application/json' \
               --data @- "$MM_WEBHOOK"

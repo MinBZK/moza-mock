@@ -14,13 +14,18 @@ Mocks voor externe API's en MOZa-services, als standalone WireMock.
   WireMock wijzen: die stubs matchen op vaste waarden. Beide draaien 's nachts in CI; zie
   `.github/workflows/e2e-nightly.yml`.
 
-  Een rode run meldt zich in het Mattermost-kanaal `e2e-nachtrun-notificaties`, via een incoming
-  webhook in het repository-secret `MATTERMOST_WEBHOOK_URL`. Dat kanaal is er omdat de standaard
-  GitHub-notificatie van een scheduled run naar één persoon gaat — degene die de workflow aanmaakte
-  of de cron als laatste wijzigde — en daarmee in niemands triage terechtkomt. Laat de webhook
-  aanmaken door het botaccount en niet door een teamlid: een webhook erft de identiteit en de
-  kanaaltoegang van zijn aanmaker. Zolang het secret ontbreekt, zegt de stap dat in het log en
-  blijft de run verder gewoon draaien.
+  Een rode run meldt zich in Mattermost, via een incoming webhook in het repository-secret
+  `MATTERMOST_WEBHOOK_URL`. Zo'n kanaal is er omdat de standaard GitHub-notificatie van een
+  scheduled run naar één persoon gaat — degene die de workflow aanmaakte of de cron als laatste
+  wijzigde — en daarmee in niemands triage terechtkomt. Laat de webhook aanmaken door het
+  botaccount en niet door een teamlid: een webhook erft de identiteit en de kanaaltoegang van zijn
+  aanmaker. Zolang het secret ontbreekt, zegt de stap dat in het log en blijft de run verder gewoon
+  draaien.
+
+  In welk kanaal de melding landt, bepaalt de webhook-URL. De payload zet met opzet geen
+  `channel`-veld: deze webhook staat vast op zijn eigen kanaal, en dan antwoordt Mattermost op een
+  `channel`-veld met een 404 (`web.incoming_webhook.general.app_error`). Een ander kanaal betekent
+  dus een nieuwe webhook en een nieuw secret, geen wijziging in de workflow.
 
   - `e2e/` is de journey over de **Profielservice**: contactgegeven aanmaken, de partij
     controleren, het e-mailadres bijwerken, opnieuw controleren, verwijderen en bewijzen dat de

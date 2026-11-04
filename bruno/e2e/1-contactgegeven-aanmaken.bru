@@ -10,25 +10,42 @@ post {
   auth: none
 }
 
+script:pre-request {
+  // Elke run maakt zijn eigen data en ruimt die in stap 5 weer op. Zonder dit loopt een tweede run
+  // tegen de 409 van een bestaande combinatie (partij, type, waarde) aan, en assert de suite op
+  // toestand die een vorige run heeft achtergelaten.
+  //
+  // Geen elfproef nodig: die geldt alleen op de e-mailverificatie-endpoints, niet op
+  // POST /contactgegeven. De 9-reeks maakt het nummer herkenbaar als testdata.
+  const runId = Date.now().toString().slice(-8);
+  bru.setVar("runBsn", "9" + runId);
+  bru.setVar("runEmail", "e2e-" + runId + "@example.org");
+  bru.setVar("runEmailNieuw", "e2e-" + runId + "-nieuw@example.org");
+}
+
 body:json {
   {
     "identificatieType": "BSN",
-    "identificatieNummer": "{{e2eBsn}}",
+    "identificatieNummer": "{{runBsn}}",
     "type": "Email",
-    "waarde": "{{e2eEmail}}"
+    "waarde": "{{runEmail}}"
   }
 }
 
 vars:post-response {
-  e2eContactgegevenId: res.body.id
+  runContactgegevenId: res.body.id
 }
 
 tests {
-  test("aangemaakt (201) of bestond al (200)", function() {
-    expect([200, 201]).to.include(res.status);
+  test("contactgegeven is aangemaakt", function() {
+    expect(res.status).to.equal(201);
   });
 
   test("response bevat een id", function() {
     expect(res.body.id).to.be.a("string");
+  });
+
+  test("een nieuw e-mailadres is niet geverifieerd", function() {
+    expect(res.body.isGeverifieerd).to.equal(false);
   });
 }

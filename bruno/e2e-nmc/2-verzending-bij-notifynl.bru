@@ -1,0 +1,41 @@
+meta {
+  name: 2. Verzending staat bij de NotifyNL-mock
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{mockUrl}}/__admin/requests/find
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "method": "POST",
+    "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
+    "bodyPatterns": [
+      { "contains": "{{runNmcEmail}}" }
+    ]
+  }
+}
+
+tests {
+  // Stap 1 verstuurt synchroon naar NotifyNL, dus het verzoek staat al in het journal als deze stap
+  // draait; pollen is hier niet nodig. Deze stap bewijst dat de NMC daadwerkelijk ons adres heeft
+  // aangeboden, en scheidt "de NMC nam het aan" van "de NMC heeft het ook verstuurd".
+  test("journal is leesbaar", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("de NMC heeft dit adres aan de NotifyNL-mock aangeboden", function() {
+    // Niets gevonden betekent bijna altijd dat QUARKUS_REST_CLIENT_NOTIFY_URL van deze
+    // NMC-deployment niet naar de mock wijst.
+    expect(res.body.requests.length).to.be.at.least(1);
+  });
+
+  test("het aangeboden adres is dat van deze run", function() {
+    const verzoek = JSON.parse(res.body.requests[0].body);
+    expect(verzoek.email_address).to.equal(bru.getVar("runNmcEmail"));
+  });
+}

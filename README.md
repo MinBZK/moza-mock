@@ -27,6 +27,15 @@ Mocks voor externe API's en MOZa-services, als standalone WireMock.
   `channel`-veld met een 404 (`web.incoming_webhook.general.app_error`). Een ander kanaal betekent
   dus een nieuwe webhook en een nieuw secret, geen wijziging in de workflow.
 
+  Omdat er alleen bij rood gemeld wordt, is een nachtrun die helemaal niet meer draait stil — en
+  stilte lijkt op "alles goed". `.github/workflows/e2e-waakhond.yml` kijkt daarom elke
+  maandagochtend via de Actions-API of er in de afgelopen 48 uur nog een *scheduled* run van
+  `e2e-nightly.yml` was, en meldt in hetzelfde kanaal als dat niet zo is. Handmatige runs tellen
+  daarbij niet mee: die bewijzen niet dat de cron nog leeft. Eén ding dekt die waakhond niet:
+  GitHub schakelt in een publieke repository alle scheduled workflows uit na 60 dagen zonder
+  repository-activiteit, en dan valt de waakhond mee stil. Een commit — desnoods een lege — zet die
+  teller terug.
+
   - `e2e/` is de journey over de **Profielservice**: contactgegeven aanmaken, de partij
     controleren, het e-mailadres bijwerken, opnieuw controleren, verwijderen en bewijzen dat de
     partij is opgeruimd. Zes stappen, alleen `profielUrl`, geen afhankelijkheid van de NMC.

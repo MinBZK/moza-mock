@@ -1,0 +1,133 @@
+# Waakhond op de nachtelijke e2e-run.
+#
+# De meldstap in e2e-nightly.yml slaat alleen aan bij een rode run. Een nachtrun die helemaal niet
+# meer draait is daarmee stil, en stilte lijkt op "alles goed". Deze workflow kijkt daarom één keer
+# per week of de nachtrun nog op schema loopt, en meldt het als dat niet zo is.
+#
+# Waarom een tweede workflow en niet een stap in de nachtrun zelf: een heartbeat die in het
+# bewaakte ding woont, valt met dat ding stil. Dit is het goedkoopste alternatief dat geen nieuwe
+# credential nodig heeft - de ingebouwde GITHUB_TOKEN mag de Actions-API van zijn eigen repository
+# lezen.
+#
+# Wat deze waakhond NIET dekt: GitHub schakelt in een publieke repository alle scheduled workflows
+# uit na 60 dagen zonder repository-activiteit, en dan sneuvelt de waakhond mee. Een commit - al is
+# die leeg - zet die teller terug. De nette eindvorm is een synthetische check in de alertingstack
+# van het platform, buiten GitHub; zie het vervolgticket.
+#
+# Drempel: 48 uur. De nachtrun draait dagelijks, maar GitHub stelt scheduled runs onder druk uit of
+# slaat ze over. Op 24 uur zou deze waakhond dus afgaan op een enkele overgeslagen nacht; op 48 uur
+# meldt hij pas als er echt twee nachten niets is gebeurd.
+#
+# Alleen scheduled runs tellen (event=schedule). Een handmatige run via workflow_dispatch bewijst
+# niet dat de cron nog leeft, en zou een stilgevallen schema juist maskeren.
+#
+# Een rode of groene uitkomst van de nachtrun doet hier niet toe: dat de run gedraaid heeft is het
+# enige signaal dat deze waakhond zoekt. Rood of groen is het werk van de meldstap.
+
+name: Waakhond nachtrun
+
+on:
+  schedule:
+    - cron: '17 7 * * 1' # maandagochtend, 08:17 Nederlandse tijd in de winter, 09:17 in de zomer
+  workflow_dispatch:
+
+# Alleen de Actions-API lezen; deze workflow haalt de repository niet op.
+permissions:
+  actions: read
+
+concurrency:
+  group: e2e-waakhond
+  cancel-in-progress: false
+
+jobs:
+  waakhond:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kijk wanneer de nachtrun voor het laatst op schema draaide
+        id: controle
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUNS_URL: ${{ github.api_url }}/repos/${{ github.repository }}/actions/workflows/e2e-nightly.yml/runs
+          DREMPEL_UREN: '48'
+        run: |
+          set -euo pipefail
+
+          antwoord=$(mktemp)
+          code=$(curl --silent --show-error --output "$antwoord" --write-out '%{http_code}' \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header 'Accept: application/vnd.github+json' \
+            --header 'X-GitHub-Api-Version: 2022-11-28' \
+            "$RUNS_URL?event=schedule&per_page=1")
+
+          # 404 is zelf een bevinding: dan bestaat e2e-nightly.yml niet meer onder die naam.
+          if [ "$code" = "404" ]; then
+            echo "probleem=De workflow e2e-nightly.yml bestaat niet meer onder die naam. Hernoemd of verwijderd?" >> "$GITHUB_OUTPUT"
+            echo "detail=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Elk ander niet-200 antwoord is een storing in deze waakhond, geen bevinding over de
+          # nachtrun. Laat die stap gewoon falen in plaats van een melding te sturen die niet klopt.
+          if [ "$code" != "200" ]; then
+            echo "De Actions-API gaf HTTP $code:" >&2
+            cat "$antwoord" >&2
+            exit 1
+          fi
+
+          aantal=$(jq -r '.total_count' "$antwoord")
+          if [ "$aantal" = "0" ]; then
+            echo "probleem=De nachtrun heeft nog nooit op schema gedraaid." >> "$GITHUB_OUTPUT"
+            echo "detail=Dit is normaal in de eerste nacht na het samenvoegen van de workflow; blijft het staan, dan loopt het schema niet." >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          laatste=$(jq -r '.workflow_runs[0].created_at' "$antwoord")
+          uitkomst=$(jq -r '.workflow_runs[0].conclusion // "nog bezig"' "$antwoord")
+          run_url=$(jq -r '.workflow_runs[0].html_url' "$antwoord")
+          uren=$(( ( $(date -u +%s) - $(date -u -d "$laatste" +%s) ) / 3600 ))
+
+          # Altijd een spoor in de runsamenvatting, ook als alles in orde is. Dat geeft een
+          # leesbare geschiedenis in Actions zonder het meldkanaal met groene berichten te vullen.
+          {
+            printf '### Waakhond nachtrun\n\n'
+            printf '| | |\n| --- | --- |\n'
+            printf '| Laatste scheduled run | %s |\n' "$laatste"
+            printf '| Leeftijd | %s uur |\n' "$uren"
+            printf '| Uitkomst van die run | %s |\n' "$uitkomst"
+            printf '| Drempel | %s uur |\n' "$DREMPEL_UREN"
+            printf '\n[Die run bekijken](%s)\n' "$run_url"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$uren" -gt "$DREMPEL_UREN" ]; then
+            echo "probleem=De nachtrun draaide $uren uur niet op schema (drempel $DREMPEL_UREN uur)." >> "$GITHUB_OUTPUT"
+            echo "detail=Laatste scheduled run: $laatste, uitkomst $uitkomst. $run_url" >> "$GITHUB_OUTPUT"
+          else
+            echo "De nachtrun draaide $uren uur geleden op schema; binnen de drempel van $DREMPEL_UREN uur."
+            echo "probleem=" >> "$GITHUB_OUTPUT"
+            echo "detail=" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Dezelfde webhook en hetzelfde kanaal als de meldstap van de nachtrun, en net als daar geen
+      # channel-veld: de webhook staat vast op zijn eigen kanaal.
+      - name: Meld een stilgevallen nachtrun in Mattermost
+        if: steps.controle.outputs.probleem != ''
+        env:
+          MM_WEBHOOK: ${{ secrets.MATTERMOST_WEBHOOK_URL }}
+          PROBLEEM: ${{ steps.controle.outputs.probleem }}
+          DETAIL: ${{ steps.controle.outputs.detail }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -n "$MM_WEBHOOK" ]; then
+            tekst=$(printf '#### Nachtrun draait niet meer\n\n%s\n\n%s\n\n[Bekijk de waakhond](%s)' \
+              "$PROBLEEM" "$DETAIL" "$RUN_URL")
+            jq -n --arg text "$tekst" '{text: $text}' |
+              curl --silent --show-error --fail-with-body \
+                --header 'Content-Type: application/json' \
+                --data @- "$MM_WEBHOOK"
+          else
+            echo "Secret MATTERMOST_WEBHOOK_URL is niet ingesteld; melding overgeslagen."
+          fi
+          # Ook rood maken, zodat de bevinding in de Actions-lijst staat en niet alleen in het
+          # kanaal - en zodat er een signaal is als het secret ontbreekt.
+          echo "::error::$PROBLEEM $DETAIL"
+          exit 1

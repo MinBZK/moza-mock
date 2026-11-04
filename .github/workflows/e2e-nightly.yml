@@ -1,15 +1,13 @@
 # Nachtelijke e2e-run tegen de gedeployde services op ZAD.
 # Zie issue MinBZK/MijnOverheidZakelijk#1141 en ADR 0023 (keuze tooling voor het testen van de API's).
 #
-# Twee journeys, elk in een eigen map en met een eigen stap, zodat ze onafhankelijk rood kunnen
-# worden:
+# Twee journeys zodat ze onafhankelijk rood kunnen worden:
 #
 #   bruno/e2e      de Profielservice: contactgegeven aanmaken, bijwerken, verwijderen.
 #   bruno/e2e-nmc  de NMC: decentrale notificatie versturen en wachten tot de bezorgstatus als
 #                  CloudEvent terugkomt bij de mock. Raakt de Profielservice niet.
 #
-# Draait niet per pull request. De componentlaag dekt elk endpoint al koud en zonder omgeving af,
-# en deze laag mag een merge niet blokkeren (testplan, End-to-end-tests).
+# Draait niet per pull request (testplan, End-to-end-tests).
 #
 # De NMC-journey staat achter de repository-variabele NMC_KETEN_ROND. De NotifyNL-mock weigerde een
 # verzoek zonder `reference` met 400, terwijl de NMC op main dat veld niet stuurt; dat is in deze
@@ -20,22 +18,17 @@
 # Geen retries, niet per verzoek en niet over de run: een retry maskeert precies waar deze laag
 # voor bestaat.
 #
-# Een rode run meldt zich in Mattermost, via een incoming webhook in het secret
-# MATTERMOST_WEBHOOK_URL. Dat kanaal is er omdat de standaard GitHub-notificatie van een scheduled
-# run naar één persoon gaat - degene die de workflow aanmaakte of de cron als laatste wijzigde - en
-# daarmee in niemands triage terechtkomt. Zolang het secret niet is ingesteld, meldt de stap dat in
-# het log en laat hij de run verder met rust.
-#
-# De payload zet geen `channel`: de webhook van dit kanaal staat vast op zijn eigen kanaal, en dan
-# geeft Mattermost op een channel-veld een 404 (web.incoming_webhook.general.app_error). Waar de
-# melding landt, bepaalt dus de webhook-URL en niet deze workflow. Wil je een ander kanaal, maak
-# daar een nieuwe webhook en vervang het secret.
+# Een rode run wordt gemeldt in Mattermost, via een incoming webhook in het secret
+# MATTERMOST_WEBHOOK_URL.
 
 name: E2E nachtrun
 
 on:
   schedule:
-    - cron: '0 1 * * *' # 03:00 Nederlandse tijd in de zomer, 02:00 in de winter
+    # 03:17 Nederlandse tijd in de zomer, 02:17 in de winter. Niet op het hele uur omdat 
+    # de wachtrij dan het drukts is en GitHub scheduled runs uitstelt of overslaat als 
+    # de wachtrij vol staat. Een oneven minuut maakt een gemiste nacht minder waarschijnlijk.
+    - cron: '17 1 * * *'
   workflow_dispatch:
 
 permissions:

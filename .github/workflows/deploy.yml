@@ -6,8 +6,9 @@
 # Vereiste repo-secrets:
 #   ZAD_API_KEY — ZAD Operations Manager API key
 #
-# WireMock heeft geen app-config (geen DB, geen env-vars); de deployment hoeft in
-# Operations Manager alleen te bestaan (component 'wiremock').
+# Vereiste env-var op de deployment in Operations Manager (component 'wiremock'):
+#   WIREMOCK_OPTIONS: --admin-api-basic-auth <gebruiker>:<wachtwoord>
+# Verder heeft WireMock geen app-config (geen DB).
 
 name: ZAD Deploy
 
@@ -73,3 +74,5 @@ jobs:
           image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ needs.build.outputs.digest }}
           wait-for-ready: 'true'
           health-endpoint: /__admin/health
+          # Alleen 401 telt als gereed: WireMock draait en de admin-API vraagt om basic auth.
+          health-status-codes: '401'

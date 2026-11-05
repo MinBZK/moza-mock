@@ -39,7 +39,7 @@ tests {
       expect(e.source).to.equal("/api/nmc/v1/notificaties/" + e.subject);
       expect(e.sequencetype).to.equal("Integer");
       expect(String(e.data.versie)).to.equal(e.sequence);
-      expect(e.type).to.equal("nl.overheid.moz.notificatie.status." + e.data.naar);
+      expect(e.type).to.equal("nl.mijnoverheidzakelijk.nmc.notificatie.status." + e.data.nieuweStatus);
     }
   });
 }

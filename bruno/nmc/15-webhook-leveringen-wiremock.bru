@@ -7,7 +7,12 @@ meta {
 get {
   url: {{eventsUrl}}/__admin/requests?limit=20
   body: none
-  auth: none
+  auth: basic
+}
+
+auth:basic {
+  username: {{wiremockAdminUser}}
+  password: {{wiremockAdminPassword}}
 }
 
 params:query {
@@ -66,4 +71,7 @@ docs {
   Daarna een intake-request (3 t/m 5) en 10 seconden wachten (`nmc.webhook.interval`). De stub
   antwoordt 202 op het pad alleen, dus elke levering slaagt en de leverpositie schuift op.
   Journaal leegmaken: `DELETE {{eventsUrl}}/__admin/requests`.
+
+  Op ZAD zit de admin-API achter basic auth: vul `wiremockAdminUser` en `wiremockAdminPassword`
+  in het environment in.
 }

@@ -31,7 +31,7 @@ script:post-response {
     }
     const perSubject = {};
     for (const e of res.body.events || []) {
-      (perSubject[e.subject] = perSubject[e.subject] || []).push(`${e.sequence}:${e.data.naar}${e.data.reden ? "(" + e.data.reden + ")" : ""}`);
+      (perSubject[e.subject] = perSubject[e.subject] || []).push(`${e.sequence}:${e.data.nieuweStatus}${e.data.reden ? "(" + e.data.reden + ")" : ""}`);
     }
     console.log("nieuwe events per notificatie:", JSON.stringify(perSubject, null, 2));
   }
@@ -52,8 +52,8 @@ tests {
     const statussen = ["aangenomen", "in-verzending", "verzonden", "bezorgd", "definitief-bezorgd",
       "niet-bezorgbaar", "technisch-mislukt", "bezorgstatus-onbekend", "verlopen", "geannuleerd"];
     for (const e of res.body.events) {
-      expect(statussen).to.include(e.data.naar);
-      if (e.data.van) { expect(statussen).to.include(e.data.van); }
+      expect(statussen).to.include(e.data.nieuweStatus);
+      if (e.data.vorigeStatus) { expect(statussen).to.include(e.data.vorigeStatus); }
     }
   });
   test("onbekende partij (3) eindigt in niet-bezorgbaar / geen-contactgegevens", function() {
@@ -62,7 +62,7 @@ tests {
     const eigen = res.body.events.filter(e => e.subject === id);
     expect(eigen, "nog geen events voor " + id + ": worker nog bezig, draai 6 opnieuw").to.have.length.greaterThan(0);
     const laatste = eigen[eigen.length - 1];
-    if (laatste.data.naar === "niet-bezorgbaar") {
+    if (laatste.data.nieuweStatus === "niet-bezorgbaar") {
       expect(laatste.data.reden).to.equal("geen-contactgegevens");
     }
   });

@@ -1,0 +1,37 @@
+meta {
+  name: E-mail versturen (geen receipt, navraag geeft 404)
+  type: http
+  seq: 18
+}
+
+post {
+  url: {{notifynlUrl}}/notifynl/zelf/v2/notifications/email
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer mock-jwt
+}
+
+body:json {
+  {
+    "email_address": "donald+geen-receipt-onbekend@testbv.nl",
+    "template_id": "a1b2c3d4-0000-4000-8000-000000000001",
+    "personalisation": {
+      "naam": "Donald"
+    },
+    "reference": "{{referenceId}}"
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.id: startsWith 40440440-
+  res.body.reference: eq {{referenceId}}
+}
+
+docs {
+  Als 4, met id-prefix `40440440-`: de navraag op dat id geeft 404 (request 7).
+}

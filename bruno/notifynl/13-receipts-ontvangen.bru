@@ -1,0 +1,84 @@
+meta {
+  name: Ontvangen receipts (target zelf)
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{notifynlUrl}}/__admin/requests/find
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "method": "POST",
+    "urlPath": "/api/nmc/v1/notifynl-callback"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:pre-request {
+  // the final receipt of request 1 is sent 4 s after its POST
+  await bru.sleep(5000);
+}
+
+tests {
+  test("receipt delivered voor referenceId is ontvangen", function() {
+    const receipts = (res.body.requests || []).map(r => JSON.parse(r.body));
+    const delivered = receipts.filter(r => r.reference === bru.getEnvVar("referenceId") && r.status === "delivered");
+    expect(delivered).to.have.lengthOf.at.least(1);
+  });
+
+  const journal = res.body.requests || [];
+  const receipts = journal.map(r => JSON.parse(r.body));
+  const eindstatussen = ["delivered", "permanent-failure", "temporary-failure", "technical-failure"];
+
+  test("receipt sending heeft geen completed_at", function() {
+    const sending = receipts.filter(r => r.to === "donald@testbv.nl" && r.status === "sending");
+    expect(sending).to.have.lengthOf.at.least(1);
+    sending.forEach(r => expect(r.completed_at).to.equal(null));
+  });
+
+  test("request 2 geeft eindstatus permanent-failure en geen delivered", function() {
+    const eind = receipts.filter(r => r.to === "donald+permanent-failure@testbv.nl" && r.status !== "sending");
+    expect(eind).to.have.lengthOf.at.least(1);
+    eind.forEach(r => expect(r.status).to.equal("permanent-failure"));
+  });
+
+  test("geen-receipt-adressen krijgen geen receipt", function() {
+    expect(receipts.filter(r => r.to.includes("geen-receipt"))).to.have.lengthOf(0);
+  });
+
+  test("receipt-id is de reference, eindstatus heeft completed_at", function() {
+    receipts.forEach(r => {
+      expect(r.id).to.equal(r.reference);
+      expect(r.notification_type).to.equal("email");
+      if (eindstatussen.includes(r.status)) {
+        expect(r.completed_at).to.be.a("string");
+      }
+    });
+  });
+
+  test("elke receipt draagt een Authorization Bearer-header", function() {
+    expect(journal).to.have.lengthOf.at.least(1);
+    journal.forEach(r => expect(r.headers.Authorization).to.match(/^Bearer/));
+  });
+}
+
+docs {
+  Met target `zelf` levert de mock de receipts af op zijn eigen `POST /api/nmc/v1/notifynl-callback`.
+  Dit request toont wat daar binnenkwam (body, `Authorization`-header). Het request-journal is in
+  het geheugen van de mock en leeg na een herstart.
+
+  De eindstatus komt pas 4 s na de POST. Het request wacht daarom eerst 5 s en controleert dan dat
+  er een receipt `delivered` voor `referenceId` (request 1) in het journal staat.
+
+  De overige tests controleren de receipts van de requests 1 tot en met 4: een `sending` zonder
+  `completed_at`, `permanent-failure` als eindstatus voor request 2, geen receipt voor de
+  `geen-receipt`-adressen, het receipt-id gelijk aan de `reference` met een `completed_at` bij
+  een eindstatus, en een `Authorization: Bearer`-header op elke receipt.
+}

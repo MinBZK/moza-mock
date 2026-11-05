@@ -1,0 +1,26 @@
+meta {
+  name: Status opvragen (delivered)
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{notifynlUrl}}/notifynl/zelf/v2/notifications/{{notifyId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer mock-jwt
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: eq {{notifyId}}
+  res.body.status: eq delivered
+}
+
+docs {
+  Navraag zoals de NMC die doet als de receipt uitblijft. Elk id zonder bijzondere prefix geeft
+  `delivered`; `notifyId` komt uit request 1 of 3.
+}

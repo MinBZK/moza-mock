@@ -1,0 +1,17 @@
+{
+  "id": "{{jsonPath request.body '$.reference'}}",
+  "reference": "{{jsonPath request.body '$.reference'}}",
+  "content": {
+    "subject": "Mock NotifyNL",
+    "body": "Mock van NotifyNL: er is geen e-mail verstuurd.",
+    "from_email": "noreply@notifynl.nl",
+    "one_click_unsubscribe_url": null
+  },
+  "uri": "{{request.baseUrl}}/v2/notifications/{{jsonPath request.body '$.reference'}}",
+  "template": {
+    "id": "{{jsonPath request.body '$.template_id'}}",
+    "version": 1,
+    "uri": "{{request.baseUrl}}/v2/template/{{jsonPath request.body '$.template_id'}}"
+  },
+  "scheduled_for": null
+}

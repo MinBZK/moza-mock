@@ -1,0 +1,20 @@
+meta {
+  name: Status opvragen (onbekende verzending)
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{notifynlUrl}}/notifynl/zelf/v2/notifications/40440440-0000-4000-8000-000000000000
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer mock-jwt
+}
+
+assert {
+  res.status: eq 404
+  res.body.errors[0].error: eq NoResultFound
+}

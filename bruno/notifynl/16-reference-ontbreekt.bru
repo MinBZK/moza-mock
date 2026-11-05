@@ -1,0 +1,37 @@
+meta {
+  name: E-mail versturen (reference ontbreekt, 400)
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{notifynlUrl}}/notifynl/zelf/v2/notifications/email
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer mock-jwt
+}
+
+body:json {
+  {
+    "email_address": "donald+zonder-reference@testbv.nl",
+    "template_id": "a1b2c3d4-0000-4000-8000-000000000001",
+    "personalisation": {
+      "naam": "Donald"
+    }
+  }
+}
+
+assert {
+  res.status: eq 400
+  res.body.errors[0].error: eq MockError
+  res.body.errors[0].message: contains reference
+}
+
+docs {
+  De mock gebruikt `reference` als notificatie-id. Zonder `reference` kan dat niet en volgt een 400
+  met `MockError`; er gaat geen receipt uit (request 22).
+}

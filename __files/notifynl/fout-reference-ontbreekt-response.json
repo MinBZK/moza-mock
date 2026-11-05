@@ -1,0 +1,9 @@
+{
+  "status_code": 400,
+  "errors": [
+    {
+      "error": "MockError",
+      "message": "reference ontbreekt of is geen UUID in kleine letters: de NotifyNL-mock gebruikt reference als notificatie-id, zodat receipt en navraag bij de verzending horen"
+    }
+  ]
+}

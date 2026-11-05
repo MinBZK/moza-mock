@@ -1,0 +1,21 @@
+meta {
+  name: Status opvragen (permanent-failure)
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{notifynlUrl}}/notifynl/zelf/v2/notifications/{{navraagMisluktId}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer mock-jwt
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: eq {{navraagMisluktId}}
+  res.body.status: eq permanent-failure
+}

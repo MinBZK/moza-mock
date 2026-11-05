@@ -1,0 +1,51 @@
+meta {
+  name: 17. Decentrale notificatie via FSC (inway)
+  type: http
+  seq: 17
+}
+
+post {
+  url: {{fscLogiusInwayUrl}}/api/nmc/v1/decentraal/notificaties
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Fsc-Authorization: Bearer {{fscAccessToken}}
+  Fsc-Transaction-Id: {{fscTransactionId}}
+}
+
+body:json {
+  {
+    "emailAdres": "{{e2eEmail}}",
+    "berichtType": "Demo template",
+    "berichtgegevens": {
+      "voornaam": "Test BV Donald"
+    }
+  }
+}
+
+assert {
+  res.status: eq 202
+}
+
+script:pre-request {
+  // Fetches a token via 4-token-via-fsc when none is cached or it expires within 30s.
+  const token = bru.getVar("fscAccessToken");
+  const payload = token ? token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/") : null;
+  const exp = payload ? JSON.parse(Buffer.from(payload, "base64").toString()).exp : 0;
+  if (exp * 1000 - Date.now() < 30000) {
+    const tokenRes = await bru.runRequest("nmc/16-token-via-fsc");
+    if (tokenRes.status !== 200) {
+      throw new Error(`FSC token request failed: ${tokenRes.status} ${JSON.stringify(tokenRes.data)}`);
+    }
+    bru.setVar("fscAccessToken", tokenRes.data.access_token);
+  }
+
+  // OpenFSC requires a UUID v7 as Fsc-Transaction-Id.
+  const ts = Date.now().toString(16).padStart(12, "0");
+  const hex = (n) => Array.from({ length: n }, () => Math.floor(Math.random() * 16).toString(16)).join("");
+  const variant = (8 + Math.floor(Math.random() * 4)).toString(16);
+  bru.setVar("fscTransactionId", `${ts.slice(0, 8)}-${ts.slice(8, 12)}-7${hex(3)}-${variant}${hex(3)}-${hex(12)}`);
+}

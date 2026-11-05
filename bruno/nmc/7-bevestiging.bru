@@ -1,0 +1,33 @@
+meta {
+  name: 7. Bevestiging met laatste cursor (204)
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{nmcUrl}}/api/nmc/v1/notificaties/wijzigingen/bevestiging
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "cursor": "{{feedCursor}}"
+  }
+}
+
+assert {
+  res.status: eq 204
+}
+
+script:pre-request {
+  if (!bru.getVar("feedCursor")) {
+    throw new Error("feedCursor is leeg: lees eerst de feed (2 of 6) met minstens één event");
+  }
+}
+
+docs {
+  Legt vast tot waar de Dienstverlener verwerkt heeft. Daarna geeft 6 vanaf dezelfde cursor nog
+  steeds dezelfde events terug: een bevestiging verplaatst de leespositie niet, alleen de
+  opruimgrens.
+}

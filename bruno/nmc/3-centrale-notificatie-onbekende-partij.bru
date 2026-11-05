@@ -1,0 +1,41 @@
+meta {
+  name: 3. Centrale notificatie - onbekende partij (202, uitkomst via feed)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{nmcUrl}}/api/nmc/v1/centraal/notificaties
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "999996915",
+    "dienstverlener": "RVO",
+    "berichtType": "Demo template"
+  }
+}
+
+assert {
+  res.status: eq 202
+}
+
+script:post-response {
+  if (res.status === 202 && res.body && res.body.notificatieId) {
+    bru.setVar("notificatieIdOnbekendePartij", res.body.notificatieId);
+  }
+}
+
+tests {
+  // Een partij zonder e-mailadres is geen 400 meer: de notificatie wordt aangenomen en eindigt
+  // asynchroon in niet-bezorgbaar (reden geen-contactgegevens), zichtbaar in request 6.
+  test("response bevat een notificatieId", function() {
+    expect(res.body.notificatieId).to.match(/^[0-9a-f-]{36}$/);
+  });
+  test("Location wijst naar de aangenomen notificatie", function() {
+    expect(res.getHeader("location")).to.equal("/api/nmc/v1/notificaties/" + res.body.notificatieId);
+  });
+}

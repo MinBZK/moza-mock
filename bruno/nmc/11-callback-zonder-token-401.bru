@@ -1,0 +1,29 @@
+meta {
+  name: 11. NotifyNL-callback zonder bearer (401)
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{nmcUrl}}/api/nmc/v1/notifynl-callback
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": "00000000-0000-4000-8000-000000000000",
+    "reference": "00000000-0000-4000-8000-000000000000",
+    "status": "delivered",
+    "notification_type": "email"
+  }
+}
+
+assert {
+  res.status: eq 401
+}
+
+docs {
+  Zonder `Authorization: Bearer <notify.callback.bearer-token>` weigert de filter de receipt vóór
+  enige verwerking.
+}

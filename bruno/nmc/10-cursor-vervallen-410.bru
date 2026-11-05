@@ -1,0 +1,32 @@
+meta {
+  name: 10. Wijzigingen met cursor uit ander epoch (410)
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{nmcUrl}}/api/nmc/v1/notificaties/wijzigingen?cursor=OTk5OjE6MQ
+  body: none
+  auth: none
+}
+
+params:query {
+  cursor: OTk5OjE6MQ
+}
+
+assert {
+  res.status: eq 410
+}
+
+tests {
+  test("problem+json met type cursor-vervallen", function() {
+    expect(res.getHeader("content-type")).to.include("application/problem+json");
+    expect(res.body.status).to.equal(410);
+    expect(res.body.type).to.include("/nmc/problemen/");
+  });
+}
+
+docs {
+  `OTk5OjE6MQ` is base64url van `999:1:1`: een correct gevormde cursor uit cluster-epoch 999,
+  terwijl de omgeving op `nmc.feed.cluster-epoch=1` draait. Verwacht 410: lees opnieuw zonder cursor.
+}

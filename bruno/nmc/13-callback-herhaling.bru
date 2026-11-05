@@ -1,0 +1,43 @@
+meta {
+  name: 13. NotifyNL-callback herhaling van 12 (204, geen nieuw event)
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{nmcUrl}}/api/nmc/v1/notifynl-callback
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{notifyCallbackToken}}
+}
+
+body:json {
+  {
+    "id": "{{notifyId}}",
+    "reference": "{{pogingId}}",
+    "to": "ontvanger@example.invalid",
+    "status": "delivered",
+    "notification_type": "email",
+    "created_at": "{{receiptTijd}}",
+    "sent_at": "{{receiptTijd}}",
+    "completed_at": "{{receiptTijd}}"
+  }
+}
+
+assert {
+  res.status: eq 204
+}
+
+script:pre-request {
+  if (!bru.getVar("receiptTijd")) {
+    throw new Error("Draai eerst 12; dit request herhaalt exact dezelfde receipt");
+  }
+}
+
+docs {
+  Receipts komen at-least-once binnen. Dezelfde receipt (zelfde poging, status en tijdstip) levert
+  geen tweede taak en geen tweede event: 6 toont na dit request geen extra overgang voor de notificatie.
+}

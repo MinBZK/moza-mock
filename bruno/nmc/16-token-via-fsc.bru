@@ -1,0 +1,29 @@
+meta {
+  name: 16. FSC token ophalen (logius manager)
+  type: http
+  seq: 16
+}
+
+post {
+  url: {{fscLogiusManagerUrl}}/v1/token
+  body: formUrlEncoded
+  auth: none
+}
+
+body:form-urlencoded {
+  grant_type: client_credentials
+  scope: {{fscGrantHash}}
+  client_id: {{fscLogiusOin}}
+}
+
+script:post-response {
+  // Vereist: client-cert van de outway op collection-niveau (Settings > Client Certificates)
+  // en een geaccepteerd ServiceConnection-contract waarvan fscGrantHash de grant-hash is.
+  if (res.status === 200 && res.body && res.body.access_token) {
+    bru.setVar("fscAccessToken", res.body.access_token);
+  }
+}
+
+assert {
+  res.status: eq 200
+}

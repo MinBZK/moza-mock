@@ -1,0 +1,36 @@
+meta {
+  name: 1. JWKS ophalen (webhook-sleutel)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{nmcUrl}}/api/nmc/v1/.well-known/jwks.json
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:post-response {
+  if (res.status === 200 && res.body && res.body.keys && res.body.keys.length > 0) {
+    bru.setVar("webhookKid", res.body.keys[0].kid);
+  }
+}
+
+tests {
+  test("JWKS bevat een RSA-sleutel voor RS256", function() {
+    expect(res.body.keys).to.have.length.greaterThan(0);
+    expect(res.body.keys[0].kty).to.equal("RSA");
+    expect(res.body.keys[0].alg).to.equal("RS256");
+    expect(res.body.keys[0].use).to.equal("sig");
+    expect(res.body.keys[0].kid).to.be.a("string");
+  });
+}
+
+docs {
+  Sanity-check: de pod draait met een geconfigureerde webhook-sleutel. De `kid` wordt bewaard
+  als `webhookKid` en in `15-webhook-leveringen-wiremock` vergeleken met de JWT-header.
+}

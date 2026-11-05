@@ -1,0 +1,58 @@
+meta {
+  name: 12. NotifyNL-callback delivered (204)
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{nmcUrl}}/api/nmc/v1/notifynl-callback
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{notifyCallbackToken}}
+}
+
+body:json {
+  {
+    "id": "{{notifyId}}",
+    "reference": "{{pogingId}}",
+    "to": "ontvanger@example.invalid",
+    "status": "delivered",
+    "notification_type": "email",
+    "created_at": "{{receiptTijd}}",
+    "sent_at": "{{receiptTijd}}",
+    "completed_at": "{{receiptTijd}}"
+  }
+}
+
+assert {
+  res.status: eq 204
+}
+
+script:pre-request {
+  for (const v of ["notifyCallbackToken", "pogingId", "notifyId"]) {
+    if (!bru.getEnvVar(v)) {
+      throw new Error(v + " ontbreekt in de environment; zie docs van dit request");
+    }
+  }
+  // Vast tijdstip per poging, zodat 15 (herhaling) exact dezelfde receipt stuurt.
+  if (bru.getVar("receiptPogingId") !== bru.getEnvVar("pogingId") || !bru.getVar("receiptTijd")) {
+    bru.setVar("receiptTijd", new Date().toISOString());
+    bru.setVar("receiptPogingId", bru.getEnvVar("pogingId"));
+  }
+}
+
+docs {
+  Simuleert de delivery receipt van NotifyNL voor een poging die op `verzonden` staat. Vul in de
+  environment: `notifyCallbackToken` (gelijk aan NOTIFY_CALLBACK_BEARER_TOKEN van de omgeving),
+  en `pogingId` + `notifyId` uit de database van de omgeving:
+
+    SELECT p.id AS poging_id, p.notify_id
+    FROM poging p JOIN notificatie n ON n.id = p.notificatie_id
+    WHERE n.id = '<notificatieId uit request 4>' ORDER BY p.nummer DESC LIMIT 1;
+
+  Verwacht 204 (receipt opgeslagen als taak). Lees daarna 6: de notificatie gaat `verzonden` ->
+  `bezorgd` (sequence +1). Alleen zinvol als 6 eerder `verzonden` liet zien.
+}

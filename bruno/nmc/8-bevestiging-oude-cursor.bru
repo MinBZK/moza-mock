@@ -1,0 +1,32 @@
+meta {
+  name: 8. Bevestiging met oudere cursor (204, geen wijziging)
+  type: http
+  seq: 8
+}
+
+put {
+  url: {{nmcUrl}}/api/nmc/v1/notificaties/wijzigingen/bevestiging
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "cursor": "{{feedCursorStart}}"
+  }
+}
+
+assert {
+  res.status: eq 204
+}
+
+script:pre-request {
+  if (!bru.getVar("feedCursorStart")) {
+    throw new Error("feedCursorStart is leeg: 2 gaf een lege pagina; draai de intake en lees opnieuw");
+  }
+}
+
+docs {
+  Een cursor die ouder is dan de bewaarde bevestiging verandert niets en krijgt toch 204
+  (forward-only). Zijn `feedCursor` en `feedCursorStart` gelijk, dan is dit gewoon een herhaling.
+}

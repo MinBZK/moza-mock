@@ -7,7 +7,12 @@ meta {
 post {
   url: {{mockUrl}}/__admin/requests/find
   body: json
-  auth: none
+  auth: basic
+}
+
+auth:basic {
+  username: {{wiremockAdminUser}}
+  password: {{wiremockAdminPassword}}
 }
 
 script:pre-request {
@@ -22,6 +27,12 @@ script:pre-request {
   const axios = require("axios");
   const mockUrl = bru.getEnvVar("mockUrl");
   const notificatieId = bru.getVar("runNotificatieId");
+  // axios erft het auth:basic-blok van dit verzoek niet, dus de admin-API vraagt hier om een eigen
+  // Authorization-header. Ontbreken de credentials, dan faalt de mock zichtbaar en geeft een 401.
+  const adminAuth = {
+    username: bru.getEnvVar("wiremockAdminUser"),
+    password: bru.getEnvVar("wiremockAdminPassword")
+  };
   const budgetMs = 30000;
   const intervalMs = 1000;
   const deadline = Date.now() + budgetMs;
@@ -35,7 +46,7 @@ script:pre-request {
       method: "POST",
       urlPath: "/events",
       bodyPatterns: [{ contains: notificatieId }]
-    });
+    }, { auth: adminAuth });
     gevonden = antwoord.data.requests.length;
 
     if (gevonden > 0) {
@@ -67,7 +78,10 @@ tests {
   // GET /__admin/requests bij het POST-verzoek op /v2/notifications/email, onder subEvents van type
   // WEBHOOK_RESPONSE: daar staat het antwoord van de NMC op de receipt, en 401 betekent dat
   // NOTIFY_CALLBACK_BEARER_TOKEN en WIREMOCK_NOTIFYNL_CALLBACK_TOKEN niet gelijk zijn.
-  const events = res.body.requests.map(function(verzoek) {
+  // Een niet-200 antwoord heeft geen requests-veld: 401 als de credentials van de admin-API
+  // ontbreken, 422 op een leeg zoekpatroon. "journal is leesbaar" wijst de oorzaak aan.
+  const verzoeken = (res.body && res.body.requests) || [];
+  const events = verzoeken.map(function(verzoek) {
     return JSON.parse(verzoek.body);
   });
   // De laatste melding is de meest recente, niet per definitie de eindtoestand: na een bezorging

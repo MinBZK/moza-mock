@@ -7,7 +7,12 @@ meta {
 post {
   url: {{notifynlUrl}}/__admin/requests/find
   body: json
-  auth: none
+  auth: basic
+}
+
+auth:basic {
+  username: {{wiremockAdminUser}}
+  password: {{wiremockAdminPassword}}
 }
 
 body:json {

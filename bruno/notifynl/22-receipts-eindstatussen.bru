@@ -39,7 +39,15 @@ tests {
 
   test("een geweigerde POST (400) geeft geen receipt", function() {
     expect(receipts.filter(r => r.to === "donald+hoofdletters@testbv.nl")).to.have.lengthOf(0);
-    expect(receipts.filter(r => r.to === "donald+zonder-reference@testbv.nl")).to.have.lengthOf(0);
+  });
+
+  test("een verzending zonder reference krijgt receipts met een verzonnen id", function() {
+    const zonder = receipts.filter(r => r.to === "donald+zonder-reference@testbv.nl");
+    expect(zonder).to.have.lengthOf.at.least(1);
+    zonder.forEach(r => {
+      expect(r.reference).to.equal(null);
+      expect(r.id).to.match(/^[0-9a-f]{8}-[0-9a-f-]{27}$/);
+    });
   });
 
   test("geen-receipt-adressen krijgen geen receipt", function() {
@@ -49,6 +57,7 @@ tests {
 
 docs {
   Als request 13, voor de requests 14 tot en met 19: wacht 5 s en controleert dan dat de receipts
-  `temporary-failure` en `technical-failure` zijn ontvangen en dat de geweigerde POSTs en de
-  `geen-receipt`-varianten geen receipt opleverden.
+  `temporary-failure` en `technical-failure` zijn ontvangen, dat de geweigerde POST en de
+  `geen-receipt`-varianten geen receipt opleverden, en dat de verzending zonder reference wél
+  receipts kreeg, met een door de mock verzonnen id.
 }

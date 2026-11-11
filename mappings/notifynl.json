@@ -100,10 +100,10 @@
         "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
         "bodyPatterns": [
           {
-            "matchesJsonPath": {
-              "expression": "$.reference",
-              "matches": "[0-9a-f]{8}-[0-9a-f-]{27}"
-            }
+            "matchesJsonPath": "$.email_address"
+          },
+          {
+            "matchesJsonPath": "$.template_id"
           },
           {
             "matchesJsonPath": {
@@ -133,10 +133,10 @@
         "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
         "bodyPatterns": [
           {
-            "matchesJsonPath": {
-              "expression": "$.reference",
-              "matches": "[0-9a-f]{8}-[0-9a-f-]{27}"
-            }
+            "matchesJsonPath": "$.email_address"
+          },
+          {
+            "matchesJsonPath": "$.template_id"
           },
           {
             "matchesJsonPath": {
@@ -165,10 +165,10 @@
         "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
         "bodyPatterns": [
           {
-            "matchesJsonPath": {
-              "expression": "$.reference",
-              "matches": "[0-9a-f]{8}-[0-9a-f-]{27}"
-            }
+            "matchesJsonPath": "$.email_address"
+          },
+          {
+            "matchesJsonPath": "$.template_id"
           },
           {
             "matchesJsonPath": {
@@ -198,7 +198,7 @@
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
             },
-            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"sending\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":null}",
+            "body": "{{#assign 'ref'}}{{jsonPath originalRequest.body '$.reference'}}{{/assign}}{{#assign 'notifyId'}}{{#if ref}}{{ref}}{{else}}{{originalRequest.id}}{{/if}}{{/assign}}{\"id\":\"{{notifyId}}\",\"reference\":{{#if ref}}\"{{ref}}\"{{else}}null{{/if}},\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"sending\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":null}",
             "delay": {
               "type": "fixed",
               "milliseconds": 1000
@@ -214,7 +214,7 @@
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
             },
-            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"permanent-failure\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\"}",
+            "body": "{{#assign 'ref'}}{{jsonPath originalRequest.body '$.reference'}}{{/assign}}{{#assign 'notifyId'}}{{#if ref}}{{ref}}{{else}}{{originalRequest.id}}{{/if}}{{/assign}}{\"id\":\"{{notifyId}}\",\"reference\":{{#if ref}}\"{{ref}}\"{{else}}null{{/if}},\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"permanent-failure\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\"}",
             "delay": {
               "type": "fixed",
               "milliseconds": 4000
@@ -231,10 +231,10 @@
         "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
         "bodyPatterns": [
           {
-            "matchesJsonPath": {
-              "expression": "$.reference",
-              "matches": "[0-9a-f]{8}-[0-9a-f-]{27}"
-            }
+            "matchesJsonPath": "$.email_address"
+          },
+          {
+            "matchesJsonPath": "$.template_id"
           },
           {
             "matchesJsonPath": {
@@ -264,7 +264,7 @@
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
             },
-            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"sending\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":null}",
+            "body": "{{#assign 'ref'}}{{jsonPath originalRequest.body '$.reference'}}{{/assign}}{{#assign 'notifyId'}}{{#if ref}}{{ref}}{{else}}{{originalRequest.id}}{{/if}}{{/assign}}{\"id\":\"{{notifyId}}\",\"reference\":{{#if ref}}\"{{ref}}\"{{else}}null{{/if}},\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"sending\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":null}",
             "delay": {
               "type": "fixed",
               "milliseconds": 1000
@@ -280,7 +280,7 @@
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
             },
-            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"temporary-failure\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\"}",
+            "body": "{{#assign 'ref'}}{{jsonPath originalRequest.body '$.reference'}}{{/assign}}{{#assign 'notifyId'}}{{#if ref}}{{ref}}{{else}}{{originalRequest.id}}{{/if}}{{/assign}}{\"id\":\"{{notifyId}}\",\"reference\":{{#if ref}}\"{{ref}}\"{{else}}null{{/if}},\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"temporary-failure\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\"}",
             "delay": {
               "type": "fixed",
               "milliseconds": 4000
@@ -297,10 +297,10 @@
         "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
         "bodyPatterns": [
           {
-            "matchesJsonPath": {
-              "expression": "$.reference",
-              "matches": "[0-9a-f]{8}-[0-9a-f-]{27}"
-            }
+            "matchesJsonPath": "$.email_address"
+          },
+          {
+            "matchesJsonPath": "$.template_id"
           },
           {
             "matchesJsonPath": {
@@ -330,7 +330,7 @@
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
             },
-            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"sending\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":null}",
+            "body": "{{#assign 'ref'}}{{jsonPath originalRequest.body '$.reference'}}{{/assign}}{{#assign 'notifyId'}}{{#if ref}}{{ref}}{{else}}{{originalRequest.id}}{{/if}}{{/assign}}{\"id\":\"{{notifyId}}\",\"reference\":{{#if ref}}\"{{ref}}\"{{else}}null{{/if}},\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"sending\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":null}",
             "delay": {
               "type": "fixed",
               "milliseconds": 1000
@@ -346,7 +346,7 @@
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
             },
-            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"technical-failure\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\"}",
+            "body": "{{#assign 'ref'}}{{jsonPath originalRequest.body '$.reference'}}{{/assign}}{{#assign 'notifyId'}}{{#if ref}}{{ref}}{{else}}{{originalRequest.id}}{{/if}}{{/assign}}{\"id\":\"{{notifyId}}\",\"reference\":{{#if ref}}\"{{ref}}\"{{else}}null{{/if}},\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"technical-failure\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\"}",
             "delay": {
               "type": "fixed",
               "milliseconds": 4000
@@ -363,10 +363,10 @@
         "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
         "bodyPatterns": [
           {
-            "matchesJsonPath": {
-              "expression": "$.reference",
-              "matches": "[0-9a-f]{8}-[0-9a-f-]{27}"
-            }
+            "matchesJsonPath": "$.email_address"
+          },
+          {
+            "matchesJsonPath": "$.template_id"
           }
         ]
       },
@@ -390,7 +390,7 @@
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
             },
-            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"sending\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":null}",
+            "body": "{{#assign 'ref'}}{{jsonPath originalRequest.body '$.reference'}}{{/assign}}{{#assign 'notifyId'}}{{#if ref}}{{ref}}{{else}}{{originalRequest.id}}{{/if}}{{/assign}}{\"id\":\"{{notifyId}}\",\"reference\":{{#if ref}}\"{{ref}}\"{{else}}null{{/if}},\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"sending\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":null}",
             "delay": {
               "type": "fixed",
               "milliseconds": 1000
@@ -406,7 +406,7 @@
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
             },
-            "body": "{\"id\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"reference\":\"{{jsonPath originalRequest.body '$.reference'}}\",\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"delivered\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\"}",
+            "body": "{{#assign 'ref'}}{{jsonPath originalRequest.body '$.reference'}}{{/assign}}{{#assign 'notifyId'}}{{#if ref}}{{ref}}{{else}}{{originalRequest.id}}{{/if}}{{/assign}}{\"id\":\"{{notifyId}}\",\"reference\":{{#if ref}}\"{{ref}}\"{{else}}null{{/if}},\"to\":\"{{jsonPath originalRequest.body '$.email_address'}}\",\"status\":\"delivered\",\"notification_type\":\"email\",\"created_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"sent_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\",\"completed_at\":\"{{now timezone='UTC' format=\"yyyy-MM-dd'T'HH:mm:ssXXX\"}}\"}",
             "delay": {
               "type": "fixed",
               "milliseconds": 4000
@@ -416,7 +416,33 @@
       ]
     },
     {
-      "name": "NotifyNL e-mail: reference ontbreekt of is geen UUID (de mock gebruikt reference als notificatie-id)",
+      "name": "NotifyNL e-mail: reference is geen UUID in kleine letters (400 ValidationError)",
+      "priority": 2,
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "(/notifynl/[a-z0-9-]+)?/v2/notifications/email",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$.reference"
+          },
+          {
+            "matchesJsonPath": {
+              "expression": "$.reference",
+              "doesNotMatch": "[0-9a-f]{8}-[0-9a-f-]{27}"
+            }
+          }
+        ]
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "bodyFileName": "notifynl/fout-reference-ongeldig-response.json"
+      }
+    },
+    {
+      "name": "NotifyNL e-mail: verplicht veld ontbreekt (400 ValidationError)",
       "priority": 9,
       "request": {
         "method": "POST",
@@ -427,7 +453,7 @@
         "headers": {
           "Content-Type": "application/json"
         },
-        "bodyFileName": "notifynl/fout-reference-ontbreekt-response.json"
+        "bodyFileName": "notifynl/fout-veld-ontbreekt-response.json"
       }
     },
     {

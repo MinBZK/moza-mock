@@ -1,0 +1,98 @@
+meta {
+  name: 3. Statusupdate komt terug als CloudEvent
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{mockUrl}}/__admin/requests/find
+  body: json
+  auth: none
+}
+
+script:pre-request {
+  // De bezorgstatus is asynchroon: de mock stuurt na 1 s een receipt 'sending' en na 4 s de
+  // eindstatus naar de NMC, die daarna zelf een CloudEvent naar de callbackUrl stuurt. Alleen die
+  // eindstatus levert een CloudEvent op; 'sending' hoort bij de verzendfase en wordt niet
+  // doorgegeven. Daarom wachten tot het journal het event heeft, in plaats van één keer kijken.
+  //
+  // Dit is het punt waar de journey Bruno ontgroeit (ADR 0023, besluit 2): een eigen pollus met een
+  // hard budget in plaats van een polling-primitief. Wordt deze stap flaky, verhuis de journey dan
+  // naar Playwright met expect.poll() en rek dit budget niet op.
+  const axios = require("axios");
+  const mockUrl = bru.getEnvVar("mockUrl");
+  const notificatieId = bru.getVar("runNotificatieId");
+  const budgetMs = 30000;
+  const intervalMs = 1000;
+  const deadline = Date.now() + budgetMs;
+  let gevonden = 0;
+
+  // Zonder notificatieId heeft pollen geen zin: stap 1 is dan niet geslaagd. Niet alsnog zoeken,
+  // want een leeg zoekpatroon levert een 422 van de mock en daarmee een scriptfout in plaats van
+  // een leesbare rode test.
+  while (notificatieId && Date.now() < deadline) {
+    const antwoord = await axios.post(mockUrl + "/__admin/requests/find", {
+      method: "POST",
+      urlPath: "/events",
+      bodyPatterns: [{ contains: notificatieId }]
+    });
+    gevonden = antwoord.data.requests.length;
+
+    if (gevonden > 0) {
+      break;
+    }
+
+    await bru.sleep(intervalMs);
+  }
+
+  if (gevonden === 0) {
+    console.log("Geen statusupdate binnen " + (budgetMs / 1000) + " s voor notificatie " + notificatieId);
+  }
+}
+
+body:json {
+  {
+    "method": "POST",
+    "urlPath": "/events",
+    "bodyPatterns": [
+      { "contains": "{{runNotificatieId}}" }
+    ]
+  }
+}
+
+tests {
+  // Deze stap is het eigenlijke bewijs van de keten: hij kan alleen groen worden als het versturen,
+  // de receipt van de mock, het bearer token op de callback, de statusovergang in de NMC en de
+  // uitgaande CloudEvent alle vijf werken. Blijft hij leeg terwijl stap 2 groen is, kijk dan in
+  // GET /__admin/requests bij het POST-verzoek op /v2/notifications/email, onder subEvents van type
+  // WEBHOOK_RESPONSE: daar staat het antwoord van de NMC op de receipt, en 401 betekent dat
+  // NOTIFY_CALLBACK_BEARER_TOKEN en WIREMOCK_NOTIFYNL_CALLBACK_TOKEN niet gelijk zijn.
+  const events = res.body.requests.map(function(verzoek) {
+    return JSON.parse(verzoek.body);
+  });
+  // De laatste melding is de meest recente, niet per definitie de eindtoestand: na een bezorging
+  // kan NotifyNL alsnog een fout melden. Met de standaardstub van de mock komt er één.
+  const laatste = events.length > 0 ? events[events.length - 1] : null;
+
+  test("journal is leesbaar", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("er is een statusupdate ontvangen", function() {
+    expect(events.length).to.be.at.least(1);
+  });
+
+  test("de statusupdate hoort bij deze notificatie", function() {
+    expect(laatste && laatste.data.notificatieId).to.equal(bru.getVar("runNotificatieId"));
+  });
+
+  test("de notificatie is bezorgd", function() {
+    expect(laatste && laatste.data.status).to.equal("delivered");
+  });
+
+  test("de statusupdate is een CloudEvent uit het NL GOV-profiel", function() {
+    expect(laatste && laatste.specversion).to.equal("1.0");
+    expect(laatste && laatste.type).to.equal("nl.overheid.notificaties.notificatie-status");
+    expect(laatste && laatste.datacontenttype).to.equal("application/json");
+  });
+}

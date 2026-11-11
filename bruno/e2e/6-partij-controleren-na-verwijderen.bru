@@ -1,0 +1,30 @@
+meta {
+  name: 6. Partij is opgeruimd
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{profielUrl}}/api/profielservice/v1/partij
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "{{runBsn}}"
+  }
+}
+
+tests {
+  // Dit is tegelijk het opruimen: het contactgegeven was het enige van deze partij, dus de partij
+  // zelf is soft-deleted en niet meer opvraagbaar. De run laat niets achter in de omgeving.
+  test("de partij is niet meer opvraagbaar", function() {
+    expect(res.status).to.equal(404);
+  });
+
+  test("het antwoord benoemt de reden", function() {
+    expect(res.body.title).to.equal("Partij niet gevonden");
+  });
+}

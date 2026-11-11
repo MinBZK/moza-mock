@@ -1,0 +1,28 @@
+meta {
+  name: 3. Contactgegeven bijwerken
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{profielUrl}}/api/profielservice/v1/contactgegeven
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "identificatieType": "BSN",
+    "identificatieNummer": "{{runBsn}}",
+    "type": "Email",
+    "waarde": "{{runEmailNieuw}}",
+    "id": "{{runContactgegevenId}}"
+  }
+}
+
+tests {
+  // Het contract geeft 200 op deze PUT, niet 204. Tegen een mock viel dat verschil niet op.
+  test("contactgegeven is bijgewerkt", function() {
+    expect(res.status).to.equal(200);
+  });
+}

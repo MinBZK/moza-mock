@@ -1,0 +1,9 @@
+{
+  "status_code": 400,
+  "errors": [
+    {
+      "error": "ValidationError",
+      "message": "email_address en template_id zijn verplicht"
+    }
+  ]
+}

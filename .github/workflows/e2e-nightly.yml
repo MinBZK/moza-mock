@@ -15,8 +15,11 @@
 # main. Zet de variabele daarna op 'true', nadat een handmatige run groen is. Handmatig draaien kan
 # altijd, met workflow_dispatch of lokaal.
 #
-# Geen retries, niet per verzoek en niet over de run: een retry maskeert precies waar deze laag
-# voor bestaat.
+# De admin-API van de mock staat achter basic auth. De NMC-journey heeft die nodig om het journal
+# te bevragen en krijgt de credentials uit de secrets WIREMOCK_ADMIN_USER en
+# WIREMOCK_ADMIN_PASSWORD, die het omgevingsbestand nachtrun.bru via process.env oppikt. Staan ze
+# niet ingesteld, dan stuurt Bruno de letterlijke placeholder als gebruikersnaam mee, antwoordt de
+# mock met 401 en falen de tests van de NMC-journey leesbaar.
 #
 # Een rode run wordt gemeldt in Mattermost, via een incoming webhook in het secret
 # MATTERMOST_WEBHOOK_URL.
@@ -60,10 +63,16 @@ jobs:
           --reporter-html ../results/report-profielservice.html
       # always(): ook draaien als de Profielservice-journey rood is, want de twee staan los van
       # elkaar en één rapport per nacht is weinig.
+      # De NMC-journey bevraagt het journal van de mock via de admin-API, en die staat achter basic
+      # auth. De credentials staan alleen op deze stap, niet job-breed, zodat ze niet in de
+      # omgeving van de npx-stap van de Profielservice terechtkomen; die raakt de admin-API niet.
       - name: Draai de NMC-journey
         id: nmc
         if: always() && vars.NMC_KETEN_ROND == 'true'
         working-directory: bruno
+        env:
+          WIREMOCK_ADMIN_USER: ${{ secrets.WIREMOCK_ADMIN_USER }}
+          WIREMOCK_ADMIN_PASSWORD: ${{ secrets.WIREMOCK_ADMIN_PASSWORD }}
         run: >-
           npx --yes @usebruno/cli@4.1.0 run e2e-nmc
           --env nachtrun
@@ -75,8 +84,7 @@ jobs:
         with:
           name: e2e-rapport
           path: results/
-      # Alleen bij een rode run. Een melding bij elke groene nacht leert mensen het kanaal te
-      # negeren, en dan mist ook de rode.
+      # Alleen bij een rode run anders gaan mensen het kanaal en de meldingen negeren.
       #
       # De controle op een leeg secret staat in de shell en niet in een `if`, zodat het token
       # alleen in deze stap in de omgeving staat en niet bij de npx-stappen hierboven.

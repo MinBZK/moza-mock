@@ -7,7 +7,12 @@ meta {
 post {
   url: {{mockUrl}}/__admin/requests/find
   body: json
-  auth: none
+  auth: basic
+}
+
+auth:basic {
+  username: {{wiremockAdminUser}}
+  password: {{wiremockAdminPassword}}
 }
 
 script:pre-request {
@@ -22,20 +27,41 @@ script:pre-request {
   const axios = require("axios");
   const mockUrl = bru.getEnvVar("mockUrl");
   const notificatieId = bru.getVar("runNotificatieId");
+  // axios erft het auth:basic-blok van dit verzoek niet, dus de admin-API vraagt hier om een eigen
+  // Authorization-header. Kloppen de credentials niet, dan antwoordt de mock met 401; de catch
+  // hieronder zorgt dat het een rode test wordt in plaats van een scriptfout.
+  const adminAuth = {
+    username: bru.getEnvVar("wiremockAdminUser"),
+    password: bru.getEnvVar("wiremockAdminPassword")
+  };
   const budgetMs = 30000;
   const intervalMs = 1000;
   const deadline = Date.now() + budgetMs;
   let gevonden = 0;
+  let pollFout = null;
 
   // Zonder notificatieId heeft pollen geen zin: stap 1 is dan niet geslaagd. Niet alsnog zoeken,
   // want een leeg zoekpatroon levert een 422 van de mock en daarmee een scriptfout in plaats van
   // een leesbare rode test.
   while (notificatieId && Date.now() < deadline) {
-    const antwoord = await axios.post(mockUrl + "/__admin/requests/find", {
-      method: "POST",
-      urlPath: "/events",
-      bodyPatterns: [{ contains: notificatieId }]
-    });
+    let antwoord;
+
+    // Een 401 of 422 van de admin-API laat axios gooien, en dat stopt de hele pre-request met
+    // alleen een stacktrace in het rapport.
+    // validateStatus helpt niet: een functie in de axios-config overleeft de sandboxgrens van
+    // Bruno niet.
+    try {
+      antwoord = await axios.post(mockUrl + "/__admin/requests/find", {
+        method: "POST",
+        urlPath: "/events",
+        bodyPatterns: [{ contains: notificatieId }]
+      }, { auth: adminAuth });
+    } catch (fout) {
+      // Bij een verbindingsfout is message leeg en staat de oorzaak in code (ECONNREFUSED).
+      pollFout = fout.message || fout.code;
+      break;
+    }
+
     gevonden = antwoord.data.requests.length;
 
     if (gevonden > 0) {
@@ -43,6 +69,10 @@ script:pre-request {
     }
 
     await bru.sleep(intervalMs);
+  }
+
+  if (pollFout) {
+    console.log("Pollen op het journal mislukte: " + pollFout);
   }
 
   if (gevonden === 0) {
@@ -67,7 +97,10 @@ tests {
   // GET /__admin/requests bij het POST-verzoek op /v2/notifications/email, onder subEvents van type
   // WEBHOOK_RESPONSE: daar staat het antwoord van de NMC op de receipt, en 401 betekent dat
   // NOTIFY_CALLBACK_BEARER_TOKEN en WIREMOCK_NOTIFYNL_CALLBACK_TOKEN niet gelijk zijn.
-  const events = res.body.requests.map(function(verzoek) {
+  // Een niet-200 antwoord heeft geen requests-veld: 401 als de credentials van de admin-API
+  // ontbreken, 422 op een leeg zoekpatroon. "journal is leesbaar" wijst de oorzaak aan.
+  const verzoeken = (res.body && res.body.requests) || [];
+  const events = verzoeken.map(function(verzoek) {
     return JSON.parse(verzoek.body);
   });
   // De laatste melding is de meest recente, niet per definitie de eindtoestand: na een bezorging

@@ -14,6 +14,15 @@ Mocks voor externe API's en MOZa-services, als standalone WireMock.
   WireMock wijzen: die stubs matchen op vaste waarden. Beide draaien 's nachts in CI; zie
   `.github/workflows/e2e-nightly.yml`.
 
+  `e2e-nmc/` bevraagt het journal van de mock via de admin-API, en die staat achter basic auth.
+  Het environment `nachtrun` haalt de credentials uit `WIREMOCK_ADMIN_USER` en
+  `WIREMOCK_ADMIN_PASSWORD` in de omgeving van de runner — via `{{process.env.…}}`, zodat er niets
+  in de collectie staat. In CI komen die uit repository-secrets met dezelfde namen, alleen op de
+  NMC-stap. Lokaal draaien betekent dus: beide variabelen exporteren voordat je
+  `bru run e2e-nmc --env nachtrun` start. Ontbreken ze, dan stuurt Bruno de letterlijke placeholder
+  mee en antwoordt de mock met 401; de stap faalt dan zichtbaar en slaagt niet stilletjes met een
+  leeg journal.
+
   Een rode run meldt zich in Mattermost, via een incoming webhook in het repository-secret
   `MATTERMOST_WEBHOOK_URL`. Zo'n kanaal is er omdat de standaard GitHub-notificatie van een
   scheduled run naar één persoon gaat — degene die de workflow aanmaakte of de cron als laatste

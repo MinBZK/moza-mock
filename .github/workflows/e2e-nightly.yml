@@ -18,8 +18,8 @@
 # De admin-API van de mock staat achter basic auth. De NMC-journey heeft die nodig om het journal
 # te bevragen en krijgt de credentials uit de secrets WIREMOCK_ADMIN_USER en
 # WIREMOCK_ADMIN_PASSWORD, die het omgevingsbestand nachtrun.bru via process.env oppikt. Staan ze
-# niet ingesteld, dan stuurt Bruno de letterlijke placeholder mee en faalt de mock zichtbaar en geeft 
-# een 401.
+# niet ingesteld, dan stuurt Bruno de letterlijke placeholder als gebruikersnaam mee, antwoordt de
+# mock met 401 en falen de tests van de NMC-journey leesbaar.
 #
 # Een rode run wordt gemeldt in Mattermost, via een incoming webhook in het secret
 # MATTERMOST_WEBHOOK_URL.

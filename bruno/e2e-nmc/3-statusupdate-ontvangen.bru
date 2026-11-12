@@ -28,7 +28,8 @@ script:pre-request {
   const mockUrl = bru.getEnvVar("mockUrl");
   const notificatieId = bru.getVar("runNotificatieId");
   // axios erft het auth:basic-blok van dit verzoek niet, dus de admin-API vraagt hier om een eigen
-  // Authorization-header. Ontbreken de credentials, dan faalt de mock zichtbaar en geeft een 401.
+  // Authorization-header. Kloppen de credentials niet, dan antwoordt de mock met 401; de catch
+  // hieronder zorgt dat het een rode test wordt in plaats van een scriptfout.
   const adminAuth = {
     username: bru.getEnvVar("wiremockAdminUser"),
     password: bru.getEnvVar("wiremockAdminPassword")
@@ -37,16 +38,30 @@ script:pre-request {
   const intervalMs = 1000;
   const deadline = Date.now() + budgetMs;
   let gevonden = 0;
+  let pollFout = null;
 
   // Zonder notificatieId heeft pollen geen zin: stap 1 is dan niet geslaagd. Niet alsnog zoeken,
   // want een leeg zoekpatroon levert een 422 van de mock en daarmee een scriptfout in plaats van
   // een leesbare rode test.
   while (notificatieId && Date.now() < deadline) {
-    const antwoord = await axios.post(mockUrl + "/__admin/requests/find", {
-      method: "POST",
-      urlPath: "/events",
-      bodyPatterns: [{ contains: notificatieId }]
-    }, { auth: adminAuth });
+    let antwoord;
+
+    // Een 401 of 422 van de admin-API laat axios gooien, en dat stopt de hele pre-request met
+    // alleen een stacktrace in het rapport.
+    // validateStatus helpt niet: een functie in de axios-config overleeft de sandboxgrens van
+    // Bruno niet.
+    try {
+      antwoord = await axios.post(mockUrl + "/__admin/requests/find", {
+        method: "POST",
+        urlPath: "/events",
+        bodyPatterns: [{ contains: notificatieId }]
+      }, { auth: adminAuth });
+    } catch (fout) {
+      // Bij een verbindingsfout is message leeg en staat de oorzaak in code (ECONNREFUSED).
+      pollFout = fout.message || fout.code;
+      break;
+    }
+
     gevonden = antwoord.data.requests.length;
 
     if (gevonden > 0) {
@@ -54,6 +69,10 @@ script:pre-request {
     }
 
     await bru.sleep(intervalMs);
+  }
+
+  if (pollFout) {
+    console.log("Pollen op het journal mislukte: " + pollFout);
   }
 
   if (gevonden === 0) {

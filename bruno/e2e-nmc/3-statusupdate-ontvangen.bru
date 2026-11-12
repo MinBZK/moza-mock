@@ -123,9 +123,9 @@ tests {
     expect(laatste && laatste.data.status).to.equal("delivered");
   });
 
-  test("de statusupdate is een CloudEvent uit het NL GOV-profiel", function() {
+    test("de statusupdate is een CloudEvent", function() {
     expect(laatste && laatste.specversion).to.equal("1.0");
-    expect(laatste && laatste.type).to.equal("nl.overheid.notificaties.notificatie-status");
+    expect(laatste && laatste.type).to.equal("nl.rijksoverheid.moz.nmc.notificatie.status");
     expect(laatste && laatste.datacontenttype).to.equal("application/json");
   });
 }

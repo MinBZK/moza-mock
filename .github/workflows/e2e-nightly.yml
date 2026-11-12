@@ -51,6 +51,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      # De CLI maakt de map voor zijn rapporten niet zelf aan: hij meldt "Output directory
+      # ../results does not exist" en eindigt met exitcode 2, ook als alle tests slagen. De map
+      # staat niet in de repository, dus op een verse checkout moet die er eerst zijn.
+      - name: Maak de map voor de rapporten
+        run: mkdir -p results
       # Vastgezette CLI-versie. Een nachtrun die meebeweegt met een nieuwe major is geen test
       # maar een verrassing.
       - name: Draai de Profielservice-journey
@@ -84,6 +89,9 @@ jobs:
         with:
           name: e2e-rapport
           path: results/
+          # Een lege map levert anders alleen een waarschuwing op, en dan is de enige aanwijzing
+          # dat er geen rapport is de exitcode van een stap hierboven.
+          if-no-files-found: error
       # Alleen bij een rode run anders gaan mensen het kanaal en de meldingen negeren.
       #
       # De controle op een leeg secret staat in de shell en niet in een `if`, zodat het token

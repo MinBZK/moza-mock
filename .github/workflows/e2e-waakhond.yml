@@ -1,22 +1,25 @@
 # Waakhond op de nachtelijke e2e-run.
 #
-# De meldstap in e2e-nightly.yml slaat alleen aan bij een rode run. Een nachtrun die helemaal niet
-# meer draait is daarmee stil, en stilte lijkt op "alles goed". Deze workflow kijkt daarom één keer
-# per week of de nachtrun nog op schema loopt, en meldt het als dat niet zo is.
+# De meldstap in e2e-nightly.yml slaat alleen aan bij een rode run. Een bijkomend probleem is dat
+# een niet draaiende nachtrun dan ook goed lijkt. Deze workflow kijkt daarom elke ochtend of de
+# nachtrun nog op schema loopt, en meldt het als dat niet zo is.
 #
-# Waarom een tweede workflow en niet een stap in de nachtrun zelf: een heartbeat die in het
-# bewaakte ding woont, valt met dat ding stil. Dit is het goedkoopste alternatief dat geen nieuwe
-# credential nodig heeft - de ingebouwde GITHUB_TOKEN mag de Actions-API van zijn eigen repository
-# lezen.
+# Dagelijks check: met de drempel van 48 uur (hieronder beschreven) duurt het opmerken van een
+# stilgevallen nachtrun maximaal drie dagen (twee nachten voor de drempel, plus een dag tot de
+# volgende controle).
 #
-# Wat deze waakhond NIET dekt: GitHub schakelt in een publieke repository alle scheduled workflows
-# uit na 60 dagen zonder repository-activiteit, en dan sneuvelt de waakhond mee. Een commit - al is
-# die leeg - zet die teller terug. De nette eindvorm is een synthetische check in de alertingstack
-# van het platform, buiten GitHub; zie het vervolgticket.
+# Melding, iedere dag zolang een probleem duurt. In dit kanaal betekent stilte "alles goed",
+# dus een onderdrukt herhaalbericht zou gelezen worden als "opgelost". Dan is een bericht "stuk"
+# en geen bericht "in orde", zonder uitzonderingen. 
+#
+# Waakhond in een tweede aparte workflow. Een heartbeat die in het bewaakte ding woont, valt met
+# dat ding stil. Dit is het goedkoopste alternatief dat geen nieuwe credential nodig heeft - de
+# ingebouwde GITHUB_TOKEN mag de Actions-API van zijn eigen repository lezen.
 #
 # Drempel: 48 uur. De nachtrun draait dagelijks, maar GitHub stelt scheduled runs onder druk uit of
 # slaat ze over. Op 24 uur zou deze waakhond dus afgaan op een enkele overgeslagen nacht; op 48 uur
-# meldt hij pas als er echt twee nachten niets is gebeurd.
+# meldt hij pas als er echt twee nachten niets is gebeurd. Dat uitstel is geen theorie: op
+# 2026-11-12 ging de scheduled run van de nachtrun om 08:19Z af in plaats van om 01:17Z.
 #
 # Alleen scheduled runs tellen (event=schedule). Een handmatige run via workflow_dispatch bewijst
 # niet dat de cron nog leeft, en zou een stilgevallen schema juist maskeren.
@@ -28,7 +31,10 @@ name: Waakhond nachtrun
 
 on:
   schedule:
-    - cron: '17 7 * * 1' # maandagochtend, 08:17 Nederlandse tijd in de winter, 09:17 in de zomer
+    # 07:17 Nederlandse tijd in de winter, 08:17 in de zomer: aan het begin van de werkdag, zodat
+    # een bevinding er ligt voordat iemand aan het werk gaat. Minuut 17 om dezelfde reden als in
+    # e2e-nightly.yml: op het hele uur stelt GitHub scheduled runs het hardst uit.
+    - cron: '17 6 * * *'
   workflow_dispatch:
 
 # Alleen de Actions-API lezen; deze workflow haalt de repository niet op.

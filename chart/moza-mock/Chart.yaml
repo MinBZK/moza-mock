@@ -1,0 +1,6 @@
+apiVersion: v2
+name: moza-mock
+description: WireMock met de stubs van moza-mock, voor een Kubernetes-namespace (zoals op Fundament)
+type: application
+version: 0.1.0
+appVersion: "3.13.2"

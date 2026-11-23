@@ -248,6 +248,10 @@ Handig bij het debuggen: `/__admin/mappings` toont de geladen stubs, `/__admin/r
 `chart/moza-mock/` installeert het gepubliceerde image in een namespace, op digest. Gebruikt voor de
 NMC op Fundament; zie `docs/fundament-deploy.md` in de NMC-repo voor de hele keten.
 
+Optioneel krijgt de mock een eigen FSC-peer met een inway (`fsc.enabled`, zie `values.yaml`); dat
+vraagt de openfsc-operator op het cluster. Voor het fieldlab: `values-fieldlab.yaml`, twee keer
+geïnstalleerd (Profielservice en NotifyNL, elk in een eigen namespace).
+
 De chart maakt geen Secrets aan. Maak ze vooraf, zonder newline in de waarde:
 
 ```bash

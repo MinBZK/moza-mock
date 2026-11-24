@@ -1,0 +1,77 @@
+image:
+  repository: ghcr.io/minbzk/moza-mock
+  # Altijd op digest: een tag als `latest` wordt bij een gelijke naam niet opnieuw gepulld.
+  digest: ""
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  port: 8080
+
+# Secret met de inlog voor de admin-API (`/__admin`). Maak hem vóór de installatie aan:
+#   kubectl create secret generic moza-mock-admin --from-literal=gebruiker=... --from-literal=wachtwoord=...
+admin:
+  secretName: moza-mock-admin
+
+notifynl:
+  # Waar de NotifyNL-mock de receipt-callback heen stuurt bij target `lokaal`
+  # (pad `/notifynl/lokaal/...`); de mock zet er `/api/nmc/v1/notifynl-callback` achter.
+  callbackUrl: ""
+  # Secret met het bearer token dat de mock op die callback meestuurt. Moet gelijk zijn aan
+  # `NOTIFY_CALLBACK_BEARER_TOKEN` van de NMC, anders weigert de NMC de receipt met 401.
+  #   kubectl create secret generic moza-mock-notifynl --from-literal=callback-token=...
+  callbackTokenSecretName: moza-mock-notifynl
+
+# Extra WireMock-opties, achter de basic auth van de admin-API.
+extraOptions: ""
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi
+
+# Het image heeft geen USER en draait anders als root; Pod Security `restricted` eist non-root.
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop: ["ALL"]
+
+fsc:
+  # Een eigen FSC-peer (FSCInstallation) in deze namespace; vraagt de openfsc-operator op het cluster.
+  enabled: false
+  groupID: ""
+  # 20 cijfers; op het fieldlab nog een placeholder, er is geen eigen OIN.
+  peerID: ""
+  directory:
+    # Manager van de Directory van de groep, bijvoorbeeld https://<manager>:8443.
+    address: ""
+    peerID: ""
+    trustAnchor:
+      # Secret met het CA-certificaat van de groep (zonder sleutel).
+      secretName: fsc-group-trust
+      key: ca.crt
+  # Groepscertificaat van de Manager (kubernetes.io/tls), met de peer-ID als serialNumber.
+  certificateSecretName: fsc-manager-group-tls
+  autoSignGrants: []
+  inway:
+    enabled: true
+    certificateSecretName: fsc-inway-default-group-tls
+  outway:
+    enabled: false
+    certificateSecretName: fsc-outway-default-group-tls
+  postgres:
+    image: ghcr.io/cloudnative-pg/postgresql:16
+    storageClass: ""
+    storageSize: 1Gi

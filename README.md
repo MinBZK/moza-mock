@@ -242,3 +242,33 @@ podman run --rm -p 8080:8080 `
 ```
 
 Handig bij het debuggen: `/__admin/mappings` toont de geladen stubs, `/__admin/requests/unmatched` de requests die geen stub raakten (met closest match).
+
+## Deployen op Kubernetes (Fundament)
+
+`chart/moza-mock/` installeert het gepubliceerde image in een namespace, op digest. Gebruikt voor de
+NMC op Fundament; zie `docs/fundament-deploy.md` in de NMC-repo voor de hele keten.
+
+Optioneel krijgt de mock een eigen FSC-peer met een inway (`fsc.enabled`, zie `values.yaml`); dat
+vraagt de openfsc-operator op het cluster. Voor het fieldlab: `values-fieldlab.yaml`, twee keer
+geïnstalleerd (Profielservice en NotifyNL, elk in een eigen namespace).
+
+De chart maakt geen Secrets aan. Maak ze vooraf, zonder newline in de waarde:
+
+```bash
+kubectl create namespace moza-mock
+kubectl -n moza-mock create secret generic moza-mock-admin \
+  --from-literal=gebruiker=admin --from-literal=wachtwoord="$(openssl rand -hex 16)"
+# Hetzelfde token als NOTIFY_CALLBACK_BEARER_TOKEN van de NMC
+kubectl -n moza-mock create secret generic moza-mock-notifynl --from-literal=callback-token="$TOKEN"
+
+helm -n moza-mock install moza-mock chart/moza-mock -f chart/moza-mock/values-lokaal.yaml
+```
+
+- `image.digest` is verplicht; `values-lokaal.yaml` pint de digest van `latest` op het moment van schrijven.
+- `notifynl.callbackUrl` is de NMC waar de NotifyNL-mock de receipt heen stuurt, als de NMC naar
+  `…/notifynl/lokaal` verstuurt. Andere targets in het pad wijzen naar ZAD.
+- De pod draait als UID 1000 met een read-only root-filesystem en een `/tmp` emptyDir, voor
+  Pod Security `restricted`. Het image zelf heeft geen `USER`.
+- De probes zijn TCP: `/__admin/health` staat achter basic auth en geeft 401.
+- Het admin-wachtwoord staat in de procesargumenten van WireMock (`--admin-api-basic-auth`); wie in
+  de pod kan, ziet het.

@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    {{- include "moza-mock.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "moza-mock.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "moza-mock.labels" . | nindent 8 }}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: wiremock
+          image: "{{ .Values.image.repository }}@{{ required "image.digest is verplicht (sha256:...)" .Values.image.digest }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: WIREMOCK_ADMIN_GEBRUIKER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.admin.secretName }}
+                  key: gebruiker
+            - name: WIREMOCK_ADMIN_WACHTWOORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.admin.secretName }}
+                  key: wachtwoord
+            # $(VAR) wordt door Kubernetes ingevuld uit de twee variabelen hierboven.
+            - name: WIREMOCK_OPTIONS
+              value: {{ printf "--admin-api-basic-auth $(WIREMOCK_ADMIN_GEBRUIKER):$(WIREMOCK_ADMIN_WACHTWOORD) %s" .Values.extraOptions | trim | quote }}
+            {{- with .Values.notifynl.callbackUrl }}
+            - name: WIREMOCK_NOTIFYNL_LOKAAL_URL
+              value: {{ . | quote }}
+            {{- end }}
+            - name: WIREMOCK_NOTIFYNL_CALLBACK_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.notifynl.callbackTokenSecretName }}
+                  key: callback-token
+          ports:
+            - name: http
+              containerPort: 8080
+          # Geen httpGet op /__admin/health: die staat achter basic auth en geeft 401.
+          startupProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 2
+            failureThreshold: 30
+          readinessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.containerSecurityContext | nindent 12 }}
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 256Mi

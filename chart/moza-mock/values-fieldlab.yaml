@@ -1,0 +1,10 @@
+# Gedeelde Fundament-omgeving van het fieldlab (fundament-poc.nl, cluster-c, project notificatiedienst).
+# Twee installaties met dezelfde waarden: één in namespace mock-profielservice, één in mock-notifynl.
+# Fundament zet het project voor de namespace: tnt-notificatiedienst--<namespace>.
+image:
+  # ghcr.io/minbzk/moza-mock:latest op 19 november 2026 (main ad5ac46)
+  digest: sha256:1ae1191b09bde3bd975026a0a77c59d360576445b2d0d317eae9de54515d4302
+
+notifynl:
+  # Alleen de NotifyNL-mock gebruikt dit: de receipt-callback naar de NMC.
+  callbackUrl: http://nmc.tnt-notificatiedienst--nmc.svc:8080

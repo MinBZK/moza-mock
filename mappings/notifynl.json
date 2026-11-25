@@ -193,7 +193,7 @@
           "name": "webhook",
           "parameters": {
             "method": "POST",
-            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}{{#eq target 'stable-tst'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_STABLE_TST_URL' default='https://nmcapi-stable-nt-8bl.rig.prd1.gn2.quattro.rijksapps.nl'}}{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
             "headers": {
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
@@ -209,7 +209,7 @@
           "name": "webhook",
           "parameters": {
             "method": "POST",
-            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}{{#eq target 'stable-tst'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_STABLE_TST_URL' default='https://nmcapi-stable-nt-8bl.rig.prd1.gn2.quattro.rijksapps.nl'}}{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
             "headers": {
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
@@ -259,7 +259,7 @@
           "name": "webhook",
           "parameters": {
             "method": "POST",
-            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}{{#eq target 'stable-tst'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_STABLE_TST_URL' default='https://nmcapi-stable-nt-8bl.rig.prd1.gn2.quattro.rijksapps.nl'}}{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
             "headers": {
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
@@ -275,7 +275,7 @@
           "name": "webhook",
           "parameters": {
             "method": "POST",
-            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}{{#eq target 'stable-tst'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_STABLE_TST_URL' default='https://nmcapi-stable-nt-8bl.rig.prd1.gn2.quattro.rijksapps.nl'}}{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
             "headers": {
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
@@ -325,7 +325,7 @@
           "name": "webhook",
           "parameters": {
             "method": "POST",
-            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}{{#eq target 'stable-tst'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_STABLE_TST_URL' default='https://nmcapi-stable-nt-8bl.rig.prd1.gn2.quattro.rijksapps.nl'}}{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
             "headers": {
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
@@ -341,7 +341,7 @@
           "name": "webhook",
           "parameters": {
             "method": "POST",
-            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}{{#eq target 'stable-tst'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_STABLE_TST_URL' default='https://nmcapi-stable-nt-8bl.rig.prd1.gn2.quattro.rijksapps.nl'}}{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
             "headers": {
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
@@ -385,7 +385,7 @@
           "name": "webhook",
           "parameters": {
             "method": "POST",
-            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}{{#eq target 'stable-tst'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_STABLE_TST_URL' default='https://nmcapi-stable-nt-8bl.rig.prd1.gn2.quattro.rijksapps.nl'}}{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
             "headers": {
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"
@@ -401,7 +401,7 @@
           "name": "webhook",
           "parameters": {
             "method": "POST",
-            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
+            "url": "{{#assign 'target'}}{{regexExtract originalRequest.path '^/notifynl/([a-z0-9-]+)/' 'm' default='stable'}}{{m.0}}{{/assign}}{{#eq target 'lokaal'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_LOKAAL_URL' default='http://host.containers.internal:8080'}}{{else}}{{#eq target 'zelf'}}http://localhost:8080{{else}}{{#eq target 'stable-tst'}}{{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_STABLE_TST_URL' default='https://nmcapi-stable-nt-8bl.rig.prd1.gn2.quattro.rijksapps.nl'}}{{else}}https://nmcapi-{{target}}-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl{{/eq}}{{/eq}}{{/eq}}/api/nmc/v1/notifynl-callback",
             "headers": {
               "Content-Type": "application/json",
               "Authorization": "Bearer {{systemValue type='ENVIRONMENT' key='WIREMOCK_NOTIFYNL_CALLBACK_TOKEN'}}"

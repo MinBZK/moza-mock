@@ -65,14 +65,18 @@ Mocks voor externe API's en MOZa-services, als standalone WireMock.
 
     Dat de NMC naar de NotifyNL-mock verstuurt en niet naar de echte dienst, hangt af van twee
     instellingen op de NMC-deployment:
-    `QUARKUS_REST_CLIENT_NOTIFY_URL=https://wiremock-dev-mozam-chu.rig.prd1.gn2.quattro.rijksapps.nl/notifynl/stable`
-    (het target in het pad bepaalt naar welke `nmcapi-<target>` de receipt terugkomt) en
+    `QUARKUS_REST_CLIENT_NOTIFY_URL=https://wiremock-dev-mozam-chu.rig.prd1.gn2.quattro.rijksapps.nl/notifynl/stable-tst`
+    (het target in het pad bepaalt naar welke NMC-deployment de receipt terugkomt) en
     `NOTIFY_CALLBACK_BEARER_TOKEN` gelijk aan `WIREMOCK_NOTIFYNL_CALLBACK_TOKEN` van de mock.
     Staat de URL naar de echte NotifyNL, dan gaat er elke nacht mail uit; verschilt het token, dan
-    weigert de NMC de receipt met 401 en blijft de notificatie op `SENDING` staan. Op
-    `nmcapi-stable` stond de URL op 28 oktober 2026 al naar de mock, en de mock had op die datum een
-    token ingesteld; of de twee waarden gelijk zijn, is pas te zien zodra een verzending slaagt, aan
-    het `WEBHOOK_RESPONSE`-subevent in het journal.
+    weigert de NMC de receipt met 401 en blijft de notificatie op `SENDING` staan. Of de twee
+    tokenwaarden gelijk zijn, is pas te zien zodra een verzending slaagt, aan het
+    `WEBHOOK_RESPONSE`-subevent in het journal.
+
+    **De journey wijst naar `nmcapi-stable` in het tst-project `nt-8bl`**, niet naar de
+    gelijknamige deployment in het dev-project `nd-j7s`: die praat met de Notify van Logius in
+    plaats van met deze mock. Er zijn dus twee deployments die `stable` heten, en het target in het
+    pad onderscheidt ze: `stable` is de dev-deployment, `stable-tst` die in het tst-project.
 
     **De journey draait pas mee zodra deze wijziging op ZAD staat.** De NMC op `main` stuurt
     NotifyNL geen `reference`, en de mock weigerde een verzoek zonder `reference` met een 400,
@@ -146,11 +150,12 @@ De mock gebruikt de `reference` uit het verzoek (bij de NMC het poging-id) als N
 | `QUARKUS_REST_CLIENT_NOTIFY_URL` van de NMC | Receipt gaat naar |
 |---|---|
 | `https://<mock>/notifynl/stable` (of zonder prefix: `https://<mock>`) | `https://nmcapi-stable-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl/api/nmc/v1/notifynl-callback` |
-| `https://<mock>/notifynl/pr-76` | `https://nmcapi-pr-76-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl/api/nmc/v1/notifynl-callback`, en zo voor elke ZAD-deployment |
+| `https://<mock>/notifynl/pr-76` | `https://nmcapi-pr-76-nd-j7s.rig.prd1.gn2.quattro.rijksapps.nl/api/nmc/v1/notifynl-callback`, en zo voor elke ZAD-deployment in het dev-project |
+| `https://<mock>/notifynl/stable-tst` | `https://nmcapi-stable-nt-8bl.rig.prd1.gn2.quattro.rijksapps.nl/api/nmc/v1/notifynl-callback`, of de waarde van `WIREMOCK_NOTIFYNL_STABLE_TST_URL` van de mock: de deployment `stable` in het tst-project `nt-8bl`. Die heeft dezelfde naam als de dev-deployment, en alleen het projectdeel van de hostnaam verschilt — vandaar een eigen target in plaats van `nmcapi-<target>-nd-j7s` |
 | `http://localhost:8090/notifynl/lokaal` | `http://host.containers.internal:8080/api/nmc/v1/notifynl-callback`, of de waarde van de omgevingsvariabele `WIREMOCK_NOTIFYNL_LOKAAL_URL` van de mock: een NMC op de host naast een mock in een container. De NMC luistert in dev-mode zelf op 8080, publiceer de mock dan op een andere hostpoort (`podman run -p 8090:8080 ...`), anders komt de receipt bij de mock zelf terecht |
 | `.../notifynl/zelf` | de mock zelf (`nmc.json` heeft een stub voor `POST /api/nmc/v1/notifynl-callback`); de receipts zijn dan terug te zien via `POST /__admin/requests/find` |
 
-De receipt draagt `Authorization: Bearer <token>`; het token komt uit de omgevingsvariabele `WIREMOCK_NOTIFYNL_CALLBACK_TOKEN` van de mock en heeft geen standaardwaarde, zodat er geen waarde in deze publieke repository staat. Zet op de NMC-deployment dezelfde waarde in `NOTIFY_CALLBACK_BEARER_TOKEN`. Ontbreekt het token bij de mock of verschillen de waarden, dan weigert de NMC de receipt met 401. Het antwoord van de NMC op een receipt staat in `GET /__admin/requests`, bij het POST-verzoek aan de mock onder `subEvents` (type `WEBHOOK_RESPONSE`); in het log van de mock staat het niet. Lokaal kun je elke waarde kiezen, bijvoorbeeld `podman run -e WIREMOCK_NOTIFYNL_CALLBACK_TOKEN=lokaal-token ...`.
+De receipt draagt `Authorization: Bearer <token>`; het token komt uit de omgevingsvariabele `WIREMOCK_NOTIFYNL_CALLBACK_TOKEN` van de mock en heeft geen standaardwaarde, zodat er geen waarde in deze publieke repository staat. Op ZAD staat die variabele op de **component** `wiremock` in het project `mozam-chu`, en niet op de deployment `dev` zoals `WIREMOCK_OPTIONS` hieronder: twee plekken in dezelfde Operations Manager. Zet op de NMC-deployment dezelfde waarde in `NOTIFY_CALLBACK_BEARER_TOKEN`. Ontbreekt het token bij de mock of verschillen de waarden, dan weigert de NMC de receipt met 401. Het antwoord van de NMC op een receipt staat in `GET /__admin/requests`, bij het POST-verzoek aan de mock onder `subEvents` (type `WEBHOOK_RESPONSE`); in het log van de mock staat het niet. Lokaal kun je elke waarde kiezen, bijvoorbeeld `podman run -e WIREMOCK_NOTIFYNL_CALLBACK_TOKEN=lokaal-token ...`.
 
 De admin-API van de mock (`/__admin`, dus ook `/__admin/requests`, `/__admin/mappings` en `/__admin/scenarios/reset`) vraagt op ZAD om basic auth. De deployment heeft daarvoor de env-var `WIREMOCK_OPTIONS` met `--admin-api-basic-auth <gebruiker>:<wachtwoord>`, en de deploy-workflow accepteert op `/__admin/health` alleen een 401. Lokaal staat de admin-API open, tenzij je de mock met dezelfde optie start: `podman run -e WIREMOCK_OPTIONS="--admin-api-basic-auth gebruiker:wachtwoord" ...`.
 
